@@ -51,7 +51,7 @@ Example Usage
                             ->name('Buckingham Palace')
                             ->postcode('SW1A 1AA');
     // Tie the applicant with the location.
-    $residency = $request   ->residency($applicant, $location, $request::LOCATION_CURRENT)
+    $residency = $request   ->createResidency($applicant, $location, $request::LOCATION_CURRENT)
                             ->dateFrom(1970, 1, 1)
                             ->dateTo(2012, 12, 21);
 
