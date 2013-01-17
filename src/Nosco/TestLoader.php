@@ -1,34 +1,22 @@
 <?php
 
-    /**
-     * Nosco's Library for Experian Web Services
-     *
-     * This is a convinience file for bootstrapping the library during testing.
-     * Do not call this file. If you are not autoloading from Composer, you
-     * should include the file `../Nosco.php`.
-     *
-     * @package     Nosco
-     * @category    Experian
-     * @author      Zander Baldwin <mynameiszanders@gmail.com>
-     * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experian
-     */
-
     namespace Nosco;
 
     /**
      * Class Loader
      *
      * This class provides static methods for loading and autoloading library
-     * classes. The most common use for this class is to simply call
-     * `\Nosco\TestLoader::registerAutoloader()` before using any library
+     * classes during testing. The most common use for this class is to simply
+     * call `\Nosco\TestLoader::registerAutoloader()` before using any library
      * components.
+     * Please do not use this class directly. If you are not autoloading from
+     * Composer, you should include the file `../Nosco.php`.
      *
      * @package     Nosco
      * @category    Experian
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experian
+     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/src/Nosco/TestLoader.php
      */
     class TestLoader
     {
