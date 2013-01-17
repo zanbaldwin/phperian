@@ -7,7 +7,7 @@ Experian's Web Service, and to interpret their response.
 License
 -------
 
-Written for [Nosco Systems](http://nosco-systems.co.uk), it is licensed under [MIT/X11]. The `LICENSE` file can be found in the root directory of the package.
+Written for [Nosco Systems](http://nosco-systems.co.uk), it is licensed under [MIT/X11](http://j.mp/mit-license). The `LICENSE` file can be found in the root directory of the package.
 
 Installation
 ------------
