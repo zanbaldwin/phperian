@@ -5,7 +5,7 @@ This package is a collection of classes designed to assist the generation of XML
 Experian's Web Service, and to interpret their response.
 
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
-regarding the stability or practicality of use. It is in no way fir for use in a production environment.**
+regarding the stability or practicality of use. It is in no way fit for use in a production environment.**
 
 License
 -------
