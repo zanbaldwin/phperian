@@ -4,6 +4,9 @@ Experian Web Service Library
 This package is a collection of classes designed to assist the generation of XML for a SOAP service request to
 Experian's Web Service, and to interpret their response.
 
+**Please note that this package is currently in development, has no stable release, and no gaurantee can be made
+regarding the stability or practicality of use. It is in no way fir for use in a production environment.**
+
 License
 -------
 
@@ -13,8 +16,7 @@ Installation
 ------------
 
 This package will eventually find its way to [Packagist](https://packagist.org/) when a stable version is released, but
-until then it will only be available through its GitHub [repository page][repo] and its practicality of use cannot be
-gauranteed.
+until then it will only be available through its GitHub [repository page][repo].
 
 To install this package in its current form, add this repository to your project's `composer.json`, and add this package
 as a requirement:
