@@ -1,0 +1,6 @@
+# PHPUnit.
+logs/
+phpunit.xml
+
+# Test Certificates.
+DevelopmentAssets/
