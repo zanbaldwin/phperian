@@ -19,15 +19,17 @@ gauranteed.
 To install this package in its current form, add this repository to your project's `composer.json`, and add this package
 as a requirement:
 
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mynameiszanders/experianwebservice"
-        }
-    ],
-    "require": {
-        "nosco/experian": "dev-master"
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/mynameiszanders/experianwebservice"
     }
+],
+"require": {
+    "nosco/experian": "dev-master"
+}
+```
 
 Example Usage
 -------------
