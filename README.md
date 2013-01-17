@@ -29,6 +29,37 @@ as a requirement:
         "nosco/experian": "dev-master"
     }
 
+Example Usage
+-------------
+
+```php
+<?php
+
+    // Start a new request.
+    $request = new \Nosco\Request;
+
+    // Create a new applicant.
+    $applicant = $request   ->createApplicant('Zander', 'Baldwin')
+                            ->setGenderMale()
+                            ->dateOfBirth(1970, 1, 1);
+
+    // Create a new location.
+    $location = $request    ->createLocation()
+                            ->name('Buckingham Palace')
+                            ->postcode('SW1A 1AA');
+
+    // Tie the applicant with the location.
+    $residency = $request   ->residency($applicant, $location, $request::LOCATION_CURRENT)
+                            ->dateFrom(1970, 1, 1)
+                            ->dateTo(2012, 12, 21);
+
+    $request->setCertificate($file_to_certificate);
+    $request->setCertificatePassword($certificate_password);
+    $request->setPrivateKey($file_to_private_key);
+
+    $response = $request->request();
+```
+
 Authors
 -------
 
