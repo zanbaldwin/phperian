@@ -63,9 +63,16 @@
          */
         final public static function fetchById($id)
         {
-            // If the instance identified by $id does not exist, throw an exception.
+            // If the instance identified by $id does not exist, deal with the error.
             if(!isset(self::$id_map[$id])) {
-                throw new Exception();
+                // If the user has verbose mode on, throw an exception.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If the user has silent mode on, just return a boolean false.s
+                else {
+                    return false;
+                }
             }
             // It does exist, return the instance.
             return self::$id_map[$id];
