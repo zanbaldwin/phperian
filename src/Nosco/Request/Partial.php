@@ -167,11 +167,12 @@
          * Indicates whether an arrays keys are numerical or associative. Please note that if the array keys have been
          * changed, regardless of whether they are all numerical, it will return true.
          *
-         * @access private
+         * @static
+         * @access public
          * @param array $array
          * @return boolean
          */
-        private function isAssoc($array)
+        public static function isAssoc($array)
         {
             // Grab the keys of the supplied array. The calculated array of keys will always have numerical indexing.
             $array = array_keys($array);
@@ -237,7 +238,7 @@
                     // recursively call this method again.
                     case is_string($element) && is_array($contents):
                         // If the contents array is associative, then we need to wrap them in $element tags.
-                        $xml .= $this->isAssoc($contents)
+                        $xml .= self::isAssoc($contents)
                             ? '<' . $element . '>' . $this->iterateStruct($contents, $current) . '</' . $element . '>'
                             : $this->iterateStruct($contents, $current);
                         break;
