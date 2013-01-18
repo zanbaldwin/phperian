@@ -78,3 +78,10 @@ Authors
 This package was written by [Zander Baldwin](http://mynameiszanders.github.com), with the help of [Clive Dann](http://clivedann.co.uk).
 
 [repo]: https://github.com/mynameiszanders/experianwebservice
+
+Build Status
+------------
+
+[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)](undefined)
+
+You can follow the build progress on Travis CI.
