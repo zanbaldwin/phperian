@@ -104,7 +104,14 @@
         {
             // If the instance identified by $id does not exist, throw an exception.
             if(!isset(self::$id_map[$id])) {
-                throw new Exception();
+                // If user has set verbose mode on, throw an exception.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If the user has set silent mode on, return boolean false.
+                else {
+                    return false;
+                }
             }
             // It does exist, return the Base64, serialized representation of the instance.
             return base64_encode(serialize(self::$id_map[$id]));
@@ -124,16 +131,37 @@
         {
             // If the serial is a non-empty string, throw an exception.
             if(!is_string($serial) || !$serial) {
-                throw new Exception();
+                // If the user has verbose mode on, throw an exception.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If the user has silent mode on, return boolean false.
+                else {
+                    return false;
+                }
             }
             // If the Base64-encoded string cannot be decoded correctly, throw an exception.
             if(!($serial = base64_decode($serial, true))) {
-                throw new Exception();
+                // If the user has verbose mode on, throw an exception.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If the user has silent mode on, return boolean false.
+                else {
+                    return false;
+                }
             }
             // If the Serial cannot be unserialised into an object, or that object does not extend this class, throw an
             // exception.
             if(!is_object($object = unserialize($serial)) || get_parent_class($object) != __CLASS__) {
-                throw new Exception();
+                // If the user has verbose mode on, throw an exception.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If the user has silent mode on, return boolean false.
+                else {
+                    return false;
+                }
             }
             // If the object already exists within the ID map (either due to it being created in this execution of the
             // script, or it has already been loaded from serial) return that instance instead as it may have been
