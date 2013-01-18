@@ -83,4 +83,4 @@ Build Status
 ------------
 
 [![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)](undefined)<br />
-You can follow the build progress on Travis CI.
+You can follow the build progress on [Travis CI](https://travis-ci.org/mynameiszanders/experianwebservice).
