@@ -1,7 +1,7 @@
-Experian Web Service Library
-============================
+PHPerian: A PHP library for Experian's Web Services
+===================================================
 
-This package is a collection of classes designed to assist the generation of XML for a SOAP service request to
+This Composer package is a collection of classes designed to assist the generation of XML for a SOAP service request to
 Experian's Web Service, and to interpret their response.
 
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
@@ -10,7 +10,8 @@ regarding the stability or practicality of use. It is in no way fit for use in a
 License
 -------
 
-Written for [Nosco Systems](http://nosco-systems.co.uk), it is licensed under [MIT/X11](http://j.mp/mit-license). The `LICENSE` file can be found in the root directory of the package.
+Written for [Nosco Systems](http://nosco-systems.co.uk), it is licensed under [MIT/X11](http://j.mp/mit-license). The
+`LICENSE` file can be found in the root directory of the package.
 
 Installation
 ------------
@@ -77,10 +78,11 @@ Authors
 
 This package was written by [Zander Baldwin](http://mynameiszanders.github.com), with the help of [Clive Dann](http://clivedann.co.uk).
 
-[repo]: https://github.com/mynameiszanders/experianwebservice
-
 Build Status
 ------------
 
-[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)](undefined)<br />
+[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)][travisbuild]<br />
 You can follow the build progress on [Travis CI](https://travis-ci.org/mynameiszanders/experianwebservice).
+
+[repo]: https://github.com/mynameiszanders/experianwebservice "PHPerian GitHub repository"
+[travisbuild]: https://travis-ci.org/mynameiszanders/experianwebservice "Build Status on Travis CI"
