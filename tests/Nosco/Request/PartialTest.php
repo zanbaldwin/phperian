@@ -5,13 +5,7 @@
     use \PHPUnit_Framework_TestCase as TestCase;
     use \Nosco\Exception as Exception;
 
-    class PartialSubclass extends Partial
-    {
-        public function __construct()
-        {
-            parent::__construct();
-        }
-    }
+    class PartialTestClass extends Partial {}
 
     /**
      * Nosco's Library for Experian Web Services
@@ -22,7 +16,7 @@
      * @license     MIT/X11 <http://j.mp/mit-license>
      * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/tests/Nosco/Request/PartialTest.php
      */
-    class ExceptionTest extends TestCase
+    class PartialTest extends TestCase
     {
 
         /**
@@ -33,12 +27,28 @@
          */
         public function testFetchById()
         {
-            $partial_subclass = new PartialSubclass;
-            $id = $partial_subclass->id();
+            $partial_test_class = new PartialTestClass;
+            $id = $partial_test_class->id();
+            $this->assertTrue(
+                is_string($id),
+                'Check that the ID return from the id() method is a string.'
+            );
 
             $object = Partial::fetchById($id);
-            $this->assertTrue(is_object($object));
+            $this->assertTrue(
+                is_object($object),
+                'Check that an object is returned when fetched by the ID previously returned.'
+            );
 
+            Partial::silent();
+            $object = Partial::fetchById('NonExistantID');
+            $this->assertTrue(
+                $object === false,
+                'Make sure that a boolean false value is returned when an invalid ID is referenced, instead of an '
+              . 'exception thrown, when in silent mode.'
+            );
+
+            Partial::verbose();
             $this->setExpectedException('\\Nosco\\Exception');
             $object = Partial::fetchById('NonExistantID');
         }
@@ -51,8 +61,8 @@
          */
         public function testSerialise()
         {
-            $partial_subclass = new PartialSubclass;
-            $serial = $partial_subclass->serialize();
+            $partial_test_class = new PartialTestClass;
+            $serial = $partial_test_class->serialize();
             $this->assertTrue(is_string($serial));
         }
 
@@ -64,12 +74,24 @@
          */
         public function testSerialiseById()
         {
-            $partial_subclass = new PartialSubclass;
-            $id = $partial_subclass->id();
+            $partial_test_class = new PartialTestClass;
+            $id = $partial_test_class->id();
 
             $serial = Partial::serializeById($id);
-            $this->assertTrue(is_string($serial));
+            $this->assertTrue(
+                is_string($serial),
+                'Ensure that the serial returned when serializing by the ID that was previously generated is a string.'
+            );
 
+            Partial::silent();
+            $object = Partial::serializeById('NonExistantID');
+            $this->assertTrue(
+                $object === false,
+                'Ensure that a boolean false is returned when trying to serialize by an ID that does not exist in '
+              . 'silent mode.'
+            );
+
+            Partial::verbose();
             $this->setExpectedException('\\Nosco\\Exception');
             $object = Partial::serializeById('NonExistantID');
         }
@@ -82,15 +104,60 @@
          */
         public function testLoadFromSerial()
         {
-            $serial_partial = 'TzoyOToiTm9zY29cUmVxdWVzdFxQYXJ0aWFsU3ViY2xhc3MiOjE6e3M6NToiACoAaWQiO3M6MzA6IlBhcnRpYWw1MGY4YjkxODJiNmRiOC41Mjk4MzY1OSI7fQ==';
+            Partial::silent();
+
+            $serial_partial = 'TzozMDoiTm9zY29cUmVxdWVzdFxQYXJ0aWFsVGVzdENsYXNzIjoxOntzOjU6IgAqAGlkIjtzOjMwOiJQYXJ0aWFsNTBmOWFlOGMwM2EyNTEuNzI3NTQwNzIiO30=';
             $object = Partial::loadFromSerial($serial_partial);
-            $this->assertTrue(is_object($object));
+            $this->assertTrue(
+                is_object($object),
+                'Ensure that loading from a serial determined from a previous application run returns an object.'
+            );
 
-            $partial_subclass = new PartialSubclass;
-            $serial = $partial_subclass->serialize();
+            $partial_test_class = new PartialTestClass;
+            $serial = $partial_test_class->serialize();
+            $this->assertTrue(
+                is_string($serial),
+                'Ensure that the value returned by calling serialize() on an object is a string.'
+            );
+
             $object = Partial::loadFromSerial($serial);
-            $this->assertTrue(is_object($object));
+            $this->assertTrue(
+                is_object($object),
+                'Ensure that loading from the serial just created, an object is returned.'
+            );
 
+            $serial_nopartial = 'TzoxMzoiTm9zY29cUmVxdWVzdCI6MDp7fQ==';
+            $object = Partial::loadFromSerial($serial_nopartial);
+            $this->assertTrue(
+                $object === false,
+                'Ensure that loading from the serial of an object that does not extend Partial returns a boolean false '
+              . 'when in silent mode.'
+            );
+
+            $object = Partial::loadFromSerial(false);
+            $this->assertTrue(
+                $object === false,
+                'Ensure that trying to load from a serial when the serial passed is not a string returns a boolean '
+              . 'false when in silent mode.'
+            );
+
+            $object = Partial::loadFromSerial('Undecodable String!');
+            $this->assertTrue(
+                $object === false,
+                'Ensure that trying to load from a serial when the string is undecodable returns a boolean false when '
+              . 'in silent mode.'
+            );
+        }
+
+        /**
+         * Test: Load From Serial (Non-Partial Class)
+         *
+         * @access public
+         * @return void
+         */
+        public function testLoadFromSerialNonPartialClass()
+        {
+            Partial::verbose();
             $serial_nopartial = 'TzoxMzoiTm9zY29cUmVxdWVzdCI6MDp7fQ==';
             $this->setExpectedException('\\Nosco\\Exception');
             $object = Partial::loadFromSerial($serial_nopartial);
@@ -104,6 +171,7 @@
          */
         public function testLoadFromSerialIncorrectDataType()
         {
+            Partial::verbose();
             $this->setExpectedException('\\Nosco\\Exception');
             $object = Partial::loadFromSerial(false);
         }
@@ -116,6 +184,7 @@
          */
         public function testLoadFromSerialUndecodable()
         {
+            Partial::verbose();
             $this->setExpectedException('\\Nosco\Exception');
             $object = Partial::loadFromSerial('Undecodable String!');
         }
@@ -128,9 +197,27 @@
          */
         public function testId()
         {
-            $partial_subclass = new PartialSubclass;
-            $id = $partial_subclass->id();
+            $partial_test_class = new PartialTestClass;
+            $id = $partial_test_class->id();
             $this->assertTrue(is_string($id));
+        }
+
+        /**
+         * Test: Is Associative
+         *
+         * @access public
+         * @return void
+         */
+        public function testIsAssociative()
+        {
+            $assoc_array = array('zero' => 0, 'one' => 1, 'two' => 2);
+            $this->assertTrue(Partial::isAssoc($assoc_array));
+
+            $numerical_array = array(0 => 'zero', 1 => 'one', 2 => 'two');
+            $this->assertFalse(Partial::isAssoc($numerical_array));
+
+            $fake_numerical_array = array(0 => 'zero', 2 => 'two', 1 => 'one');
+            $this->assertTrue(Partial::isAssoc($fake_numerical_array));
         }
 
     }
