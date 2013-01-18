@@ -40,6 +40,18 @@
         protected $id = null;
 
         /**
+         * Constructor Method
+         *
+         * @access public
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->id = uniqid('Partial', true);
+            $this->save();
+        }
+
+        /**
          * Fetch Instance by ID
          *
          * @final
@@ -57,6 +69,18 @@
             }
             // It does exist, return the instance.
             return self::$id_map[$id];
+        }
+
+        /**
+         * Serialise
+         *
+         * @final
+         * @access public
+         * @return string
+         */
+        public function serialize()
+        {
+            return base64_encode(serialize($this));
         }
 
         /**
@@ -214,7 +238,7 @@
                     case is_string($element) && is_array($contents):
                         // If the contents array is associative, then we need to wrap them in $element tags.
                         $xml .= $this->isAssoc($contents)
-                            ? '<' . $element . '>' . $this->iterateStruct($contents, $current) . '</' . $element . '>';
+                            ? '<' . $element . '>' . $this->iterateStruct($contents, $current) . '</' . $element . '>'
                             : $this->iterateStruct($contents, $current);
                         break;
 
