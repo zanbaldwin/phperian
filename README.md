@@ -56,13 +56,20 @@ Example Usage
     $residency = $request   ->createResidency($applicant, $location, $request::LOCATION_CURRENT)
                             ->dateFrom(1970, 1, 1)
                             ->dateTo(2012, 12, 21);
-
     // Set security details.
     $request->setCertificate($file_to_certificate);
     $request->setCertificatePassword($certificate_password);
     $request->setPrivateKey($file_to_private_key);
+    // Generate the XML request.
+    $xml = $request->xml();
 
-    $response = $request->request();
+    $binary_token = new \Nosco\SOAP\Token;
+
+    // Create a SOAP request pre-configured for 
+    $soap = new \Nosco\SOAP\Service($xml, $binary_token);
+    $response_xml = $soap->send();
+
+    $data = new \Nosco\Response($xml);
 ```
 
 Authors
