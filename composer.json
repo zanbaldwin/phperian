@@ -1,10 +1,10 @@
 {
-    "name": "nosco/experian",
+    "name": "mynameiszanders/phperian",
     "type": "library",
-    "description": "Composer-based Library for constructing service calls to Experian's Web Services, by Nosco Systems.",
+    "description": "Composer-based Library for constructing service calls to Experian's Web Services, by Zander Baldwin.",
     "version": "0.1-dev",
     "keywords": ["webservice", "experian", "SOAP"],
-    "homepage": "https://github.com/mynameiszanders/experian",
+    "homepage": "https://github.com/mynameiszanders/phperian",
     "license": "MIT",
     "authors": [
         {
@@ -14,8 +14,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/mynameiszanders/experian/issues",
-        "wiki": "https://github.com/mynameiszanders/experian/wiki"
+        "issues": "https://github.com/mynameiszanders/phperian/issues",
+        "wiki": "https://github.com/mynameiszanders/phperian/wiki"
     },
     "require": {
         "php": ">=5.3.7"

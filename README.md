@@ -26,7 +26,7 @@ as a requirement:
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/mynameiszanders/experianwebservice"
+        "url": "https://github.com/mynameiszanders/phperian"
     }
 ],
 "require": {
@@ -81,8 +81,8 @@ This package was written by [Zander Baldwin](http://mynameiszanders.github.com),
 Build Status
 ------------
 
-[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)][travisbuild]<br />
-You can follow the build progress on [Travis CI](https://travis-ci.org/mynameiszanders/experianwebservice).
+[![Build Status](https://travis-ci.org/mynameiszanders/phperian.png?branch=develop)][travisbuild]<br />
+You can follow the build progress on [Travis CI](https://travis-ci.org/mynameiszanders/phperian).
 
-[repo]: https://github.com/mynameiszanders/experianwebservice "PHPerian GitHub repository"
-[travisbuild]: https://travis-ci.org/mynameiszanders/experianwebservice "Build Status on Travis CI"
+[repo]: https://github.com/mynameiszanders/phperian "PHPerian GitHub repository"
+[travisbuild]: https://travis-ci.org/mynameiszanders/phperian "Build Status on Travis CI"
