@@ -82,6 +82,5 @@ This package was written by [Zander Baldwin](http://mynameiszanders.github.com),
 Build Status
 ------------
 
-[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)](undefined)
-
+[![Build Status](https://travis-ci.org/mynameiszanders/experianwebservice.png?branch=develop)](undefined)<br />
 You can follow the build progress on Travis CI.
