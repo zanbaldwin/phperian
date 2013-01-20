@@ -30,7 +30,7 @@ as a requirement:
     }
 ],
 "require": {
-    "nosco/experian": "dev-master"
+    "mynameiszanders/phperian": "dev-master"
 }
 ```
 
