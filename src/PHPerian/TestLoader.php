@@ -34,7 +34,7 @@
          */
         public static function load($class)
         {
-            if(substr($class, 0, 5) !== 'PHPerian') {
+            if(substr($class, 0, 9) !== 'PHPerian\\') {
                 return;
             }
             $library_root = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
