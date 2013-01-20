@@ -1,22 +1,22 @@
 <?php
 
-    namespace Nosco;
+    namespace PHPerian;
 
     /**
      * Class Loader
      *
      * This class provides static methods for loading and autoloading library
      * classes during testing. The most common use for this class is to simply
-     * call `\Nosco\TestLoader::registerAutoloader()` before using any library
+     * call `\PHPerian\TestLoader::registerAutoloader()` before using any library
      * components.
      * Please do not use this class directly. If you are not autoloading from
-     * Composer, you should include the file `../Nosco.php`.
+     * Composer, you should include the file `../PHPerian.php`.
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/src/Nosco/TestLoader.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/TestLoader.php
      */
     class TestLoader
     {
@@ -34,7 +34,7 @@
          */
         public static function load($class)
         {
-            if(substr($class, 0, 5) !== 'Nosco') {
+            if(substr($class, 0, 9) !== 'PHPerian\\') {
                 return;
             }
             $library_root = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
@@ -58,7 +58,7 @@
          */
         public static function registerAutoloader()
         {
-            return spl_autoload_register(array('Nosco\\TestLoader', 'load'));
+            return spl_autoload_register(array('PHPerian\\TestLoader', 'load'));
         }
 
     }

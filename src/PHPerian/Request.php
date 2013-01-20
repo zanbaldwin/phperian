@@ -1,19 +1,19 @@
 <?php
 
-    namespace Nosco;
+    namespace PHPerian;
 
-    use \Nosco\Exception as Exception;
+    use \PHPerian\Exception as Exception;
 
     /**
      * Request Base Class
      *
      * The base class for all service calls to Experian.
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/src/Nosco.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request.php
      */
     class Request
     {
