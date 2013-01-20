@@ -34,7 +34,7 @@
          */
         public static function load($class)
         {
-            if(substr($class, 0, 5) !== 'Nosco') {
+            if(substr($class, 0, 5) !== 'PHPerian') {
                 return;
             }
             $library_root = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
@@ -58,7 +58,7 @@
          */
         public static function registerAutoloader()
         {
-            return spl_autoload_register(array('Nosco\\TestLoader', 'load'));
+            return spl_autoload_register(array('PHPerian\\TestLoader', 'load'));
         }
 
     }
