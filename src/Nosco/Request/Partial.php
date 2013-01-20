@@ -40,6 +40,11 @@
         protected $id = null;
 
         /**
+         * @var array $struct
+         */
+        protected $struct = array();
+
+        /**
          * Constructor Method
          *
          * @access public
