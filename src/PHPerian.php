@@ -13,7 +13,5 @@
      * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian.php
      */
 
-    use PHPerian\TestLoader;
-
     require_once 'PHPerian/TestLoader.php';
-    TestLoader::registerAutoloader();
+    \PHPerian\TestLoader::registerAutoloader();
