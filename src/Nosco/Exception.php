@@ -1,15 +1,15 @@
 <?php
 
-    namespace Nosco;
+    namespace PHPerian;
 
     class Exception extends \Exception
     {
 
         /**
          * @var string $message
-         * The default message for thrown \Nosco\Exception's when one is not set
+         * The default message for thrown \PHPerian\Exception's when one is not set
          * in the constructor method.
          */
-        protected $message = 'Nosco Exception';
+        protected $message = 'PHPerian Exception';
 
     }

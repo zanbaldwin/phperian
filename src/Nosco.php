@@ -1,19 +1,19 @@
 <?php
 
     /**
-     * Nosco's Library for Experian Web Services
+     * PHPerian: PHP library for Experian's Web Services
      *
      * This is a convinience file for bootstrapping the library during testing.
      * Do not call this file if you are autoloading via Composer.
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/src/Nosco.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian.php
      */
 
-    use Nosco\TestLoader;
+    use PHPerian\TestLoader;
 
-    require_once 'Nosco/TestLoader.php';
+    require_once 'PHPerian/TestLoader.php';
     TestLoader::registerAutoloader();

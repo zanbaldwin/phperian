@@ -1,18 +1,21 @@
 <?php
 
-    namespace Nosco\Request;
+    namespace PHPerian\Request;
 
-    use \Nosco\Exception as Exception;
+    use \PHPerian\Exception as Exception;
 
     /**
-     * Nosco's Library for Experian Web Services
+     * PHPerian: PHP library for Experian's Web Services
      *
-     * @package     Nosco
-     * @category    Experian
+     * An abstract class for all Request sub-classes to extend from. It provides base functionality for generating the
+     * XML from each sub-class's structure array.
+     *
+     * @package     PHPerian
+     * @category    Library
      * @abstract
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/src/Nosco/Request/Partial.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial.php
      */
     abstract class Partial
     {
@@ -63,7 +66,7 @@
          * @static
          * @access public
          * @param string $id
-         * @throws \Nosco\Exception
+         * @throws \PHPerian\Exception
          * @return object
          */
         final public static function fetchById($id)
@@ -102,7 +105,7 @@
          * @static
          * @access public
          * @param string $id
-         * @throws \Nosco\Exception
+         * @throws \PHPerian\Exception
          * @return string
          */
         final public static function serializeById($id)
@@ -129,7 +132,7 @@
          * @static
          * @access public
          * @param string $serial
-         * @throws \Nosco\Exception
+         * @throws \PHPerian\Exception
          * @return object
          */
         final public static function loadFromSerial($serial)
@@ -228,7 +231,7 @@
          * @access private
          * @param array $structure
          * @param object $current
-         * @throws \Nosco\Exception
+         * @throws \PHPerian\Exception
          * @return string
          */
         private function iterateStruct($structure, $current)
@@ -250,7 +253,7 @@
                     case is_int($element) && is_string($contents):
                         // Attempt to load the object from the given ID.
                         try {
-                            $object = \Nosco\Request\Partial::fetchById($contents);
+                            $object = \PHPerian\Request\Partial::fetchById($contents);
                         }
                         // If we did not get an object back, then an incorrect object ID was referenced.
                         catch(Exception $e) {

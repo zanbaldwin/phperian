@@ -1,10 +1,23 @@
 <?php
 
-    namespace Nosco\Request\Partial;
+    namespace PHPerian\Request\Partial;
 
-    use \Nosco\Request\Partial as Partial;
-    use \Nosco\Exception as Exception;
+    use \PHPerian\Request\Partial as Partial;
+    use \PHPerian\Exception as Exception;
 
+    /**
+     * PHPerian: PHP library for Experian's Web Services
+     *
+     * A class for assisting with the generation of the Applicant XML block for request SOAP requests to Experian's Web
+     * Services.
+     *
+     * @package     PHPerian
+     * @category    Library
+     * @abstract
+     * @author      Zander Baldwin <mynameiszanders@gmail.com>
+     * @license     MIT/X11 <http://j.mp/mit-license>
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/Applicant.php
+     */
     class Applicant extends Partial
     {
 
