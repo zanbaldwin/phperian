@@ -1,20 +1,20 @@
 <?php
 
-    namespace Nosco\Request;
+    namespace PHPerian\Request;
 
     use \PHPUnit_Framework_TestCase as TestCase;
-    use \Nosco\Exception as Exception;
+    use \PHPerian\Exception as Exception;
 
     class PartialTestClass extends Partial {}
 
     /**
-     * Nosco's Library for Experian Web Services
+     * PHPerian: PHP library for Experian's Web Services
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/tests/Nosco/Request/PartialTest.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/tests/PHPerian/Request/PartialTest.php
      */
     class PartialTest extends TestCase
     {
@@ -49,7 +49,7 @@
             );
 
             Partial::verbose();
-            $this->setExpectedException('\\Nosco\\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $object = Partial::fetchById('NonExistantID');
         }
 
@@ -92,7 +92,7 @@
             );
 
             Partial::verbose();
-            $this->setExpectedException('\\Nosco\\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $object = Partial::serializeById('NonExistantID');
         }
 
@@ -159,7 +159,7 @@
         {
             Partial::verbose();
             $serial_nopartial = 'TzoxMzoiTm9zY29cUmVxdWVzdCI6MDp7fQ==';
-            $this->setExpectedException('\\Nosco\\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $object = Partial::loadFromSerial($serial_nopartial);
         }
 
@@ -172,7 +172,7 @@
         public function testLoadFromSerialIncorrectDataType()
         {
             Partial::verbose();
-            $this->setExpectedException('\\Nosco\\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $object = Partial::loadFromSerial(false);
         }
 
@@ -185,7 +185,7 @@
         public function testLoadFromSerialUndecodable()
         {
             Partial::verbose();
-            $this->setExpectedException('\\Nosco\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $object = Partial::loadFromSerial('Undecodable String!');
         }
 

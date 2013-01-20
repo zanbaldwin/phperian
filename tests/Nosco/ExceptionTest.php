@@ -1,17 +1,17 @@
 <?php
 
-    namespace Nosco;
+    namespace PHPerian;
 
     use \PHPUnit_Framework_TestCase as TestCase;
 
     /**
-     * Nosco's Library for Experian Web Services
+     * PHPerian: PHP library for Experian's Web Services
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/tests/Nosco/ExceptionTest.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/tests/PHPerian/ExceptionTest.php
      */
     class ExceptionTest extends TestCase
     {
@@ -26,7 +26,7 @@
         {
             $exception = new Exception;
             $this->assertTrue(is_a($exception, '\\Exception'));
-            $this->assertTrue(is_a($exception, '\\Nosco\\Exception'));
+            $this->assertTrue(is_a($exception, '\\PHPerian\\Exception'));
         }
 
     }

@@ -1,17 +1,17 @@
 <?php
 
-    namespace Nosco;
+    namespace PHPerian;
 
     use \PHPUnit_Framework_TestCase as TestCase;
 
     /**
-     * Nosco's Library for Experian Web Services
+     * PHPerian: PHP library for Experian's Web Services
      *
-     * @package     Nosco
-     * @category    Experian
+     * @package     PHPerian
+     * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/experianwebservice/blob/develop/tests/Nosco/RequestTest.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/tests/PHPerian/RequestTest.php
      */
     class RequestTest extends TestCase
     {
@@ -25,7 +25,7 @@
         public function testMagicMethodThrowsException()
         {
             $request = new Request;
-            $this->setExpectedException('\\Nosco\\Exception');
+            $this->setExpectedException('\\PHPerian\\Exception');
             $request->nonExistentMethod();
         }
 
