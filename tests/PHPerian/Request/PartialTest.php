@@ -106,7 +106,7 @@
         {
             Partial::silent();
 
-            $serial_partial = 'TzozMDoiTm9zY29cUmVxdWVzdFxQYXJ0aWFsVGVzdENsYXNzIjoxOntzOjU6IgAqAGlkIjtzOjMwOiJQYXJ0aWFsNTBmOWFlOGMwM2EyNTEuNzI3NTQwNzIiO30=';
+            $serial_partial = 'TzozMzoiUEhQZXJpYW5cUmVxdWVzdFxQYXJ0aWFsVGVzdENsYXNzIjoyOntzOjU6IgAqAGlkIjtzOjMwOiJQYXJ0aWFsNTBmZDI0YTA4MDJjYzcuNjU3MDc2ODYiO3M6OToiACoAc3RydWN0IjthOjA6e319';
             $object = Partial::loadFromSerial($serial_partial);
             $this->assertTrue(
                 is_object($object),
