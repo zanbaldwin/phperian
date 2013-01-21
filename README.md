@@ -1,4 +1,4 @@
-[![PHPerian](https://raw.github.com/mynameiszanders/phperian/develop/phperian.png)](https://github.com/mynameiszanders/phperian)
+<h1><a href="https://github.com/mynameiszanders/phperian" title="PHPerian"><img src="https://raw.github.com/mynameiszanders/phperian/develop/phperian.png" title="PHPerian" alt="PHPerian Logo" width="389" height="111" /></a></h1>
 
 PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eventually [Packagist](https://packagist.org/), designed to assist the generation of XML for a SOAP service request to Experian's Web Service, and to interpret their response.
 
