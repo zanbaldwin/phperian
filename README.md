@@ -42,7 +42,7 @@ Example Usage
     require_once 'vendor/autoload.php';
 
     // Start a new request.
-    $request = new \Nosco\Request;
+    $request = new \PHPerian\Request;
     // Create a new applicant.
     $applicant = $request   ->createApplicant('Zander', 'Baldwin')
                             ->setGenderMale()
@@ -58,10 +58,10 @@ Example Usage
     // Generate the XML request.
     $xml = $request->xml();
 
-    $binary_token = new \Nosco\SOAP\Token;
+    $binary_token = new \PHPerian\SOAP\Token;
 
     // Create a SOAP request pre-configured for 
-    $soap = new \Nosco\SOAP\Service($xml, $binary_token);
+    $soap = new \PHPerian\SOAP\Service($xml, $binary_token);
     // Set security details.
     $soap->setCertificate($file_to_certificate);
     $soap->setCertificatePassword($certificate_password);
@@ -69,7 +69,7 @@ Example Usage
     // Send the SOAP request.
     $response_xml = $soap->send();
 
-    $data = new \Nosco\Response($xml);
+    $data = new \PHPerian\Response($xml);
 ```
 
 Authors
