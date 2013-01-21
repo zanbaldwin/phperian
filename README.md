@@ -1,8 +1,6 @@
-PHPerian: A PHP library for Experian's Web Services
-===================================================
+[![PHPerian](https://raw.github.com/mynameiszanders/phperian/develop/phperian.png)](https://github.com/mynameiszanders/phperian)
 
-This Composer package is a collection of classes designed to assist the generation of XML for a SOAP service request to
-Experian's Web Service, and to interpret their response.
+PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eventually [Packagist](https://packagist.org/), designed to assist the generation of XML for a SOAP service request to Experian's Web Service, and to interpret their response.
 
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
 regarding the stability or practicality of use. It is in no way fit for use in a production environment.**
