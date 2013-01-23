@@ -223,7 +223,7 @@
                     ? $this->struct['DateOfBirth']['CCYY'] . '/'
                     . $this->struct['DateOfBirth']['MM'] . '/'
                     . $this->struct['DateOfBirth']['DD']
-                    : false;
+                    : null;
             }
             if(
                 is_int($year) && $year >= 1875 && $year <= (int) date('Y')
