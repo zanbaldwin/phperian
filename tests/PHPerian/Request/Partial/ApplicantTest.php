@@ -42,6 +42,9 @@
                 is_object($applicant),
                 'Ensure that a new Applicant object can be created through the Request object\'s magic method.'
             );
+
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->createApplicant('Test', 123);
         }
 
         /**
