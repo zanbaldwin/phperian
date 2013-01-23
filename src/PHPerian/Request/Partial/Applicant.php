@@ -13,7 +13,6 @@
      *
      * @package     PHPerian
      * @category    Library
-     * @abstract
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
      * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/Applicant.php
