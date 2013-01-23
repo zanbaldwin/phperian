@@ -211,6 +211,62 @@
             $applicant = $applicant->gender($wrong);
         }
 
+        /**
+         * Test: Set Gender Male
+         *
+         * @access public
+         * @return void
+         */
+        public function testGenderMale()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->gender() === null,
+                'Ensure that the return value of gender() is null when a gender has not yet been set.'
+            );
+            $applicant->setGenderMale();
+            $this->assertTrue(
+                $applicant->gender() === 'M',
+                'Ensure that the return value of gender() is "M" when the method setGenderMale() is invoked.'
+            );
+        }
 
+        /**
+         * Test: Set Gender Female
+         *
+         * @access public
+         * @return void
+         */
+        public function testGenderFemale()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->gender() === null,
+                'Ensure that the return value of gender() is null when a gender has not yet been set.'
+            );
+            $applicant->setGenderFemale();
+            $this->assertTrue(
+                $applicant->gender() === 'F',
+                'Ensure that the return value of gender() is "F" when the method setGenderFemale() is invoked.'
+            );
+        }
+
+        /**
+         * Test: 
+         *
+         * @access public
+         * @return void
+         */
+        public function testDateOfBirth()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->dateOfBirth() === null,
+                'Ensure that the return value of dateOfBirth() is null when a DOB has not yet been set.'
+            );
+        }
 
     }
