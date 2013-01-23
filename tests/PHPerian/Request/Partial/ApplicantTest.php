@@ -85,4 +85,86 @@
             $applicant = $applicant->title($wrong);
         }
 
+        /**
+         * Test: Middle Name
+         *
+         * @access public
+         * @return void
+         */
+        public function testMiddleName()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->middleName() === null,
+                'Ensure that the return value of middleName() is null when a middle name has not yet been set.'
+            );
+            $applicant = $applicant->middleName('Scenario');
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the middleName() method returns an object after a successfully setting the middleName.'
+            );
+            $this->assertTrue(
+                $applicant->middleName() === 'Scenario',
+                'Ensure the middleName() method returns the same string that we set.'
+            );
+
+            $wrong = 'Th1$ i$ completely wrong {or @ middleName input.';
+
+            $request->silent();
+            $return = $applicant->middleName($wrong);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the middleName() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $applicant->middleName() === 'Scenario',
+                'Ensure that the last value set is returned, and an invalid input has not overwritten it.'
+            );
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->verbose();
+            $applicant = $applicant->middleName($wrong);
+        }
+
+        /**
+         * Test: Suffix
+         *
+         * @access public
+         * @return void
+         */
+        public function testSuffix()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->suffix() === null,
+                'Ensure that the return value of suffix() is null when a middle name has not yet been set.'
+            );
+            $applicant = $applicant->suffix('MBCS');
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the suffix() method returns an object after a successfully setting the suffix.'
+            );
+            $this->assertTrue(
+                $applicant->suffix() === 'MBCS',
+                'Ensure the suffix() method returns the same string that we set.'
+            );
+
+            $wrong = 'Th1$ i$ completely wrong {or @ suffix input.';
+
+            $request->silent();
+            $return = $applicant->suffix($wrong);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the suffix() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $applicant->suffix() === 'MBCS',
+                'Ensure that the last value set is returned, and an invalid input has not overwritten it.'
+            );
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->verbose();
+            $applicant = $applicant->suffix($wrong);
+        }
+
     }
