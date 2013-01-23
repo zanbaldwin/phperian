@@ -293,4 +293,20 @@
             $applicant->dateOfBirth(1850);
         }
 
+        /**
+         * Test: Aliases
+         *
+         * @access public
+         * @return void
+         */
+        public function testAliases()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->getAliases() === array(),
+                'Ensure that no aliases exist, but that an array is still returned.'
+            );
+        }
+
     }
