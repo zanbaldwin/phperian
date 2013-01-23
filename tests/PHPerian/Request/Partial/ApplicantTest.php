@@ -254,7 +254,7 @@
         }
 
         /**
-         * Test: 
+         * Test: Date Of Birth
          *
          * @access public
          * @return void
@@ -267,6 +267,30 @@
                 $applicant->dateOfBirth() === null,
                 'Ensure that the return value of dateOfBirth() is null when a DOB has not yet been set.'
             );
+            $applicant = $applicant->dateOfBirth(1970, 1, 1);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the dateOfBirth() method returns an object after a successfully setting the DOB.'
+            );
+            $this->assertTrue(
+                $applicant->dateOfBirth() === '1970/01/01',
+                'Ensure the dateOfBirth() method returns the same date that we set.'
+            );
+            $request->silent();
+            $applicant = $applicant->dateOfBirth(1971, 1);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the dateOfBirth() method returns an object after an unsuccessfully setting of the DOB when in silent mode.'
+            );
+            $this->assertTrue(
+                $applicant->dateOfBirth() === '1970/01/01',
+                'Ensure the dateOfBirth() method returns the same date that we set before the invalid data we passed. '
+              . 'This asserts that all three parameters are needed to successfully set the DOB.'
+            );
+
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->verbose();
+            $applicant->dateOfBirth(1850);
         }
 
     }
