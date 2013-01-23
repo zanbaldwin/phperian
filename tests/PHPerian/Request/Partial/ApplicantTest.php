@@ -44,4 +44,45 @@
             );
         }
 
+        /**
+         * Test: Title
+         *
+         * @access public
+         * @return void
+         */
+        public function testTitle()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->title() === null,
+                'Ensure that the return value of title() is null when a title has not yet been set.'
+            );
+            $applicant = $applicant->title('Lord');
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the title() method returns an object after a successfully setting the title.'
+            );
+            $this->assertTrue(
+                $applicant->title() === 'Lord',
+                'Ensure the title() method returns the same string that we set.'
+            );
+
+            $wrong = 'Th1$ i$ completely wrong {or @ title input.';
+
+            $request->silent();
+            $return = $applicant->title($wrong);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the title() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $applicant->title() === 'Lord',
+                'Ensure that the last value set is returned, and an invalid input has not overwritten it.'
+            );
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->verbose();
+            $applicant = $applicant->title($wrong);
+        }
+
     }
