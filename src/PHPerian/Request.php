@@ -55,4 +55,26 @@
             throw new Exception('Call to undefined method "' . $method . '" on class "' . __CLASS__ . '".');
         }
 
+        /**
+         * Shortcut: Verbose
+         *
+         * @access public
+         * @return void
+         */
+        public function verbose()
+        {
+            \PHPerian\Request\Partial::verbose();
+        }
+
+        /**
+         * Shortcut: Silent
+         *
+         * @access public
+         * @return void
+         */
+        public function silent()
+        {
+            \PHPerian\Request\Partial::silent();
+        }
+
     }
