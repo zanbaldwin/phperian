@@ -44,7 +44,7 @@
          * @param string $surname
          * @return void
          */
-        public function __construct($forname, $surname)
+        public function __construct($forename, $surname)
         {
             // Make sure that both forename and surname are non-empty strings, and match the correct validation
             // criteria.
