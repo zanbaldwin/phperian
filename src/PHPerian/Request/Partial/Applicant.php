@@ -21,7 +21,7 @@
     {
 
         // Data length validation.
-        const MAX_NUM_ALIASES       = 3;
+        const MAX_NUM_ALIAS         = 3;
         const MAX_CHARS_TITLE       = 10;
         const MAX_CHARS_FORENAME    = 15;
         const MAX_CHARS_MIDDLENAME  = 15;
@@ -257,7 +257,7 @@
                 $this->struct['Alias'] = array();
             }
             // Make sure that no more than the maximum number of Aliases is created on this Applicant object.
-            if(count($this->struct['Alias']) < self::MAX_NUM_ALIASES) {
+            if(count($this->struct['Alias']) < self::MAX_NUM_ALIAS) {
                 // Create a new Alias object. There's no need for error checking as an exception will be thrown if the
                 // class does not exist.
                 $alias = parent::__call(__METHOD__, func_get_args());
