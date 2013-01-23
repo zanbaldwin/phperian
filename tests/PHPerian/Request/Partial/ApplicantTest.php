@@ -141,7 +141,7 @@
             $applicant = $request->createApplicant('Test', 'Case');
             $this->assertTrue(
                 $applicant->suffix() === null,
-                'Ensure that the return value of suffix() is null when a middle name has not yet been set.'
+                'Ensure that the return value of suffix() is null when a suffix has not yet been set.'
             );
             $applicant = $applicant->suffix('MBCS');
             $this->assertTrue(
@@ -169,5 +169,48 @@
             $request->verbose();
             $applicant = $applicant->suffix($wrong);
         }
+
+        /**
+         * Test: Gender
+         *
+         * @access public
+         * @return void
+         */
+        public function testGender()
+        {
+            $request = new \PHPerian\Request;
+            $applicant = $request->createApplicant('Test', 'Case');
+            $this->assertTrue(
+                $applicant->gender() === null,
+                'Ensure that the return value of gender() is null when a gender has not yet been set.'
+            );
+            $applicant = $applicant->gender('M');
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the gender() method returns an object after a successfully setting the gender.'
+            );
+            $this->assertTrue(
+                $applicant->gender() === 'M',
+                'Ensure the gender() method returns the same string that we set.'
+            );
+
+            $wrong = 'X';
+
+            $request->silent();
+            $return = $applicant->gender($wrong);
+            $this->assertTrue(
+                is_object($applicant),
+                'Ensure that the gender() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $applicant->gender() === 'M',
+                'Ensure that the last value set is returned, and an invalid input has not overwritten it.'
+            );
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $request->verbose();
+            $applicant = $applicant->gender($wrong);
+        }
+
+
 
     }
