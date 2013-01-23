@@ -41,6 +41,9 @@ Example Usage
     // Include Composer's autoload script.
     require_once 'vendor/autoload.php';
 
+    // If you're not using Composer, include the base PHPerian file to autoload the classes for you.
+    require_once 'src/PHPerian.php';
+
     // Start a new request.
     $request = new \PHPerian\Request;
     // Create a new applicant.
