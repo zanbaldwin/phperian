@@ -34,13 +34,13 @@
             $applicant = new \PHPerian\Request\Partial\Applicant('Test', 'Case');
             $this->assertTrue(
                 is_object($applicant),
-                'Ensure that a new Applicant class can be created successfully.'
+                'Ensure that a new instance of the Applicant class can be created successfully.'
             );
 
             $applicant = $request->createApplicant('Test', 'Case');
             $this->assertTrue(
                 is_object($applicant),
-                'Ensure that a new Applicant object can be created through the Request objects magic method.'
+                'Ensure that a new Applicant object can be created through the Request object\'s magic method.'
             );
         }
 
