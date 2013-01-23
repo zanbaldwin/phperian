@@ -50,7 +50,12 @@
             // criteria.
             $f_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_FORENAME . '}$/';
             $s_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SURNAME . '}$/';
-            if(!preg_match($f_regex, $forename) || !preg_match($s_regex, $surname)) {
+            if(
+                !preg_match($f_regex, $forename)
+             || !preg_match($s_regex, $surname)
+             || !is_string($forename)
+             || !is_string($surname)
+            ) {
                 // If the forename and surname do no validate, then throw an exception regardless of whether verbose or
                 // silent mode is on; the class cannot be used.
                 throw new Exception();
