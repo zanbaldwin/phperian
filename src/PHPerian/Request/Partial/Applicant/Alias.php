@@ -185,7 +185,7 @@
          * Set Gender to Male
          *
          * @access public
-         * @return $this
+         * @return Alias $this
          */
         public function setGenderMale()
         {
@@ -196,7 +196,7 @@
          * Set Gender to Female
          *
          * @access public
-         * @return $this
+         * @return Alias $this
          */
         public function setGenderFemale()
         {
