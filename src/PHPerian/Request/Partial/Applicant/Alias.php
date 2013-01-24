@@ -66,7 +66,7 @@
          *
          * @access public
          * @param string $title
-         * @return string|boolean
+         * @return string | Alias $this
          */
         public function title($title = null)
         {
@@ -82,6 +82,35 @@
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TITLE . '}$/', $title)
             ) {
                 $this->struct['Title'] = $title;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
+        /**
+         * Get and Set: Middle Name
+         *
+         * @access public
+         * @param string $middle_name
+         * @return string | Alias $this
+         */
+        public function middleName($middle_name = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['MiddleName'])
+                    ? $this->struct['MiddleName']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($middle_name)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_MIDDLENAME . '}$/', $middle_name)
+            ) {
+                $this->struct['MiddleName'] = $middle_name;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
