@@ -121,4 +121,34 @@
             return $this;
         }
 
+        /**
+         * Get and Set: Suffix
+         *
+         * @access public
+         * @param string $suffix
+         * @throws \PHPerian\Exception
+         * @return string | Alias $this
+         */
+        public function suffix($suffix = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Suffix'])
+                    ? $this->struct['Suffix']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($suffix)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SUFFIX . '}$/', $suffix)
+            ) {
+                $this->struct['Suffix'] = $suffix;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
     }
