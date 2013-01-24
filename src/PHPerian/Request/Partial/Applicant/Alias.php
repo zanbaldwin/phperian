@@ -66,6 +66,7 @@
          *
          * @access public
          * @param string $title
+         * @throws \PHPerian\Exception
          * @return string | Alias $this
          */
         public function title($title = null)
@@ -95,6 +96,7 @@
          *
          * @access public
          * @param string $middle_name
+         * @throws \PHPerian\Exception
          * @return string | Alias $this
          */
         public function middleName($middle_name = null)
