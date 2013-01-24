@@ -61,4 +61,33 @@
             parent::__construct();
         }
 
+        /**
+         * Get and Set: Title
+         *
+         * @access public
+         * @param string $title
+         * @return string|boolean
+         */
+        public function title($title = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Title'])
+                    ? $this->struct['Title']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($title)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TITLE . '}$/', $title)
+            ) {
+                $this->struct['Title'] = $title;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
     }
