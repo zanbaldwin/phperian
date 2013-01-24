@@ -8,7 +8,7 @@
     /**
      * PHPerian: PHP library for Experian's Web Services
      *
-     * A class for assisting with the generation of the Applicant XML block for request SOAP requests to Experian's Web
+     * A class for assisting with the generation of the Alias XML block for request SOAP requests to Experian's Web
      * Services.
      *
      * @package     PHPerian
