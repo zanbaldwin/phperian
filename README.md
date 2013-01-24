@@ -78,7 +78,7 @@ Example Usage
 Authors
 -------
 
-This package was written by [Zander Baldwin](http://mynameiszanders.github.com), with the help of [Clive Dann](http://clivedann.co.uk).
+This package was written by [Zander Baldwin](http://mynameiszanders.github.com), with the help of [Clive Dann](https://github.com/clivedann).
 
 Build Status
 ------------
