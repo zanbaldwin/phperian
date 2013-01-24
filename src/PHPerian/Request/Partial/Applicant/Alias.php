@@ -181,4 +181,26 @@
             return $this;
         }
 
+        /**
+         * Set Gender to Male
+         *
+         * @access public
+         * @return $this
+         */
+        public function setGenderMale()
+        {
+            return $this->gender('M');
+        }
+
+        /**
+         * Set Gender to Female
+         *
+         * @access public
+         * @return $this
+         */
+        public function setGenderFemale()
+        {
+            return $this->gender('F');
+        }
+
     }
