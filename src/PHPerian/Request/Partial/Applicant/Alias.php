@@ -32,5 +32,33 @@
         const SOURCE_EXISTING       = 'E';
         const SOURCE_TELEPHONE      = 'T';
         const SOURCE_OTHER          = 'O';
-        
+
+        /**
+         * Constructor Method
+         *
+         * @access public
+         * @param string $forename
+         * @param string $surname
+         * @return void
+         */
+        public function __construct($forename, $surname)
+        {
+            // Make sure that both forename and surname are non-empty strings.
+            $f_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_FORENAME . '}$/';
+            $s_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SURNAME . '}$/';
+            if(
+                !is_string($forename)
+             || !is_string($surname)
+             || !preg_match($f_regex, $forename)
+             || !preg_match($s_regex, $surname)
+            ) {
+                throw new Exception();
+            }
+            // Set the required attributes.
+            $this->struct['Forename'] = $forename;
+            $this->struct['Surname'] = $surname;
+            // Call the parent constructor to assign a unique ID and save the object to map.
+            parent::__construct();
+        }
+
     }
