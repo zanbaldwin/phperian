@@ -376,7 +376,7 @@
                 self::$incrementers[$class] = array();
             }
             if(!isset(self::$incrementers[$class][$this->id()])) {
-                self::$incrementers[$class][$this->id()] = count(self::$incrementers[$class]) + 1;
+                self::$incrementers[$class][$this->id()] = (string) (count(self::$incrementers[$class]) + 1);
             }
             return self::$incrementers[$class][$this->id()];
         }
