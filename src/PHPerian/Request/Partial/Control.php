@@ -455,7 +455,34 @@
             return $this;
         }
 
-        public function showAuthenticate($show_authenticate = null) {}
+        /**
+         * Get and Set: Show Authenticate (Parameter)
+         *
+         * @access public
+         * @param string $show_authenticate
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function showAuthenticate($show_authenticate = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['ShowAuthenticate'])
+                    ? $this->struct['Parameters']['ShowAuthenticate'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($show_authenticate)) {
+                $this->struct['Parameters']['ShowAuthenticate'] = $show_authenticate ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function showAddress($show_address = null) {}
         public function showCaseHistory($show_case_history = null) {}
         public function showHHO($show_hho = null) {}
