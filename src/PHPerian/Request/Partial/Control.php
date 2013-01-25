@@ -24,6 +24,11 @@
         const MAX_CHARS_CLIENT_ACCOUNT_NUMBER = 5;
         const MAX_CHARS_CLIENT_BRANCH_NUMBER = 4;
         const MAX_CHARS_USER_IDENTITY = 40;
+        const MAX_CHARS_TEST_DATABASE = 6;
+
+        const TEST_DATABASE_STATIC = 'S';
+        const TEST_DATABASE_AGED = 'A';
+        const TEST_DATABASE_NONE = 'N';
 
         // No constructor method is required as all sub-elements are optional.
 
@@ -151,7 +156,37 @@
             return $this;
         }
 
-        public function testDatabase($test_database = null) {}
+        /**
+         * Get and Set: Test Database
+         *
+         * @access public
+         * @param string $test_database
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function testDatabase($test_database = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['TestDatabase'])
+                    ? $this->struct['TestDatabase']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($test_database)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_TEST_DATABASE . '}$/', $test_database)
+            ) {
+                $this->struct['TestDatabase'] = $test_database;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function reprocessFlag($reprocess_flag = null) {}
         public function clientReference($client_reference = null) {}
         public function jobNumber($job_number = null) {}
