@@ -20,6 +20,8 @@
     class Control extends Partial
     {
 
+        const MAX_CHARS_EXPERIAN_REFERENCE = 10;
+
         // No constructor method is required as all sub-elements are optional.
 
         /**
