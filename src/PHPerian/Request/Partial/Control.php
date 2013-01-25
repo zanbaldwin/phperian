@@ -301,7 +301,7 @@
                 is_string($interactive)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_INTERACTIVE_MODE . '}$/', $interactive)
             ) {
-                $this->struct['InteractiveMode'] = $interactive;
+                $this->struct['Parameters']['InteractiveMode'] = $interactive;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
