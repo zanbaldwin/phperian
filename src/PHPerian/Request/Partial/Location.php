@@ -34,6 +34,9 @@
 
         const COUNTRY_UK = 'UK';
         const COUNTRY_IE = 'IE';
+        const LOCATION_UK = 'UKLocation';
+        const LOCATION_BFPO = 'BFPOLocation';
+        const LOCATION_OVERSEAS = 'OverseasLocation';
 
         /**
          * @var array $struct
@@ -44,10 +47,10 @@
         );
 
         /**
-         * @var boolean $uk
-         * An internal flag to determine whether this location is a UK address, or BFPO/Overseas address.
+         * @var string $type
+         * The type of location this class represents.
          */
-        protected $uk = null;
+        protected $type = null;
 
         /**
          * Constructor Method
@@ -56,13 +59,13 @@
          * @param boolean $uk
          * @return void
          */
-        public function __construct($uk)
+        public function __construct($type)
         {
-            // If a non-boolean value is passed and verbose mode is on, throw an exception. 
-            if(!is_bool($uk) && parent::$verbose) {
+            if(!is_string($type) || !preg_match('/^(UKLocation|BFPOLocation|OverseasLocation)$/', $type)) {
                 throw new Exception();
             }
-            $this->uk = (bool) $uk;
+            $this->type = $type;
+            $this->struct[$this->type] = array();
             parent::__construct();
         }
 
@@ -76,10 +79,18 @@
          */
         public function flat($flat = null) {}
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Flat'])
-                    ? $this->struct['Flat']
+                return isset($this->struct[$this->type]['Flat'])
+                    ? $this->struct[$this->type]['Flat']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -87,7 +98,7 @@
                 is_string($flat)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_FLAT . '}$/', $flat)
             ) {
-                $this->struct['Flat'] = $flat;
+                $this->struct[$this->type]['Flat'] = $flat;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -107,10 +118,18 @@
          */
         public function houseName($house_name = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['HouseName'])
-                    ? $this->struct['HouseName']
+                return isset($this->struct[$this->type]['HouseName'])
+                    ? $this->struct[$this->type]['HouseName']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -118,7 +137,7 @@
                 is_string($house_name)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_HOUSE_NAME . '}$/', $house_name)
             ) {
-                $this->struct['HouseName'] = $house_name;
+                $this->struct[$this->type]['HouseName'] = $house_name;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -138,10 +157,18 @@
          */
         public function houseNumber($house_number = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['HouseNumber'])
-                    ? $this->struct['HouseNumber']
+                return isset($this->struct[$this->type]['HouseNumber'])
+                    ? $this->struct[$this->type]['HouseNumber']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -149,7 +176,7 @@
                 is_string($house_number)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_HOUSE_NUMBER . '}$/', $house_number)
             ) {
-                $this->struct['HouseNumber'] = $house_number;
+                $this->struct[$this->type]['HouseNumber'] = $house_number;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -169,14 +196,22 @@
          */
         public function street($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
-                if(isset($this->struct['Street'])) {
-                    $return[] = $this->struct['Street'];
+                if(isset($this->struct[$this->type]['Street'])) {
+                    $return[] = $this->struct[$this->type]['Street'];
                 }
-                if(isset($this->struct['Street2'])) {
-                    $return[] = $this->struct['Street2'];
+                if(isset($this->struct[$this->type]['Street2'])) {
+                    $return[] = $this->struct[$this->type]['Street2'];
                 }
                 return count($return) > 0
                     ? implode("\n", $return)
@@ -213,10 +248,18 @@
          */
         public function streetLine1($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Street'])
-                    ? $this->struct['Street']
+                return isset($this->struct[$this->type]['Street'])
+                    ? $this->struct[$this->type]['Street']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -224,7 +267,7 @@
                 is_string($street)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
             ) {
-                $this->struct['Street'] = $street;
+                $this->struct[$this->type]['Street'] = $street;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -244,10 +287,18 @@
          */
         public function streetLine2($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Street2'])
-                    ? $this->struct['Street2']
+                return isset($this->struct[$this->type]['Street2'])
+                    ? $this->struct[$this->type]['Street2']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -255,7 +306,7 @@
                 is_string($street)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
             ) {
-                $this->struct['Street2'] = $street;
+                $this->struct[$this->type]['Street2'] = $street;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -275,14 +326,22 @@
          */
         public function district($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
-                if(isset($this->struct['District'])) {
-                    $return[] = $this->struct['District'];
+                if(isset($this->struct[$this->type]['District'])) {
+                    $return[] = $this->struct[$this->type]['District'];
                 }
-                if(isset($this->struct['District2'])) {
-                    $return[] = $this->struct['District2'];
+                if(isset($this->struct[$this->type]['District2'])) {
+                    $return[] = $this->struct[$this->type]['District2'];
                 }
                 return count($return) > 0
                     ? implode("\n", $return)
@@ -319,10 +378,18 @@
          */
         public function districtLine1($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['District'])
-                    ? $this->struct['District']
+                return isset($this->struct[$this->type]['District'])
+                    ? $this->struct[$this->type]['District']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -330,7 +397,7 @@
                 is_string($district)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
             ) {
-                $this->struct['District'] = $district;
+                $this->struct[$this->type]['District'] = $district;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -350,10 +417,18 @@
          */
         public function districtLine2($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['District2'])
-                    ? $this->struct['District2']
+                return isset($this->struct[$this->type]['District2'])
+                    ? $this->struct[$this->type]['District2']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -361,7 +436,7 @@
                 is_string($district)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
             ) {
-                $this->struct['District2'] = $district;
+                $this->struct[$this->type]['District2'] = $district;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -381,10 +456,18 @@
          */
         public function town($town = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['PostTown'])
-                    ? $this->struct['PostTown']
+                return isset($this->struct[$this->type]['PostTown'])
+                    ? $this->struct[$this->type]['PostTown']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -392,7 +475,7 @@
                 is_string($town)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_TOWN . '}$/', $town)
             ) {
-                $this->struct['PostTown'] = $town;
+                $this->struct[$this->type]['PostTown'] = $town;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -412,10 +495,18 @@
          */
         public function county($county = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['County'])
-                    ? $this->struct['County']
+                return isset($this->struct[$this->type]['County'])
+                    ? $this->struct[$this->type]['County']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -423,7 +514,7 @@
                 is_string($county)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_COUNTY . '}$/', $county)
             ) {
-                $this->struct['County'] = $county;
+                $this->struct[$this->type]['County'] = $county;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -445,19 +536,19 @@
         {
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Postcode'])
-                    ? $this->struct['Postcode']
+                return isset($this->struct[$this->type]['Postcode'])
+                    ? $this->struct[$this->type]['Postcode']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            $max_chars = $this->uk
+            $max_chars = $this->type == self::LOCATION_UK
                 ? self::MAX_CHARS_POSTCODE_UK
                 : self::MAX_CHARS_POSTCODE_NONUK;
             if(
                 is_string($postcode)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . $max_chars . '}$/', $postcode)
             ) {
-                $this->struct['Postcode'] = $postcode;
+                $this->struct[$this->type]['Postcode'] = $postcode;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -477,10 +568,18 @@
          */
         public function poBox($pobox = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['POBox'])
-                    ? $this->struct['POBox']
+                return isset($this->struct[$this->type]['POBox'])
+                    ? $this->struct[$this->type]['POBox']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -488,7 +587,7 @@
                 is_string($pobox)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_POBOX . '}$/', $pobox)
             ) {
-                $this->struct['POBox'] = $pobox;
+                $this->struct[$this->type]['POBox'] = $pobox;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -508,10 +607,18 @@
          */
         public function country($country = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Country'])
-                    ? $this->struct['Country']
+                return isset($this->struct[$this->type]['Country'])
+                    ? $this->struct[$this->type]['Country']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -519,7 +626,7 @@
                 is_string($pobox)
              && preg_match('/^(UK|IE)$/i', $pobox)
             ) {
-                $this->struct['Country'] = strtoupper($pobox);
+                $this->struct[$this->type]['Country'] = strtoupper($pobox);
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -539,15 +646,23 @@
          */
         public function sharedLetterbox($shared_letterbox = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['SharedLetterbox'])
-                    ? $this->struct['SharedLetterbox'] == parent::BOOLEAN_TRUE
+                return isset($this->struct[$this->type]['SharedLetterbox'])
+                    ? $this->struct[$this->type]['SharedLetterbox'] == parent::BOOLEAN_TRUE
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($shared_letterbox)) {
-                $this->struct['SharedLetterbox'] = $shared_letterbox ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+                $this->struct[$this->type]['SharedLetterbox'] = $shared_letterbox ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -567,26 +682,34 @@
          */
         public function location($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
-                if(isset($this->struct['LocationLine1'])) {
-                    $return[] = $this->struct['LocationLine1'];
+                if(isset($this->struct[$this->type]['LocationLine1'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine1'];
                 }
-                if(isset($this->struct['LocationLine2'])) {
-                    $return[] = $this->struct['LocationLine2'];
+                if(isset($this->struct[$this->type]['LocationLine2'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine2'];
                 }
-                if(isset($this->struct['LocationLine3'])) {
-                    $return[] = $this->struct['LocationLine3'];
+                if(isset($this->struct[$this->type]['LocationLine3'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine3'];
                 }
-                if(isset($this->struct['LocationLine4'])) {
-                    $return[] = $this->struct['LocationLine4'];
+                if(isset($this->struct[$this->type]['LocationLine4'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine4'];
                 }
-                if(isset($this->struct['LocationLine5'])) {
-                    $return[] = $this->struct['LocationLine5'];
+                if(isset($this->struct[$this->type]['LocationLine5'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine5'];
                 }
-                if(isset($this->struct['LocationLine6'])) {
-                    $return[] = $this->struct['LocationLine6'];
+                if(isset($this->struct[$this->type]['LocationLine6'])) {
+                    $return[] = $this->struct[$this->type]['LocationLine6'];
                 }
                 return count($return) > 0
                     ? implode("\n", $return)
@@ -636,10 +759,18 @@
          */
         public function locationLine1($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine1'])
-                    ? $this->struct['LocationLine1']
+                return isset($this->struct[$this->type]['LocationLine1'])
+                    ? $this->struct[$this->type]['LocationLine1']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -647,7 +778,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine1'] = $location;
+                $this->struct[$this->type]['LocationLine1'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -667,10 +798,18 @@
          */
         public function locationLine2($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine2'])
-                    ? $this->struct['LocationLine2']
+                return isset($this->struct[$this->type]['LocationLine2'])
+                    ? $this->struct[$this->type]['LocationLine2']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -678,7 +817,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine2'] = $location;
+                $this->struct[$this->type]['LocationLine2'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -698,10 +837,18 @@
          */
         public function locationLine3($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine3'])
-                    ? $this->struct['LocationLine3']
+                return isset($this->struct[$this->type]['LocationLine3'])
+                    ? $this->struct[$this->type]['LocationLine3']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -709,7 +856,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine3'] = $location;
+                $this->struct[$this->type]['LocationLine3'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -729,10 +876,18 @@
          */
         public function locationLine4($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine4'])
-                    ? $this->struct['LocationLine4']
+                return isset($this->struct[$this->type]['LocationLine4'])
+                    ? $this->struct[$this->type]['LocationLine4']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -740,7 +895,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine4'] = $location;
+                $this->struct[$this->type]['LocationLine4'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -760,10 +915,18 @@
          */
         public function locationLine5($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine5'])
-                    ? $this->struct['LocationLine5']
+                return isset($this->struct[$this->type]['LocationLine5'])
+                    ? $this->struct[$this->type]['LocationLine5']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -771,7 +934,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine5'] = $location;
+                $this->struct[$this->type]['LocationLine5'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -791,10 +954,18 @@
          */
         public function locationLine6($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['LocationLine6'])
-                    ? $this->struct['LocationLine6']
+                return isset($this->struct[$this->type]['LocationLine6'])
+                    ? $this->struct[$this->type]['LocationLine6']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -802,7 +973,7 @@
                 is_string($location)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
             ) {
-                $this->struct['LocationLine6'] = $location;
+                $this->struct[$this->type]['LocationLine6'] = $location;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
