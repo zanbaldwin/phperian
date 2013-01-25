@@ -15,9 +15,9 @@
      * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/Location.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/LocationDetails.php
      */
-    class Location extends Partial
+    class LocationDetails extends Partial
     {
 
         const MAX_CHARS_FLAT = 30;
