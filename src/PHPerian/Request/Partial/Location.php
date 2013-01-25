@@ -77,7 +77,7 @@
          * @throws \PHPerian\Exception
          * @return string | Location $this
          */
-        public function flat($flat = null) {}
+        public function flat($flat = null)
         {
             if($this->type != self::LOCATION_UK) {
                 if(parent::$verbose) {
@@ -96,7 +96,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($flat)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_FLAT . '}$/', $flat)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_FLAT . '}$/', $flat)
             ) {
                 $this->struct[$this->type]['Flat'] = $flat;
             }
@@ -135,7 +135,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($house_name)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_HOUSE_NAME . '}$/', $house_name)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_HOUSE_NAME . '}$/', $house_name)
             ) {
                 $this->struct[$this->type]['HouseName'] = $house_name;
             }
@@ -174,7 +174,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($house_number)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_HOUSE_NUMBER . '}$/', $house_number)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_HOUSE_NUMBER . '}$/', $house_number)
             ) {
                 $this->struct[$this->type]['HouseNumber'] = $house_number;
             }
@@ -265,7 +265,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($street)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
             ) {
                 $this->struct[$this->type]['Street'] = $street;
             }
@@ -304,7 +304,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($street)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
             ) {
                 $this->struct[$this->type]['Street2'] = $street;
             }
@@ -395,7 +395,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($district)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
             ) {
                 $this->struct[$this->type]['District'] = $district;
             }
@@ -434,7 +434,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($district)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
             ) {
                 $this->struct[$this->type]['District2'] = $district;
             }
@@ -473,7 +473,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($town)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_TOWN . '}$/', $town)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TOWN . '}$/', $town)
             ) {
                 $this->struct[$this->type]['PostTown'] = $town;
             }
@@ -512,7 +512,7 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($county)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_COUNTY . '}$/', $county)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_COUNTY . '}$/', $county)
             ) {
                 $this->struct[$this->type]['County'] = $county;
             }
