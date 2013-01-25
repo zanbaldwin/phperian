@@ -19,6 +19,11 @@
     {
 
         /**
+         * @var array $blocks
+         */
+        protected $blocks = array();
+
+        /**
          * Constructor Method
          *
          * @access public
@@ -48,7 +53,9 @@
                 if(class_exists($class)) {
                     // It does? Great! Create a new instance based on the arguments passed and return it.
                     $reflection = new \ReflectionClass($class);
-                    return $reflection->newInstanceArgs($arguments);
+                    $instance = $reflection->newInstanceArgs($arguments);
+                    $this->blocks[] = $instance->id();
+                    return $instance;
                 }
             }
             // If the method called was invalid (eg, it didn't map to a Request sub-class) throw an exception.
@@ -75,6 +82,24 @@
         public function silent()
         {
             \PHPerian\Request\Partial::silent();
+        }
+
+        /**
+         * Generate XML
+         *
+         * @access public
+         * @return string
+         */
+        public function xml()
+        {
+            $xml = '';
+            foreach($this->blocks as $block_id) {
+                $block = \PHPerian\Request\Partial::fetchById($block_id);
+                $block_class = explode('\\', get_class($block));
+                $block_class = end($block_class);
+                $xml .= '<' . $block_class . '>' . $block->generateXML() . '</' . $block_class . '>';
+            }
+            return $xml;
         }
 
     }
