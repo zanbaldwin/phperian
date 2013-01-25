@@ -99,7 +99,32 @@
                 $block_class = end($block_class);
                 $xml .= '<' . $block_class . '>' . $block->generateXML() . '</' . $block_class . '>';
             }
-            return $xml;
+            return $this->soapWrap($xml);
         }
+
+        // THIS IS A TEMPORARY METHOD TO WRAP THE XML IN A SOAP REQUEST.
+        // THIS NEEDS REWRITING.
+        // DO NOT PUSH THIS INTO PRODUCTION.
+        // THAT WOULD BE, LIKE, REAL BAD.
+        public function soapWrap($xml)
+        {
+            return '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/en'
+                .'velope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLS'
+                .'chema" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"'
+                .' xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><soap'
+                .':Header><wsse:Security><wsse:BinarySecurityTokenValueType="ExperianWASP"EncodingType="wsse:Base64Bina'
+                .'ry"wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken></wsse:Security></soap:He'
+                .'ader><soap:Body><ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive/v1'
+                .'00"><ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any"><ns0:Input xmlns:ns0="http://'
+                .'schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData">'
+                . $xml
+                . '</ns0:Input></ns1:Root></ns2:Interactive></soap:Body></soap:Envelope>';
+        }
+
+
+
+
+
+
 
     }
