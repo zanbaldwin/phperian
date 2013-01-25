@@ -34,4 +34,21 @@
          */
         protected $uk = null;
 
+        /**
+         * Constructor Method
+         *
+         * @access public
+         * @param boolean $uk
+         * @return void
+         */
+        public function __construct($uk)
+        {
+            // If a non-boolean value is passed and verbose mode is on, throw an exception. 
+            if(!is_bool($uk) && parent::$verbose) {
+                throw new Exception();
+            }
+            $this->uk = (bool) $uk;
+            parent::__construct();
+        }
+
     }
