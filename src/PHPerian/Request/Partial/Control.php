@@ -187,7 +187,34 @@
             return $this;
         }
 
-        public function reprocessFlag($reprocess_flag = null) {}
+        /**
+         * Get and Set: Reprocess Flag
+         *
+         * @access public
+         * @param string $reprocess_flag
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function reprocessFlag($reprocess_flag = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ReprocessFlag'])
+                    ? $this->struct['ReprocessFlag'] == 'Y'
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($reprocess_flag)) {
+                $this->struct['ReprocessFlag'] = $reprocess_flag ? 'Y' : 'N';
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function clientReference($client_reference = null) {}
         public function jobNumber($job_number = null) {}
 
