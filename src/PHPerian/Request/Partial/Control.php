@@ -207,12 +207,12 @@
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct['ReprocessFlag'])
-                    ? $this->struct['ReprocessFlag'] == 'Y'
+                    ? $this->struct['ReprocessFlag'] == parent::BOOLEAN_TRUE
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($reprocess_flag)) {
-                $this->struct['ReprocessFlag'] = $reprocess_flag ? 'Y' : 'N';
+                $this->struct['ReprocessFlag'] = $reprocess_flag ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -328,12 +328,12 @@
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct['Parameters']['FullFBLRequired'])
-                    ? $this->struct['Parameters']['FullFBLRequired'] == 'Y'
+                    ? $this->struct['Parameters']['FullFBLRequired'] == parent::BOOLEAN_TRUE
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($full_fbl)) {
-                $this->struct['Parameters']['FullFBLRequired'] = $full_fbl ? 'Y' : 'N';
+                $this->struct['Parameters']['FullFBLRequired'] = $full_fbl ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -361,7 +361,7 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($authenticate_plus)) {
-                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'E' : '';
+                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'E' : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
