@@ -112,11 +112,11 @@
                 .'velope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLS'
                 .'chema" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"'
                 .' xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><soap'
-                .':Header><wsse:Security><wsse:BinarySecurityTokenValueType="ExperianWASP"EncodingType="wsse:Base64Bina'
-                .'ry"wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken></wsse:Security></soap:He'
-                .'ader><soap:Body><ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive/v1'
-                .'00"><ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any"><ns0:Input xmlns:ns0="http://'
-                .'schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData">'
+                .':Header><wsse:Security><wsse:BinarySecurityToken ValueType="ExperianWASP" EncodingType="wsse:Base64Bi'
+                .'nary" wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken></wsse:Security></soap'
+                .':Header><soap:Body><ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive'
+                .'/v100"><ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any"><ns0:Input xmlns:ns0="http'
+                .'://schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData">'
                 . $xml
                 . '</ns0:Input></ns1:Root></ns2:Interactive></soap:Body></soap:Envelope>';
         }
