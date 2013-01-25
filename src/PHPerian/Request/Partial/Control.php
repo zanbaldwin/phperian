@@ -352,12 +352,12 @@
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct['Parameters']['AuthPlusRequired'])
-                    ? $this->struct['Parameters']['AuthPlusRequired'] == 'Y'
+                    ? $this->struct['Parameters']['AuthPlusRequired'] == 'E'
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($authenticate_plus)) {
-                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'Y' : 'N';
+                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'E' : '';
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
