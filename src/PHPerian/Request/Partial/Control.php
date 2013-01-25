@@ -539,6 +539,32 @@
             return $this;
         }
 
-        public function showHHO($show_hho = null) {}
+        /**
+         * Get and Set: Show HHO (Parameter)
+         *
+         * @access public
+         * @param string $show_HHO
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function showHHO($show_hho = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['ShowHHO'])
+                    ? $this->struct['Parameters']['ShowHHO'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($show_hho)) {
+                $this->struct['Parameters']['ShowHHO'] = $show_hho ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
 
     }
