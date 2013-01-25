@@ -23,7 +23,7 @@
         const PCRE_NUMERIC              = '[0-9]';
         const PCRE_ALPHA                = '[a-zA-Z]';
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
-        const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@]';
+        const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@ ]';
         const PCRE_BOOLEAN              = '[YN]';
         const INVALID_DATA_FORMAT       = 1;
 
