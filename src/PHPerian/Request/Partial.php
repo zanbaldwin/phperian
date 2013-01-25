@@ -25,14 +25,17 @@
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
         const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@]';
         const PCRE_BOOLEAN              = '[YN]';
-        const BOOLEAN_TRUE              = 'Y';
-        const BOOLEAN_FALSE             = 'N';
         const INVALID_DATA_FORMAT       = 1;
 
         /**
          * @var array $id_map
          */
         private static $id_map = array();
+
+        /**
+         * @var array $incrementers
+         */
+        private static $incrementers = array();
 
         /**
          * @var boolean $verbose
@@ -323,9 +326,8 @@
                         break;
 
                     // I can't remember what this does. This is why you should ALWAYS put comments in your code.
-                    case is_string($element) && $contents === -1 && is_object($current_object):
-                    // Determine object Identifier XML element.
-                    var_dump($element, $current_object->id());
+                    case is_string($element) && $contents === -1 && is_object($current):
+                        $xml .= '<' . $element . '>' . $current->autoIncrement() . '</' . $element . '>';
                         break;
 
                     // We could not match this partcular configuration of data types.
@@ -359,6 +361,24 @@
             }
             // Start iterating over the structure array, and return the output.
             return $this->iterateStruct($this->struct, $this);
+        }
+
+        /**
+         * Auto-Increment
+         *
+         * @access public
+         * @return integer
+         */
+        public function autoIncrement()
+        {
+            $class = get_called_class();
+            if(!isset(self::$incrementers[$class]) || !is_array(self::$incrementers[$class])) {
+                self::$incrementers[$class] = array();
+            }
+            if(!isset(self::$incrementers[$class][$this->id()])) {
+                self::$incrementers[$class][$this->id()] = count(self::$incrementers[$class]) + 1;
+            }
+            return self::$incrementers[$class][$this->id()];
         }
 
         /**
