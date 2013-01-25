@@ -483,7 +483,34 @@
             return $this;
         }
 
-        public function showAddress($show_address = null) {}
+        /**
+         * Get and Set: Show Address (Parameter)
+         *
+         * @access public
+         * @param string $show_address
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function showAddress($show_address = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['ShowAddress'])
+                    ? $this->struct['Parameters']['ShowAddress'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($show_address)) {
+                $this->struct['Parameters']['ShowAddress'] = $show_address ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function showCaseHistory($show_case_history = null) {}
         public function showHHO($show_hho = null) {}
 
