@@ -58,6 +58,14 @@
             return $this;
         }
 
+        /**
+         * Get and Set: Client Account Number
+         *
+         * @access public
+         * @param string $client_account_number
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
         public function clientAccountNumber($client_account_number = null)
         {
             // If no arguments are passed to the method, return what has already been set.
@@ -81,6 +89,14 @@
             return $this;
         }
 
+        /**
+         * Get and Set: Client Branch Number
+         *
+         * @access public
+         * @param string $client_branch_number
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
         public function clientBranchNumber($client_branch_number = null)
         {
             // If no arguments are passed to the method, return what has already been set.
@@ -104,7 +120,15 @@
             return $this;
         }
 
-        public function userIdentity($identity = null)
+        /**
+         * Get and Set: User Identity
+         *
+         * @access public
+         * @param string $user_identity
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function userIdentity($user_identity = null)
         {
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -114,10 +138,10 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
-                is_string($identity)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_USER_IDENTITY . '}$/', $identity)
+                is_string($user_identity)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_USER_IDENTITY . '}$/', $user_identity)
             ) {
-                $this->struct['UserIdentity'] = $identity;
+                $this->struct['UserIdentity'] = $user_identity;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
