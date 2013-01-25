@@ -27,6 +27,7 @@
         const MAX_CHARS_TEST_DATABASE = 6;
         const MAX_CHARS_CLIENT_REFERENCE = 30;
         const MAX_CHARS_JOB_NUMBER = 36;
+        const MAX_CHARS_INTERACTIVE_MODE = 11;
 
         const TEST_DATABASE_STATIC = 'S';
         const TEST_DATABASE_AGED = 'A';
@@ -279,8 +280,37 @@
             return $this;
         }
 
-        // Parameter methods.
-        public function interactiveMode($interactive = null) {}
+        /**
+         * Get and Set: Interactive Mode (Parameter)
+         *
+         * @access public
+         * @param string $interactive
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function interactiveMode($interactive = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['InteractiveMode'])
+                    ? $this->struct['Parameters']['InteractiveMode']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($interactive)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_INTERACTIVE_MODE . '}$/', $interactive)
+            ) {
+                $this->struct['InteractiveMode'] = $interactive;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function fullFBL($full_fbl = null) {}
         public function authenticatePlus($authenticate_plus = null) {}
         public function detect($detect = null) {}
