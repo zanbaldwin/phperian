@@ -22,8 +22,37 @@
 
         // No constructor method is required as all sub-elements are optional.
 
-        // Root methods.
-        public function experianReference($experian_reference = null) {}
+        /**
+         * Get and Set: Experian Reference
+         *
+         * @access public
+         * @param string $experian_reference
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function experianReference($experian_reference = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ExperianReference'])
+                    ? $this->struct['ExperianReference']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($experian_reference)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_EXPERIAN_REFERENCE . '}$/', $experian_reference)
+            ) {
+                $this->struct['ExperianReference'] = $experian_reference;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function clientAccountNumber($client_account_number = null) {}
         public function clientBranchNumber($client_branch_number = null) {}
         public function userIdentity($identity = null) {}
