@@ -26,6 +26,7 @@
         const MAX_CHARS_USER_IDENTITY = 40;
         const MAX_CHARS_TEST_DATABASE = 6;
         const MAX_CHARS_CLIENT_REFERENCE = 30;
+        const MAX_CHARS_JOB_NUMBER = 36;
 
         const TEST_DATABASE_STATIC = 'S';
         const TEST_DATABASE_AGED = 'A';
@@ -247,7 +248,36 @@
             return $this;
         }
 
-        public function jobNumber($job_number = null) {}
+        /**
+         * Get and Set: Job Number
+         *
+         * @access public
+         * @param string $job_number
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function jobNumber($job_number = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['JobNumber'])
+                    ? $this->struct['JobNumber']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($job_number)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_JOB_NUMBER . '}$/', $job_number)
+            ) {
+                $this->struct['JobNumber'] = $job_number;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
 
         // Parameter methods.
         public function interactiveMode($interactive = null) {}
