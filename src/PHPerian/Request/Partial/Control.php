@@ -311,7 +311,34 @@
             return $this;
         }
 
-        public function fullFBL($full_fbl = null) {}
+        /**
+         * Get and Set: Full FBL Required (Parameter)
+         *
+         * @access public
+         * @param string $full_fbl
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function fullFBL($full_fbl = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['FullFBLRequired'])
+                    ? $this->struct['Parameters']['FullFBLRequired'] == 'Y'
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($full_fbl)) {
+                $this->struct['Parameters']['FullFBLRequired'] = $full_fbl ? 'Y' : 'N';
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function authenticatePlus($authenticate_plus = null) {}
         public function detect($detect = null) {}
         public function testMode($test_mode) {}
