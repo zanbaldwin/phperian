@@ -193,9 +193,9 @@
          * Get and Set: Reprocess Flag
          *
          * @access public
-         * @param string $reprocess_flag
+         * @param boolean $reprocess_flag
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
         public function reprocessFlag($reprocess_flag = null)
         {
