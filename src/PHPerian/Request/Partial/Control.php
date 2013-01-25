@@ -32,6 +32,10 @@
         const TEST_DATABASE_STATIC = 'S';
         const TEST_DATABASE_AGED = 'A';
         const TEST_DATABASE_NONE = 'N';
+        const INTERACTIVE_MODE_INTERACTIVE = 'Interactive';
+        const INTERACTIVE_MODE_CONFIRM = 'Confirm';
+        const INTERACTIVE_MODE_ENHANCE = 'Enhance';
+        const INTERACTIVE_MODE_ONESHOT = 'OneShot';
 
         // No constructor method is required as all sub-elements are optional.
 
