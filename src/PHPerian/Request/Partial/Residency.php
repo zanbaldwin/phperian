@@ -19,4 +19,54 @@
      */
     class Residency extends Partial
     {
+
+        const MAX_CHARS_LOCATION_CODE = 2;
+
+        const LOCATION_CURRENT = '01';
+        const LOCATION_CORRESPONDENCE = 'C_';
+        const LOCATION_EMPLOYMENT = 'E_';
+        const LOCATION_DELIVERY = 'D_';
+        const LOCATION_OTHER = 'O_';
+
+        /**
+         * Constructor Method
+         *
+         * @access public
+         * @param \PHPerian\Request\Partial\Applicant $applicant
+         * @param \PHPerian\Request\Partial\Location $location
+         * @param integer|string|true $location_code
+         * @throws \PHPerian\Exception
+         * @return void
+         */
+        public function __construct(
+            \PHPerian\Request\Partial\Applicant $applicant,
+            \PHPerian\Request\Partial\Location $location,
+            $location_code
+        ) {
+            // As well as the class constants above, there are two shortcuts: boolean true means current residency, and
+            // an integer means nth previous residency.
+            switch(true) {
+                case $location_code === true:
+                    $location_code = self::LOCATION_CURRENT;
+                    break;
+                case is_int($location_code):
+                    if($location_code < 1 || $location_code > 8) {
+                        throw new Exception();
+                    }
+                    $location_code++;
+                    $location_code = '0' . (string) $location_code;
+                    break;
+            }
+            if(!is_string($location_code) || !preg_match('/^[a-zA-Z0-9_]{1,' . self::MAX_CHARS_LOCATION_CODE . '}$/', $location_code)) {
+                throw new Exception();
+            }
+            $this->struct = array(
+                'ApplicantIdentifier' => $applicant->autoIncrement(),
+                'LocationIdentifier' => $location->autoIncrement(),
+                'LocationCode' => $location_code,
+
+            );
+            parent::__construct();
+        }
+
     }
