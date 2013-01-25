@@ -1,6 +1,6 @@
 <?php
 
-    namespace PHPerian\Request\Partial;
+    namespace PHPerian\Request\Partial\Applicant;
 
     use \PHPerian\Request\Partial as Partial;
     use \PHPerian\Exception as Exception;
@@ -8,33 +8,30 @@
     /**
      * PHPerian: PHP library for Experian's Web Services
      *
-     * A class for assisting with the generation of the Applicant XML block for request SOAP requests to Experian's Web
+     * A class for assisting with the generation of the Alias XML block for request SOAP requests to Experian's Web
      * Services.
      *
      * @package     PHPerian
      * @category    Library
      * @author      Zander Baldwin <mynameiszanders@gmail.com>
      * @license     MIT/X11 <http://j.mp/mit-license>
-     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/Applicant.php
+     * @link        https://github.com/mynameiszanders/phperian/blob/develop/src/PHPerian/Request/Partial/Applicant/Alias.php
      */
-    class Applicant extends Partial
+    class Alias extends Partial
     {
 
         // Data length validation.
-        const MAX_NUM_ALIAS         = 3;
         const MAX_CHARS_TITLE       = 10;
         const MAX_CHARS_FORENAME    = 15;
         const MAX_CHARS_MIDDLENAME  = 15;
         const MAX_CHARS_SURNAME     = 30;
         const MAX_CHARS_SUFFIX      = 10;
 
-        /**
-         * @var array $struct
-         * Define a class member to hold the Applicant XML structure.
-         */
-        protected $struct = array(
-            'ApplicantIdentifier' => -1,
-        );
+        // Field values.
+        const SOURCE_PROPOSAL       = 'P';
+        const SOURCE_EXISTING       = 'E';
+        const SOURCE_TELEPHONE      = 'T';
+        const SOURCE_OTHER          = 'O';
 
         /**
          * Constructor Method
@@ -46,24 +43,21 @@
          */
         public function __construct($forename, $surname)
         {
-            // Make sure that both forename and surname are non-empty strings, and match the correct validation
-            // criteria.
+            // Make sure that both forename and surname are non-empty strings.
             $f_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_FORENAME . '}$/';
             $s_regex = '/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SURNAME . '}$/';
             if(
-                !preg_match($f_regex, $forename)
-             || !preg_match($s_regex, $surname)
-             || !is_string($forename)
+                !is_string($forename)
              || !is_string($surname)
+             || !preg_match($f_regex, $forename)
+             || !preg_match($s_regex, $surname)
             ) {
-                // If the forename and surname do no validate, then throw an exception regardless of whether verbose or
-                // silent mode is on; the class cannot be used.
                 throw new Exception();
             }
-            $this->struct['Name'] = array(
-                'Forename' => $forename,
-                'Surname' => $surname,
-            );
+            // Set the required attributes.
+            $this->struct['Forename'] = $forename;
+            $this->struct['Surname'] = $surname;
+            // Call the parent constructor to assign a unique ID and save the object to map.
             parent::__construct();
         }
 
@@ -72,14 +66,15 @@
          *
          * @access public
          * @param string $title
-         * @return string | Applicant $this
+         * @throws \PHPerian\Exception
+         * @return string | Alias $this
          */
         public function title($title = null)
         {
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Name']['Title'])
-                    ? $this->struct['Name']['Title']
+                return isset($this->struct['Title'])
+                    ? $this->struct['Title']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -87,7 +82,7 @@
                 is_string($title)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TITLE . '}$/', $title)
             ) {
-                $this->struct['Name']['Title'] = $title;
+                $this->struct['Title'] = $title;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -100,23 +95,24 @@
          * Get and Set: Middle Name
          *
          * @access public
-         * @param string $middlename
-         * @return string | Applicant $this
+         * @param string $middle_name
+         * @throws \PHPerian\Exception
+         * @return string | Alias $this
          */
-        public function middleName($middlename = null)
+        public function middleName($middle_name = null)
         {
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Name']['MiddleName'])
-                    ? $this->struct['Name']['MiddleName']
+                return isset($this->struct['MiddleName'])
+                    ? $this->struct['MiddleName']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
-                is_string($middlename)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_MIDDLENAME . '}$/', $middlename)
+                is_string($middle_name)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_MIDDLENAME . '}$/', $middle_name)
             ) {
-                $this->struct['Name']['MiddleName'] = $middlename;
+                $this->struct['MiddleName'] = $middle_name;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -130,14 +126,15 @@
          *
          * @access public
          * @param string $suffix
-         * @return string | Applicant $this
+         * @throws \PHPerian\Exception
+         * @return string | Alias $this
          */
         public function suffix($suffix = null)
         {
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                return isset($this->struct['Name']['Suffix'])
-                    ? $this->struct['Name']['Suffix']
+                return isset($this->struct['Suffix'])
+                    ? $this->struct['Suffix']
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
@@ -145,7 +142,7 @@
                 is_string($suffix)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SUFFIX . '}$/', $suffix)
             ) {
-                $this->struct['Name']['Suffix'] = $suffix;
+                $this->struct['Suffix'] = $suffix;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -159,7 +156,8 @@
          *
          * @access public
          * @param string $gender
-         * @return string | Applicant $this
+         * @throws \PHPerian\Exception
+         * @return string | Alias $this
          */
         public function gender($gender = null)
         {
@@ -172,9 +170,9 @@
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
                 is_string($gender)
-             && preg_match('/^[MF]$/', $gender)
+             && preg_match('/^[MmFf]$/', $gender)
             ) {
-                $this->struct['Gender'] = $gender;
+                $this->struct['Gender'] = strtoupper($gender);
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -187,7 +185,7 @@
          * Set Gender to Male
          *
          * @access public
-         * @return Applicant $this
+         * @return Alias $this
          */
         public function setGenderMale()
         {
@@ -198,7 +196,7 @@
          * Set Gender to Female
          *
          * @access public
-         * @return $this
+         * @return Alias $this
          */
         public function setGenderFemale()
         {
@@ -206,81 +204,33 @@
         }
 
         /**
-         * Get and Set: Date of Birth
+         * Get or Set Source
          *
          * @access public
-         * @param integer $year
-         * @param integer $month
-         * @param integer $day
-         * @return $this
+         * @param string $source
+         * @throws \PHPerian\Exception
+         * @return Alias $this
          */
-        public function dateOfBirth($year = null, $month = null, $day = null)
+        public function source($source = null)
         {
+            // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                // Just check that the year is set as the month and day get set at the same time, and won't be set
-                // without it.
-                return isset($this->struct['DateOfBirth']['CCYY'])
-                    ? $this->struct['DateOfBirth']['CCYY'] . '/'
-                    . $this->struct['DateOfBirth']['MM'] . '/'
-                    . $this->struct['DateOfBirth']['DD']
-                    : null;
+                return isset($this->struct['Source'])
+                    ? $this->struct['Source']
+                    : false;
             }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
-                is_int($year) && $year >= 1875 && $year <= (int) date('Y')
-             && is_int($month) && $month >= 1 && $month <= 12
-             && is_int($day) && $day >= 1 && $day <= 31
+                is_string($source)
+             && preg_match('/^[PpEeTtOo]$/', $source)
             ) {
-                $this->struct['DateOfBirth'] = array(
-                    'CCYY' => (string) $year,
-                    'MM' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
-                    'DD' => str_pad((string) $day, 2, '0', STR_PAD_LEFT),
-                );
+                $this->struct['Source'] = strtoupper($source);
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
                 throw new Exception();
             }
             return $this;
-        }
-
-        /**
-         * Create: Alias
-         *
-         * @access public
-         * @throws \PHPerian\Exception
-         * @return Alias
-         */
-        public function createAlias() {
-
-            // If an entry for Aliases in the structure array has not been created, do so now.
-            if(!isset($this->struct['Alias']) || !is_array($this->struct['Alias'])) {
-                $this->struct['Alias'] = array();
-            }
-            // Make sure that no more than the maximum number of Aliases is created on this Applicant object.
-            if(count($this->struct['Alias']) < self::MAX_NUM_ALIAS) {
-                // Create a new Alias object. There's no need for error checking as an exception will be thrown if the
-                // class does not exist.
-                $alias = parent::__call(__METHOD__, func_get_args());
-                // Save a reference to the newly created Alias inside the Applicant class that created it.
-                $this->struct['Alias'][] = $alias->id();
-            }
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $alias;
-        }
-
-        /**
-         * Get: Aliases
-         *
-         * @access public
-         * @return array
-         */
-        public function getAliases()
-        {
-            return isset($this->struct['Alias']) && is_array($this->struct('Alias'))
-                ? $this->struct['Alias']
-                : array();
         }
 
     }
