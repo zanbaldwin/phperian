@@ -79,6 +79,9 @@
          */
         public function flat($flat = null) {}
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['Flat'])
@@ -110,6 +113,9 @@
          */
         public function houseName($house_name = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['HouseName'])
@@ -141,6 +147,9 @@
          */
         public function houseNumber($house_number = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['HouseNumber'])
@@ -172,6 +181,9 @@
          */
         public function street($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
@@ -216,6 +228,9 @@
          */
         public function streetLine1($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['Street'])
@@ -247,6 +262,9 @@
          */
         public function streetLine2($street = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['Street2'])
@@ -278,6 +296,9 @@
          */
         public function district($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
@@ -322,6 +343,9 @@
          */
         public function districtLine1($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['District'])
@@ -353,6 +377,9 @@
          */
         public function districtLine2($district = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['District2'])
@@ -384,6 +411,9 @@
          */
         public function town($town = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['PostTown'])
@@ -415,6 +445,9 @@
          */
         public function county($county = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['County'])
@@ -453,7 +486,7 @@
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            $max_chars = $this->uk
+            $max_chars = $this->type == self::LOCATION_UK
                 ? self::MAX_CHARS_POSTCODE_UK
                 : self::MAX_CHARS_POSTCODE_NONUK;
             if(
@@ -480,6 +513,9 @@
          */
         public function poBox($pobox = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['POBox'])
@@ -511,6 +547,9 @@
          */
         public function country($country = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['Country'])
@@ -542,6 +581,9 @@
          */
         public function sharedLetterbox($shared_letterbox = null)
         {
+            if($this->type != self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['SharedLetterbox'])
@@ -570,6 +612,9 @@
          */
         public function location($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 $return = array();
@@ -639,6 +684,9 @@
          */
         public function locationLine1($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine1'])
@@ -670,6 +718,9 @@
          */
         public function locationLine2($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine2'])
@@ -701,6 +752,9 @@
          */
         public function locationLine3($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine3'])
@@ -732,6 +786,9 @@
          */
         public function locationLine4($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine4'])
@@ -763,6 +820,9 @@
          */
         public function locationLine5($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine5'])
@@ -794,6 +854,9 @@
          */
         public function locationLine6($location = null)
         {
+            if($this->type == self::LOCATION_UK) {
+                throw new Exception();
+            }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
                 return isset($this->struct[$this->type]['LocationLine6'])
