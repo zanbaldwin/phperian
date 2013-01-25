@@ -38,9 +38,6 @@ Example Usage
 ```php
 <?php
 
-    // Include Composer's autoload script.
-    require_once 'vendor/autoload.php';
-
     // If you're not using Composer, include the base PHPerian file to autoload the classes for you.
     require_once 'src/PHPerian.php';
 
@@ -52,27 +49,22 @@ Example Usage
                             ->dateOfBirth(1970, 1, 1);
     // Create a new location.
     $location = $request    ->createLocation()
-                            ->name('Buckingham Palace')
+                            ->houseName('Buckingham Palace')
                             ->postcode('SW1A 1AA');
     // Tie the applicant with the location.
-    $residency = $request   ->createResidency($applicant, $location, $request::LOCATION_CURRENT)
+    $request                ->createResidency($applicant, $location, \PHPerian::LOCATION_CURRENT)
                             ->dateFrom(1970, 1, 1)
                             ->dateTo(2012, 12, 21);
+    $request                ->createThirdPartyData()
+                            ->optOut(false);
     // Generate the XML request.
     $xml = $request->xml();
+```
 
-    $binary_token = new \PHPerian\SOAP\Token;
+As of Friday, 25th January, 2013, the above code generates the following XML:
 
-    // Create a SOAP request pre-configured for 
-    $soap = new \PHPerian\SOAP\Service($xml, $binary_token);
-    // Set security details.
-    $soap->setCertificate($file_to_certificate);
-    $soap->setCertificatePassword($certificate_password);
-    $soap->setPrivateKey($file_to_private_key);
-    // Send the SOAP request.
-    $response_xml = $soap->send();
-
-    $data = new \PHPerian\Response($xml);
+```
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><soap:Header><wsse:Security><wsse:BinarySecurityTokenValueType="ExperianWASP"EncodingType="wsse:Base64Binary"wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken></wsse:Security></soap:Header><soap:Body><ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive/v100"><ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any"><ns0:Input xmlns:ns0="http://schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData"><Applicant><ApplicantIdentifier>1</ApplicantIdentifier><Name><Forename>Zander</Forename><Surname>Baldwin</Surname></Name><Gender>M</Gender><DateOfBirth><CCYY>1970</CCYY><MM>01</MM><DD>01</DD></DateOfBirth></Applicant><Location><LocationIdentifier>1</LocationIdentifier><UKLocation><HouseName>Buckingham Palace</HouseName></UKLocation></Location><Residency><ApplicantIdentifier>1</ApplicantIdentifier><LocationIdentifier>1</LocationIdentifier><LocationCode>01</LocationCode><ResidencyDateFrom><CCYY>1970</CCYY><MM>01</MM><DD>01</DD></ResidencyDateFrom><ResidencyDateTo><CCYY>2012</CCYY><MM>12</MM><DD>21</DD></ResidencyDateTo></Residency><ThirdPartyData><OptOut>N</OptOut></ThirdPartyData></ns0:Input></ns1:Root></ns2:Interactive></soap:Body></soap:Envelope>
 ```
 
 Authors
