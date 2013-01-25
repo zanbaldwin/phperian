@@ -22,6 +22,8 @@
 
         const MAX_CHARS_EXPERIAN_REFERENCE = 10;
         const MAX_CHARS_CLIENT_ACCOUNT_NUMBER = 5;
+        const MAX_CHARS_CLIENT_BRANCH_NUMBER = 4;
+        const MAX_CHARS_USER_IDENTITY = 40;
 
         // No constructor method is required as all sub-elements are optional.
 
@@ -102,7 +104,29 @@
             return $this;
         }
 
-        public function userIdentity($identity = null) {}
+        public function userIdentity($identity = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['UserIdentity'])
+                    ? $this->struct['UserIdentity']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($identity)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_USER_IDENTITY . '}$/', $identity)
+            ) {
+                $this->struct['UserIdentity'] = $identity;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function testDatabase($test_database = null) {}
         public function reprocessFlag($reprocess_flag = null) {}
         public function clientReference($client_reference = null) {}
