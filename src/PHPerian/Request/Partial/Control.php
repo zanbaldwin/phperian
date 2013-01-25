@@ -339,7 +339,34 @@
             return $this;
         }
 
-        public function authenticatePlus($authenticate_plus = null) {}
+        /**
+         * Get and Set: Authenticate Plus Required (Parameter)
+         *
+         * @access public
+         * @param string $authenticate_plus
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function authenticatePlus($authenticate_plus = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['AuthPlusRequired'])
+                    ? $this->struct['Parameters']['AuthPlusRequired'] == 'Y'
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($authenticate_plus)) {
+                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'Y' : 'N';
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function detect($detect = null) {}
         public function testMode($test_mode) {}
         public function showDetect($show_detect = null) {}
