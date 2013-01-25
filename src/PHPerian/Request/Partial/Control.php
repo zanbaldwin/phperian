@@ -19,4 +19,29 @@
      */
     class Control extends Partial
     {
+
+        // No constructor method is required as all sub-elements are optional.
+
+        // Root methods.
+        public function experianReference($experian_reference = null) {}
+        public function clientAccountNumber($client_account_number = null) {}
+        public function clientBranchNumber($client_branch_number = null) {}
+        public function userIdentity($identity = null) {}
+        public function testDatabase($test_database = null) {}
+        public function reprocessFlag($reprocess_flag = null) {}
+        public function clientReference($client_reference = null) {}
+        public function jobNumber($job_number = null) {}
+
+        // Parameter methods.
+        public function interactiveMode($interactive = null) {}
+        public function fullFBL($full_fbl = null) {}
+        public function authenticatePlus($authenticate_plus = null) {}
+        public function detect($detect = null) {}
+        public function testMode($test_mode) {}
+        public function showDetect($show_detect = null) {}
+        public function showAuthenticate($show_authenticate = null) {}
+        public function showAddress($show_address = null) {}
+        public function showCaseHistory($show_case_history = null) {}
+        public function showHHO($show_hho = null) {}
+
     }
