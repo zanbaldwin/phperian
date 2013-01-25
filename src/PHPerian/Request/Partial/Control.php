@@ -371,7 +371,34 @@
             return $this;
         }
 
-        public function detect($detect = null) {}
+        /**
+         * Get and Set: Detect Required (Parameter)
+         *
+         * @access public
+         * @param string $detect
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function detect($detect = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['DetectRequired'])
+                    ? $this->struct['Parameters']['DetectRequired'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($detect)) {
+                $this->struct['Parameters']['DetectRequired'] = $detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function testMode($test_mode) {}
         public function showDetect($show_detect = null) {}
         public function showAuthenticate($show_authenticate = null) {}
