@@ -80,7 +80,12 @@
         public function flat($flat = null) {}
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -114,7 +119,12 @@
         public function houseName($house_name = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -148,7 +158,12 @@
         public function houseNumber($house_number = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -182,7 +197,12 @@
         public function street($street = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -229,7 +249,12 @@
         public function streetLine1($street = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -263,7 +288,12 @@
         public function streetLine2($street = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -297,7 +327,12 @@
         public function district($district = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -344,7 +379,12 @@
         public function districtLine1($district = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -378,7 +418,12 @@
         public function districtLine2($district = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -412,7 +457,12 @@
         public function town($town = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -446,7 +496,12 @@
         public function county($county = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -514,7 +569,12 @@
         public function poBox($pobox = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -548,7 +608,12 @@
         public function country($country = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -582,7 +647,12 @@
         public function sharedLetterbox($shared_letterbox = null)
         {
             if($this->type != self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -613,7 +683,12 @@
         public function location($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -685,7 +760,12 @@
         public function locationLine1($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -719,7 +799,12 @@
         public function locationLine2($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -753,7 +838,12 @@
         public function locationLine3($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -787,7 +877,12 @@
         public function locationLine4($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -821,7 +916,12 @@
         public function locationLine5($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
@@ -855,7 +955,12 @@
         public function locationLine6($location = null)
         {
             if($this->type == self::LOCATION_UK) {
-                throw new Exception();
+                if(parent::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
