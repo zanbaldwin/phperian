@@ -305,6 +305,9 @@
                 is_string($interactive)
              && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_INTERACTIVE_MODE . '}$/', $interactive)
             ) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['InteractiveMode'] = $interactive;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -333,6 +336,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($full_fbl)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['FullFBLRequired'] = $full_fbl ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -361,6 +367,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($authenticate_plus)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'E' : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -389,6 +398,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($detect)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['DetectRequired'] = $detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -417,6 +429,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($test_mode)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['TestMode'] = $test_mode ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -445,6 +460,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($show_detect)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['ShowDetect'] = $show_detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -473,6 +491,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($show_authenticate)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['ShowAuthenticate'] = $show_authenticate ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -501,6 +522,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($show_address)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['ShowAddress'] = $show_address ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -529,6 +553,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($show_case_history)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['ShowCaseHistory'] = $show_case_history ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
@@ -557,6 +584,9 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(is_bool($show_hho)) {
+                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
+                    $this->struct['Parameters'] = array();
+                }
                 $this->struct['Parameters']['ShowHHO'] = $show_hho ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
