@@ -427,7 +427,34 @@
             return $this;
         }
 
-        public function showDetect($show_detect = null) {}
+        /**
+         * Get and Set: Show Detect (Parameter)
+         *
+         * @access public
+         * @param string $show_detect
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function showDetect($show_detect = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Parameters']['ShowDetect'])
+                    ? $this->struct['Parameters']['ShowDetect'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($show_detect)) {
+                $this->struct['Parameters']['ShowDetect'] = $show_detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function showAuthenticate($show_authenticate = null) {}
         public function showAddress($show_address = null) {}
         public function showCaseHistory($show_case_history = null) {}
