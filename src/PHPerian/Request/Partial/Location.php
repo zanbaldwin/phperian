@@ -28,4 +28,10 @@
             'LocationIdentifier' => -1,
         );
 
+        /**
+         * @var boolean $uk
+         * An internal flag to determine whether this location is a UK address, or BFPO/Overseas address.
+         */
+        protected $uk = null;
+
     }
