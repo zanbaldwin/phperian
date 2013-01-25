@@ -79,7 +79,29 @@
             return $this;
         }
 
-        public function clientBranchNumber($client_branch_number = null) {}
+        public function clientBranchNumber($client_branch_number = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ClientBranchNumber'])
+                    ? $this->struct['ClientBranchNumber']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($client_branch_number)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_CLIENT_BRANCH_NUMBER . '}$/', $client_branch_number)
+            ) {
+                $this->struct['ClientBranchNumber'] = $client_branch_number;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function userIdentity($identity = null) {}
         public function testDatabase($test_database = null) {}
         public function reprocessFlag($reprocess_flag = null) {}
