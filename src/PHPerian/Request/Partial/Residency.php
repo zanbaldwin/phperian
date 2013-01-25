@@ -22,12 +22,6 @@
 
         const MAX_CHARS_LOCATION_CODE = 2;
 
-        const LOCATION_CURRENT = '01';
-        const LOCATION_CORRESPONDENCE = 'C_';
-        const LOCATION_EMPLOYMENT = 'E_';
-        const LOCATION_DELIVERY = 'D_';
-        const LOCATION_OTHER = 'O_';
-
         /**
          * Constructor Method
          *

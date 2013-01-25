@@ -19,6 +19,24 @@
     class PHPerian
     {
 
+        const TEST_DATABASE_STATIC          = 'S';
+        const TEST_DATABASE_AGED            = 'A';
+        const TEST_DATABASE_NONE            = 'N';
+        const INTERACTIVE_MODE_INTERACTIVE  = 'Interactive';
+        const INTERACTIVE_MODE_CONFIRM      = 'Confirm';
+        const INTERACTIVE_MODE_ENHANCE      = 'Enhance';
+        const INTERACTIVE_MODE_ONESHOT      = 'OneShot';
+        const COUNTRY_UK                    = 'UK';
+        const COUNTRY_IE                    = 'IE';
+        const LOCATION_UK                   = 'UKLocation';
+        const LOCATION_BFPO                 = 'BFPOLocation';
+        const LOCATION_OVERSEAS             = 'OverseasLocation';
+        const LOCATION_CURRENT              = '01';
+        const LOCATION_CORRESPONDENCE       = 'C_';
+        const LOCATION_EMPLOYMENT           = 'E_';
+        const LOCATION_DELIVERY             = 'D_';
+        const LOCATION_OTHER                = 'O_';
+
         /**
          * Load A Library Class
          *

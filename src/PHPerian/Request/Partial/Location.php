@@ -32,12 +32,6 @@
         const MAX_CHARS_POBOX = 6;
         const MAX_CHARS_LOCATION = 40;
 
-        const COUNTRY_UK = 'UK';
-        const COUNTRY_IE = 'IE';
-        const LOCATION_UK = 'UKLocation';
-        const LOCATION_BFPO = 'BFPOLocation';
-        const LOCATION_OVERSEAS = 'OverseasLocation';
-
         /**
          * @var array $struct
          * Define a class member to hold the Applicant XML structure.
@@ -61,7 +55,10 @@
          */
         public function __construct($type)
         {
-            if(!is_string($type) || !preg_match('/^(UKLocation|BFPOLocation|OverseasLocation)$/', $type)) {
+            if(
+                !is_string($type)
+             || !preg_match('/^('.implode('|', array(\PHPerian::LOCATION_UK, \PHPerian::LOCATION_BFPO, \PHPerian::LOCATION_OVERSEAS)).')$/', $type)
+            ) {
                 throw new Exception();
             }
             $this->type = $type;
@@ -79,7 +76,7 @@
          */
         public function flat($flat = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -118,7 +115,7 @@
          */
         public function houseName($house_name = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -157,7 +154,7 @@
          */
         public function houseNumber($house_number = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -196,7 +193,7 @@
          */
         public function street($street = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -248,7 +245,7 @@
          */
         public function streetLine1($street = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -287,7 +284,7 @@
          */
         public function streetLine2($street = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -326,7 +323,7 @@
          */
         public function district($district = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -378,7 +375,7 @@
          */
         public function districtLine1($district = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -417,7 +414,7 @@
          */
         public function districtLine2($district = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -456,7 +453,7 @@
          */
         public function town($town = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -495,7 +492,7 @@
          */
         public function county($county = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -541,7 +538,7 @@
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            $max_chars = $this->type == self::LOCATION_UK
+            $max_chars = $this->type == \PHPerian::LOCATION_UK
                 ? self::MAX_CHARS_POSTCODE_UK
                 : self::MAX_CHARS_POSTCODE_NONUK;
             if(
@@ -568,7 +565,7 @@
          */
         public function poBox($pobox = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -607,7 +604,7 @@
          */
         public function country($country = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -623,10 +620,10 @@
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
             if(
-                is_string($pobox)
-             && preg_match('/^(UK|IE)$/i', $pobox)
+                is_string($country)
+             && preg_match('/^(UK|IE)$/i', $country)
             ) {
-                $this->struct[$this->type]['Country'] = strtoupper($pobox);
+                $this->struct[$this->type]['Country'] = strtoupper($country);
             }
             // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
             elseif(parent::$verbose) {
@@ -646,7 +643,7 @@
          */
         public function sharedLetterbox($shared_letterbox = null)
         {
-            if($this->type != self::LOCATION_UK) {
+            if($this->type != \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -682,7 +679,7 @@
          */
         public function location($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -759,7 +756,7 @@
          */
         public function locationLine1($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -798,7 +795,7 @@
          */
         public function locationLine2($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -837,7 +834,7 @@
          */
         public function locationLine3($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -876,7 +873,7 @@
          */
         public function locationLine4($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -915,7 +912,7 @@
          */
         public function locationLine5($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
@@ -954,7 +951,7 @@
          */
         public function locationLine6($location = null)
         {
-            if($this->type == self::LOCATION_UK) {
+            if($this->type == \PHPerian::LOCATION_UK) {
                 if(parent::$verbose) {
                     throw new Exception();
                 }
