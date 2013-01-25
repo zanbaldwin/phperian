@@ -19,4 +19,13 @@
      */
     class Location extends Partial
     {
+
+        /**
+         * @var array $struct
+         * Define a class member to hold the Applicant XML structure.
+         */
+        protected $struct = array(
+            'LocationIdentifier' => -1,
+        );
+
     }
