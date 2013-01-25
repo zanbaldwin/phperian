@@ -25,6 +25,8 @@
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
         const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@]';
         const PCRE_BOOLEAN              = '[YN]';
+        const BOOLEAN_TRUE              = 'Y';
+        const BOOLEAN_FALSE             = 'N';
         const INVALID_DATA_FORMAT       = 1;
 
         /**
