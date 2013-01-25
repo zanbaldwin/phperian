@@ -25,6 +25,7 @@
         const MAX_CHARS_CLIENT_BRANCH_NUMBER = 4;
         const MAX_CHARS_USER_IDENTITY = 40;
         const MAX_CHARS_TEST_DATABASE = 6;
+        const MAX_CHARS_CLIENT_REFERENCE = 30;
 
         const TEST_DATABASE_STATIC = 'S';
         const TEST_DATABASE_AGED = 'A';
@@ -215,7 +216,37 @@
             return $this;
         }
 
-        public function clientReference($client_reference = null) {}
+        /**
+         * Get and Set: Client Reference
+         *
+         * @access public
+         * @param string $client_reference
+         * @throws \PHPerian\Exception
+         * @return string | Control $this
+         */
+        public function clientReference($client_reference = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ClientRef'])
+                    ? $this->struct['ClientRef']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($client_reference)
+             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_CLIENT_REFERENCE . '}$/', $client_reference)
+            ) {
+                $this->struct['ClientRef'] = $client_reference;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
         public function jobNumber($job_number = null) {}
 
         // Parameter methods.
