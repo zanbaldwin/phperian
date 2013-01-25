@@ -305,7 +305,7 @@
                         // If we successfully returned an object, grab the class name (strip out any namespacing) so
                         // we can use it as the element name.
                         $class = explode('\\', get_class($object));
-                        $class = end($object);
+                        $class = end($class);
                         // Ask the object to generate its own XML so we can wrap it in tags by the same name, and
                         // insert it into the XML we are generating in this iteraction.
                         $xml .= '<' . $class . '>' . $object->generateXML() . '</' . $class . '>';
