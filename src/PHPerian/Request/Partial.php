@@ -80,9 +80,9 @@
             // This magic method is to catch any calls to "magic" methods that create and return a new instance of a
             // Request sub-class. So, make sure that the method keyword is "create", and that the rest of the method
             // string identifies the class to initiate.
-            if(preg_match('/^create([A-Z].*)$/', $method, $matches)) {
+            if(preg_match('/create([A-Z].*)$/', $method, $matches)) {
                 // Make sure that the class specified in the method exists as a Request sub-class.
-                $class = '\\' . __CLASS__ . '\\' . $matches[1];
+                $class = '\\' . get_called_class() . '\\' . $matches[1];
                 if(class_exists($class)) {
                     // It does? Great! Create a new instance based on the arguments passed and return it.
                     $reflection = new \ReflectionClass($class);
