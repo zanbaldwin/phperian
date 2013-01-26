@@ -407,4 +407,43 @@
             self::$verbose = false;
         }
 
+        /**
+         * Validate: Boolean
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return boolean | $this
+         */
+        protected function validateBoolean(&$structureElement, $arguments)
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement == self::BOOLEAN_TRUE
+                    : null;
+            }
+            if(count($arguments) > 1) {
+                $trace = debug_backtrace();
+                $caller = array_shift($trace);
+                $method = $caller['function'];
+                if(isset($caller['class'])) {
+                    $method = $caller['class'] . '::' . $method;
+                }
+                throw new Exception('Only one parameter should be passed to ' . $method . '.');
+            }
+            if(is_bool($arguments[0])) {
+                $structureElement = $arguments[0]
+                    ? self::BOOLEAN_TRUE
+                    : self::BOOLEAN_FALSE;
+            }
+            elseif(self::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
     }
