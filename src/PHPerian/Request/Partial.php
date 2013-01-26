@@ -581,7 +581,11 @@
             if(isset($arguments[0]) && is_int($arguments[0])) {
                 $arguments[0] = (string) $arguments[0];
             }
-            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
+            $return = $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
+            if(is_string($return) && is_numeric($return)) {
+                $return = (int) $return;
+            }
+            return $return;
         }
 
         /**
