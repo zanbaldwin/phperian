@@ -92,7 +92,26 @@
         const APPLICATION_TYPE_VERIFICATION_RESIDENCY = 'VG';
         const APPLICATION_TYPE_VERIFICATION_HOMELESS = 'VH';
 
-        public function type($type = null) {}
+        /**
+         * Constructor Method
+         *
+         * @access public
+         * @param string $application_type
+         * @throws \PHPerian\Exception
+         * @return void
+         */
+        public function __construct($application_type)
+        {
+            // Make sure that the application type is a non-empty string, and matches the correct validation criteria.
+            if(!is_string($application_type) || !preg_match('/^[a-zA-Z]{2}$/', $application_data)) {
+                // IF the application type does not validate, then throw an exception regardless of whether verbose or
+                // silent mode is on; the class cannot be used.
+                throw new Exception();
+            }
+            $this->struct['ApplicationType'] = $application_type;
+            parent::__construct();
+        }
+
         public function amount($amount = null) {}
         public function term($term = null) {}
         public function purpose($purpose = null) {}
