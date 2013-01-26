@@ -100,11 +100,6 @@
         const APPLICATION_CHANNEL_TELEPHONE_INBOUND             = 'TI';
         const APPLICATION_CHANNEL_TELEPHONE_OUTBOUND            = 'TO';
 
-        const MAX_CHARS_AMOUNT                                  = 7;
-        const MAX_CHARS_TERM                                    = 3;
-        const MAX_CHARS_LIMIT_APPLIED                           = 5;
-        const MAX_CHARS_LIMIT_GIVEN                             = 5;
-
         /**
          * Constructor Method
          *
@@ -135,160 +130,59 @@
          */
         public function amount($amount = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Amount'])
-                    ? (int) $this->struct['Amount']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            // Because this is a numerical input, we also accept integer data types; convert it to string though.
-            if(is_int($amount)) {
-                $amount = (string) $amount;
-            }
-            if(
-                is_string($amount)
-             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_AMOUNT . '}$/', $amount)
-            ) {
-                $this->struct['Amount'] = $amount;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateNumeric($this->struct['Amount'], func_get_args(), 7);
         }
 
         /**
          * Get and Set: Term
          *
          * @access public
-         * @param integer $term
+         * @param integer
          * @throws \PHPerian\Exception
          * @return integer | Application $this
          */
-        public function term($term = null)
+        public function term()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Term'])
-                    ? (int) $this->struct['Term']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            // Because this is a numerical input, we also accept integer data types; convert it to string though.
-            if(is_int($term)) {
-                $term = (string) $term;
-            }
-            if(
-                is_string($term)
-             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_TERM . '}$/', $term)
-            ) {
-                $this->struct['Term'] = $term;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateNumeric($this->struct['Term'], func_get_args(), 3);
         }
 
         /**
          * Get and Set: Limit Applied
          *
          * @access public
-         * @param integer $limit
+         * @param integer
          * @throws \PHPerian\Exception
          * @return integer | Application $this
          */
-        public function limitApplied($limit = null)
+        public function limitApplied()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['LimitApplied'])
-                    ? (int) $this->struct['LimitApplied']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            // Because this is a numerical input, we also accept integer data types; convert it to string though.
-            if(is_int($term)) {
-                $term = (string) $term;
-            }
-            if(
-                is_string($term)
-             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_LIMIT_APPLIED . '}$/', $term)
-            ) {
-                $this->struct['LimitApplied'] = $term;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateNumeric($this->struct['LimitApplied'], func_get_args(), 5);
         }
 
         /**
          * Get and Set: Limit Given
          *
          * @access public
-         * @param integer $limit
+         * @param integer
          * @throws \PHPerian\Exception
          * @return integer | Application $this
          */
-        public function limitGiven($limit = null)
+        public function limitGiven()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['LimitGiven'])
-                    ? (int) $this->struct['LimitGiven']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            // Because this is a numerical input, we also accept integer data types; convert it to string though.
-            if(is_int($term)) {
-                $term = (string) $term;
-            }
-            if(
-                is_string($term)
-             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_LIMIT_GIVEN . '}$/', $term)
-            ) {
-                $this->struct['LimitGiven'] = $term;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateNumeric($this->struct['LimitGiven'], func_get_args(), 5);
         }
 
         /**
          * Get and Set: Application Channel
          *
          * @access public
-         * @param string $channel
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Application $this
          */
-        public function applicationChannel($channel = null)
+        public function applicationChannel()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ApplicationChannel'])
-                    ? $this->struct['ApplicationChannel']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($channel)
-             && preg_match('/^' . parent::PCRE_ALPHA . '{2}$/', $channel)
-            ) {
-                $this->struct['ApplicationChannel'] = $channel;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlpha($this->struct['ApplicationChannel'], func_get_args(), 2, true);
         }
 
         /**
