@@ -20,17 +20,17 @@
     class LocationDetails extends Partial
     {
 
-        const MAX_CHARS_FLAT = 30;
-        const MAX_CHARS_HOUSE_NAME = 50;
-        const MAX_CHARS_HOUSE_NUMBER = 10;
-        const MAX_CHARS_STREET = 60;
-        const MAX_CHARS_DISTRICT = 35;
-        const MAX_CHARS_TOWN = 30;
-        const MAX_CHARS_COUNTY = 30;
-        const MAX_CHARS_POSTCODE_UK = 8;
-        const MAX_CHARS_POSTCODE_NONUK = 40;
-        const MAX_CHARS_POBOX = 6;
-        const MAX_CHARS_LOCATION = 40;
+        const MAX_CHARS_FLAT            = 30;
+        const MAX_CHARS_HOUSE_NAME      = 50;
+        const MAX_CHARS_HOUSE_NUMBER    = 10;
+        const MAX_CHARS_STREET          = 60;
+        const MAX_CHARS_DISTRICT        = 35;
+        const MAX_CHARS_TOWN            = 30;
+        const MAX_CHARS_COUNTY          = 30;
+        const MAX_CHARS_POSTCODE_UK     = 8;
+        const MAX_CHARS_POSTCODE_NONUK  = 40;
+        const MAX_CHARS_POBOX           = 6;
+        const MAX_CHARS_LOCATION        = 40;
 
         /**
          * @var array $struct
