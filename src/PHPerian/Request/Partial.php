@@ -25,7 +25,6 @@
         const PCRE_ALPHA                = '[a-zA-Z]';
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
         const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@ ]';
-        const PCRE_BOOLEAN              = '[YN]';
         const BOOLEAN_TRUE              = 'Y';
         const BOOLEAN_FALSE             = 'N';
 
@@ -419,19 +418,28 @@
          * @param boolean $include_class
          * @return string
          */
-        protected static function getCalledMethod($include_class = true)
+        protected static function getCalledMethod($iterations = 1)
         {
             // Fetch the backtrace for debugging of execution flow.
             $trace = debug_backtrace();
+            if(!is_int($iterations) || $iterations < 1) {
+                throw new Exception(
+                    'Incorrect data format passed to ' . __METHOD__ . ', a positive integer is required.',
+                    self::INVALID_DATA_FORMAT
+                );
+            }
             // We want to know what the method was that called the method that called this function, so shift the trace
-            // array twice.
-            $caller = array_shift($trace);
-            $caller = array_shift($trace);
+            // array the correct amount of times. The $iterations variables allows this method to find, for example, the
+            // name of the method that called the method, that called the method, that called this method. Long-winded,
+            // but useful :)
+            for($i = 0; $i < $iterations; $i++) {
+                $caller = array_shift($trace);
+            }
             // Grab the name of the method we want.
             $method = $caller['function'];
-            // Do we want to include the name of the class that the method belongs to (providing the calling method was
-            // part of a class and not a procedural function)?
-            if(isset($caller['class']) && $include_class) {
+            // Providing the calling method was part of a class and not a procedural function, include it in the method
+            // identifier string.
+            if(isset($caller['class'])) {
                 $method = $caller['class'] . '::' . $method;
             }
             return $method;
@@ -485,6 +493,64 @@
         }
 
         /**
+         * Validate: Generic String
+         *
+         * @access private
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param string $pcre
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return boolean | $this
+         */
+        private function validateString(&$structureElement, $arguments, $max_chars, $pcre, $fixed_length = false)
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement
+                    : null;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+
+            // These checks are fundamental, as the method cannot work if these don't pass. Don't suppress these
+            // Exceptions when silent mode is on.
+            if(!is_int($max_chars)) {
+                throw new Exception();
+            }
+            if(!is_string($pcre)) {
+                throw new Exception();
+            }
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod(2) . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            $regex = '/^' . $pcre . '{' . ($fixed_length ? '' : '1,') . $max_chars . '}' . '$/';
+            // Make sure that the original parameter input is a string and conforms to the 
+            if(!is_string($arguments[0]) || !preg_match($regex, $arguments[0])) {
+                // If verbose mode is on, throw an Exception as the value passed was incorrect.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If silent mode is on, return normally without setting any value.
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = $arguments[0];
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
          * Validate: Alpha
          *
          * @access protected
@@ -495,7 +561,10 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
+        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHA, $fixed_length);
+        }
 
         /**
          * Validate: Numeric
@@ -507,7 +576,13 @@
          * @throws \PHPerian\Exception
          * @return integer | $this
          */
-        protected function validateNumeric(&$structureElement, $arguments, $max_chars) {}
+        protected function validateNumeric(&$structureElement, $arguments, $max_chars)
+        {
+            if(isset($arguments[0]) && is_int($arguments[0])) {
+                $arguments[0] = (string) $arguments[0];
+            }
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
+        }
 
         /**
          * Validate: Alphanumeric
@@ -520,7 +595,10 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
+        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC, $fixed_length);
+        }
 
         /**
          * Validate: Alphanumeric (Extended)
@@ -533,7 +611,10 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
+        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC_EXTRA, $fixed_length);
+        }
 
         /**
          * Validate: Date
