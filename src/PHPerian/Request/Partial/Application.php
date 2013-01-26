@@ -19,4 +19,19 @@
      */
     class Application extends Partial
     {
+
+        public function type($type = null) {}
+        public function amount($amount = null) {}
+        public function term($term = null) {}
+        public function purpose($purpose = null) {}
+        public function propertyValue($value = null) {}
+        public function mortgageType($type = null) {}
+        public function monthlyAmount($amount = null) {}
+        public function limitApplied($limit = null) {}
+        public function limitGiven($limit = null) {}
+        public function applicationChannel($channel = null) {}
+        public function authenticationType($type = null) {}
+        public function manualAuthentication($manual = null) {}
+        public function searchConsent($consent = null) {}
+
     }
