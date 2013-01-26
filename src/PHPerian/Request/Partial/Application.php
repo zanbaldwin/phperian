@@ -116,7 +116,7 @@
         public function __construct($application_type)
         {
             // Make sure that the application type is a non-empty string, and matches the correct validation criteria.
-            if(!is_string($application_type) || !preg_match('/^' . parent::PCRE_ALPHA . '{2}$/', $application_data)) {
+            if(!is_string($application_type) || !preg_match('/^' . parent::PCRE_ALPHA . '{2}$/', $application_type)) {
                 // IF the application type does not validate, then throw an exception regardless of whether verbose or
                 // silent mode is on; the class cannot be used.
                 throw new Exception();
@@ -295,56 +295,26 @@
          * Get and Set: Manual Authentication
          *
          * @access public
-         * @param boolean $manual
+         * @param boolean
          * @throws \PHPerian\Exception
          * @return boolean | Application $this
          */
-        public function manualAuthentication($manual = null)
+        public function manualAuthentication()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ManualAuthReq'])
-                    ? $this->struct['ManualAuthReq'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($manual)) {
-                $this->struct['ManualAuthReq'] = $manual ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['ManualAuthReq'], func_get_args());
         }
         
         /**
          * Get and Set: Search Consent
          *
          * @access public
-         * @param boolean $consent
+         * @param boolean
          * @throws \PHPerian\Exception
          * @return boolean | Application $this
          */
-        public function searchConsent($consent = null)
+        public function searchConsent()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['SearchConsent'])
-                    ? $this->struct['SearchConsent'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($consent)) {
-                $this->struct['SearchConsent'] = $consent ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['SearchConsent'], func_get_args());
         }
 
     }
