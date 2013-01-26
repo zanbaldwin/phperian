@@ -20,6 +20,7 @@
     abstract class Partial
     {
 
+        // Validation values.
         const PCRE_NUMERIC              = '[0-9]';
         const PCRE_ALPHA                = '[a-zA-Z]';
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
@@ -27,6 +28,8 @@
         const PCRE_BOOLEAN              = '[YN]';
         const BOOLEAN_TRUE              = 'Y';
         const BOOLEAN_FALSE             = 'N';
+
+        // Exception error codes.
         const INVALID_DATA_FORMAT       = 1;
         const TOO_MANY_ARGUMENTS        = 2;
 
@@ -440,6 +443,8 @@
          * @access protected
          * @param reference $structureElement
          * @param array $arguments
+         * @param mixed $true
+         * @param mixed $false
          * @throws \PHPerian\Exception
          * @return boolean | $this
          */
@@ -478,5 +483,72 @@
             // Return a copy of this instance to allow chaining.
             return $this;
         }
+
+        /**
+         * Validate: Alpha
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {}
+
+        /**
+         * Validate: Numeric
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @throws \PHPerian\Exception
+         * @return integer | $this
+         */
+        protected function validateNumeric(&$structureElement, $arguments, $max_chars)
+        {}
+
+        /**
+         * Validate: Alphanumeric
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {}
+
+        /**
+         * Validate: Alphanumeric (Extended)
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        {}
+
+        /**
+         * Validate: Date
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateDate(&$structureElement, $arguments)
+        {}
 
     }
