@@ -92,7 +92,18 @@
         const APPLICATION_TYPE_VERIFICATION_RESIDENCY           = 'VG';
         const APPLICATION_TYPE_VERIFICATION_HOMELESS            = 'VH';
 
-        const MAX_CHARS_AMOUNT = 7;
+        const APPLICATION_CHANNEL_FAX                           = 'FA';
+        const APPLICATION_CHANNEL_FACE_TO_FACE                  = 'FF';
+        const APPLICATION_CHANNEL_INTERMEDIARY                  = 'IN';
+        const APPLICATION_CHANNEL_INTERNET                      = 'IT';
+        const APPLICATION_CHANNEL_POST                          = 'PO';
+        const APPLICATION_CHANNEL_TELEPHONE_INBOUND             = 'TI';
+        const APPLICATION_CHANNEL_TELEPHONE_OUTBOUND            = 'TO';
+
+        const MAX_CHARS_AMOUNT                                  = 7;
+        const MAX_CHARS_TERM                                    = 3;
+        const MAX_CHARS_LIMIT_APPLIED                           = 5;
+        const MAX_CHARS_LIMIT_GIVEN                             = 5;
 
         /**
          * Constructor Method
@@ -110,7 +121,7 @@
                 // silent mode is on; the class cannot be used.
                 throw new Exception();
             }
-            $this->struct['ApplicationType'] = $application_type;
+            $this->struct['ApplicationType'] = strtoupper($application_type);
             parent::__construct();
         }
 
@@ -148,16 +159,192 @@
             return $this;
         }
 
-        public function term($term = null) {}
-        public function purpose($purpose = null) {}
-        public function propertyValue($value = null) {}
-        public function mortgageType($type = null) {}
-        public function monthlyAmount($amount = null) {}
-        public function limitApplied($limit = null) {}
-        public function limitGiven($limit = null) {}
-        public function applicationChannel($channel = null) {}
-        public function authenticationType($type = null) {}
-        public function manualAuthentication($manual = null) {}
-        public function searchConsent($consent = null) {}
+        /**
+         * Get and Set: Term
+         *
+         * @access public
+         * @param integer $term
+         * @throws \PHPerian\Exception
+         * @return integer | Application $this
+         */
+        public function term($term = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['Term'])
+                    ? (int) $this->struct['Term']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            // Because this is a numerical input, we also accept integer data types; convert it to string though.
+            if(is_int($term)) {
+                $term = (string) $term;
+            }
+            if(
+                is_string($term)
+             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_TERM . '}$/', $term)
+            ) {
+                $this->struct['Term'] = $term;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
+        /**
+         * Get and Set: Limit Applied
+         *
+         * @access public
+         * @param integer $limit
+         * @throws \PHPerian\Exception
+         * @return integer | Application $this
+         */
+        public function limitApplied($limit = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['LimitApplied'])
+                    ? (int) $this->struct['LimitApplied']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            // Because this is a numerical input, we also accept integer data types; convert it to string though.
+            if(is_int($term)) {
+                $term = (string) $term;
+            }
+            if(
+                is_string($term)
+             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_LIMIT_APPLIED . '}$/', $term)
+            ) {
+                $this->struct['LimitApplied'] = $term;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
+        /**
+         * Get and Set: Limit Given
+         *
+         * @access public
+         * @param integer $limit
+         * @throws \PHPerian\Exception
+         * @return integer | Application $this
+         */
+        public function limitGiven($limit = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['LimitGiven'])
+                    ? (int) $this->struct['LimitGiven']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            // Because this is a numerical input, we also accept integer data types; convert it to string though.
+            if(is_int($term)) {
+                $term = (string) $term;
+            }
+            if(
+                is_string($term)
+             && preg_match('/^' . parent::PCRE_NUMERIC . '{1,' . self::MAX_CHARS_LIMIT_GIVEN . '}$/', $term)
+            ) {
+                $this->struct['LimitGiven'] = $term;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
+        /**
+         * Get and Set: Application Channel
+         *
+         * @access public
+         * @param string $channel
+         * @throws \PHPerian\Exception
+         * @return string | Application $this
+         */
+        public function applicationChannel($channel = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ApplicationChannel'])
+                    ? $this->struct['ApplicationChannel']
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(
+                is_string($channel)
+             && preg_match('/^' . parent::PCRE_ALPHA . '{2}$/', $channel)
+            ) {
+                $this->struct['ApplicationChannel'] = $channel;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            return $this;
+        }
+
+        /**
+         * Get and Set: Manual Authentication
+         *
+         * @access public
+         * @param boolean $manual
+         * @throws \PHPerian\Exception
+         * @return boolean | Application $this
+         */
+        public function manualAuthentication($manual = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['ManualAuthReq'])
+                    ? $this->struct['ManualAuthReq'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($manual)) {
+                $this->struct['ManualAuthReq'] = $manual ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+        
+        /**
+         * Get and Set: Search Consent
+         *
+         * @access public
+         * @param boolean $consent
+         * @throws \PHPerian\Exception
+         * @return boolean | Application $this
+         */
+        public function searchConsent($consent = null)
+        {
+            // If no arguments are passed to the method, return what has already been set.
+            if(func_num_args() === 0) {
+                return isset($this->struct['SearchConsent'])
+                    ? $this->struct['SearchConsent'] == parent::BOOLEAN_TRUE
+                    : null;
+            }
+            // If an argument has been passed to the method, accept this as the value they wish to set.
+            if(is_bool($consent)) {
+                $this->struct['SearchConsent'] = $consent ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
+            }
+            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
+            elseif(parent::$verbose) {
+                throw new Exception();
+            }
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
 
     }
