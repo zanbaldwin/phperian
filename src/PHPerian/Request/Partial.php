@@ -28,6 +28,7 @@
         const BOOLEAN_TRUE              = 'Y';
         const BOOLEAN_FALSE             = 'N';
         const INVALID_DATA_FORMAT       = 1;
+        const TOO_MANY_ARGUMENTS        = 2;
 
         /**
          * @var array $id_map
@@ -408,6 +409,32 @@
         }
 
         /**
+         * Get Called Method
+         *
+         * @static
+         * @access protected
+         * @param boolean $include_class
+         * @return string
+         */
+        protected static function getCalledMethod($include_class = true)
+        {
+            // Fetch the backtrace for debugging of execution flow.
+            $trace = debug_backtrace();
+            // We want to know what the method was that called the method that called this function, so shift the trace
+            // array twice.
+            $caller = array_shift($trace);
+            $caller = array_shift($trace);
+            // Grab the name of the method we want.
+            $method = $caller['function'];
+            // Do we want to include the name of the class that the method belongs to (providing the calling method was
+            // part of a class and not a procedural function)?
+            if(isset($caller['class']) && $include_class) {
+                $method = $caller['class'] . '::' . $method;
+            }
+            return $method;
+        }
+
+        /**
          * Validate: Boolean
          *
          * @access protected
@@ -416,32 +443,38 @@
          * @throws \PHPerian\Exception
          * @return boolean | $this
          */
-        protected function validateBoolean(&$structureElement, $arguments)
+        protected function validateBoolean(&$structureElement, $arguments, $true = self::BOOLEAN_TRUE, $false = self::BOOLEAN_FALSE)
         {
             // If no arguments were passed to the method that called this one, it obviously means that they want the
             // value that has already been set returned.
             if(!is_array($arguments) || count($arguments) === 0) {
                 return !is_null($structureElement)
-                    ? $structureElement == self::BOOLEAN_TRUE
+                    ? $structureElement == $true
                     : null;
             }
-            if(count($arguments) > 1) {
-                $trace = debug_backtrace();
-                $caller = array_shift($trace);
-                $method = $caller['function'];
-                if(isset($caller['class'])) {
-                    $method = $caller['class'] . '::' . $method;
-                }
-                throw new Exception('Only one parameter should be passed to ' . $method . '.');
+
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod() . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
             }
-            if(is_bool($arguments[0])) {
-                $structureElement = $arguments[0]
-                    ? self::BOOLEAN_TRUE
-                    : self::BOOLEAN_FALSE;
+            // If versbose mode is on (also acting as "strict" mode here), throw an exception if a non-boolean parameter
+            // was passed.
+            if(self::$verbose && !is_bool($arguments[0])) {
+                throw new Exception(
+                    'You are required to pass a boolean data type to ' . self::getCalledMethod() . ' when in verbose mode.',
+                    self::INVALID_DATA_FORMAT
+                );
             }
-            elseif(self::$verbose) {
-                throw new Exception();
-            }
+            // We passed error checking, set the value.
+            $structureElement = $arguments[0]
+                ? $true
+                : $false;
             // Return a copy of this instance to allow chaining.
             return $this;
         }
