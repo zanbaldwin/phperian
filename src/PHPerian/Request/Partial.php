@@ -495,8 +495,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false)
-        {}
+        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
 
         /**
          * Validate: Numeric
@@ -508,8 +507,7 @@
          * @throws \PHPerian\Exception
          * @return integer | $this
          */
-        protected function validateNumeric(&$structureElement, $arguments, $max_chars)
-        {}
+        protected function validateNumeric(&$structureElement, $arguments, $max_chars) {}
 
         /**
          * Validate: Alphanumeric
@@ -522,8 +520,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false)
-        {}
+        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
 
         /**
          * Validate: Alphanumeric (Extended)
@@ -536,8 +533,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false)
-        {}
+        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false) {}
 
         /**
          * Validate: Date
@@ -548,7 +544,6 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateDate(&$structureElement, $arguments)
-        {}
+        protected function validateDate(&$structureElement, $arguments) {}
 
     }
