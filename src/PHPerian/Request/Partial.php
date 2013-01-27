@@ -644,7 +644,91 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateDate(&$structureElement, array $arguments = array()) {}
+        protected function validateDate(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement['CCYY'] . '/'
+                    . $structureElement['MM']   . '/'
+                    . $structureElement['DD']
+                    : null;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // These checks are fundamental, as the method cannot work if these don't pass. Don't suppress these
+            // Exceptions when silent mode is on.
+            
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(count($arguments) !== 3) {
+                throw new Exception(
+                    'You are required to pass 3 parameters to ' . self::getCalledMethod(2) . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            if(
+                // Is the year an integer?
+                !is_int($arguments[0])
+                // If they haven't supplied the year as an integer, is it a string representation of an integer?
+             || !(is_string($arguments[0]) && preg_match('/[0-9]{4}/', $arguments[0]))
+                // Enforce that the year is of an integer data type, and that it is not less than 1875, which is a
+                // guaranteed year in which no living person was born according to records.
+             || ($arguments[0] = (int) $arguments[0]) < 1875
+                // Also make sure that the year in not in the future.
+             || $arguments[0] > (int) date('Y')
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(
+                // Is the month an integer?
+                !is_int($arguments[1])
+                // If they haven't supplied the month as an integer, is it a string representation of an integer?
+             || !(is_string($arguments[1]) && preg_match('/[0-9]{1,2}/', $arguments[1]))
+                // Enforce that the month is of an integer data type, and that it is not less than 1 (January).
+             || ($arguments[1] = (int) $arguments[1]) < 1
+                // Also make sure that the month in not greater than 12 (December).
+             || $arguments[1] > 12
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(
+                // Is the day an integer?
+                !is_int($arguments[2])
+                // If they haven't supplied the day as an integer, is it a string representation of an integer?
+             || !(is_string($arguments[2]) && preg_match('/[0-9]{1,2}/', $arguments[2]))
+                // Enforce that the day is of an integer data type, and that it is not less than 1.
+             || ($arguments[2] = (int) $arguments[2]) < 1
+                // Also make sure that the day in not greater than 31.
+             || $arguments[2] > 31
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'CCYY'  => $arguments[0],
+                'MM'    => $arguments[1],
+                'DD'    => $arguments[2],
+            );
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
 
         /**
          * Validate: Set
