@@ -261,26 +261,16 @@
                 $application->applicationChannel() === null,
                 'Ensure that the return value of applicationChannel() is null when an applicationChannel has not yet been set.'
             );
-            $application = $application->applicationChannel(123);
+            $application = $application->applicationChannel('IT');
             $this->assertTrue(
                 is_object($application),
-                'Ensure that the applicationChannel() method returns an object after successfully setting the applicationChannel (integer).'
+                'Ensure that the applicationChannel() method returns an object after successfully setting the applicationChannel.'
             );
             $this->assertTrue(
-                $application->applicationChannel() === 123,
-                'Ensure the applicationChannel() method returns the same integer that we set.'
+                $application->applicationChannel() === 'IT',
+                'Ensure the applicationChannel() method returns the same string that we set.'
             );
-            // Set a string as value.
-            $application = $application->applicationChannel('123');
-            $this->assertTrue(
-                is_object($application),
-                'Ensure that the applicationChannel() method returns an object after successfully setting the applicationChannel (string).'
-            );
-            $this->assertTrue(
-                $application->applicationChannel() === 123,
-                'Ensure the applicationChannel() method returns an integer after setting the value as a string.'
-            );
-            $wrong = '1234S';
+            $wrong = '$wrong';
             $request->silent();
             $return = $application->applicationChannel($wrong);
             $this->assertTrue(
@@ -288,7 +278,7 @@
                 'Ensure that the applicationChannel() method returns an object after an invalid input has been set when in silent mode.'
             );
             $this->assertTrue(
-                $application->applicationChannel() === 123,
+                $application->applicationChannel() === 'IT',
                 'Ensure that the last value set is returned, and an invalid input has not overwritten it.'
             );
             $this->setExpectedException('\\PHPerian\\Exception');
@@ -296,6 +286,132 @@
             $application = $application->applicationChannel($wrong);
         }
 
-        
+        /**
+         * Test: Application Channel (Min Value Length)
+         *
+         * @access public
+         * @return void
+         */
+        public function testApplicationChannelMin()
+        {
+            $request = new \PHPerian\Request;
+            $application = $request->createApplication('EQ');
+            $request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $application->applicationChannel('A');
+        }
+
+        /**
+         * Test: Application Channel (Max Value Length)
+         *
+         * @access public
+         * @return void
+         */
+        public function testApplicationChannelMax()
+        {
+            $request = new \PHPerian\Request;
+            $application = $request->createApplication('EQ');
+            $request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $application->applicationChannel('AAA');
+        }
+
+        /**
+         * Test: Manual Authentication
+         *
+         * @access public
+         * @return void
+         */
+        public function testManualAuthentication()
+        {
+            $request = new \PHPerian\Request;
+            $application = $request->createApplication('EQ');
+            $this->assertTrue(
+                $application->manualAuthentication() === null,
+                'Ensure that the return value of manualAuthentication() is null when an manualAuthentication has not yet been set.'
+            );
+
+            $application = $application->manualAuthentication(true);
+            $this->assertTrue(
+                is_object($application),
+                'Ensure that the manualAuthentication() method returns an object after successfully setting the manualAuthentication.'
+            );
+            $this->assertTrue(
+                $application->manualAuthentication() === true,
+                'Ensure the manualAuthentication() method returns the same string that we set.'
+            );
+            $request->silent();
+            $return = $application->manualAuthentication(0);
+            $this->assertTrue(
+                is_object($return),
+                'Ensure that the manualAuthentication() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $application->manualAuthentication() === false,
+                'Ensure that a falsey value sets the value as false when silent mode is on.'
+            );
+            $return = $application->manualAuthentication(1);
+            $this->assertTrue(
+                is_object($return),
+                'Ensure that the manualAuthentication() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $application->manualAuthentication() === true,
+                'Ensure that a truthy value sets the value as true when silent mode is on.'
+            );
+
+            $request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $application = $application->manualAuthentication(0);
+        }
+
+        /**
+         * Test: Search Consent
+         *
+         * @access public
+         * @return void
+         */
+        public function testSearchConsent()
+        {
+            $request = new \PHPerian\Request;
+            $application = $request->createApplication('EQ');
+            $this->assertTrue(
+                $application->searchConsent() === null,
+                'Ensure that the return value of searchConsent() is null when an searchConsent has not yet been set.'
+            );
+
+            $application = $application->searchConsent(true);
+            $this->assertTrue(
+                is_object($application),
+                'Ensure that the searchConsent() method returns an object after successfully setting the searchConsent.'
+            );
+            $this->assertTrue(
+                $application->searchConsent() === true,
+                'Ensure the searchConsent() method returns the same string that we set.'
+            );
+            $request->silent();
+            $return = $application->searchConsent(0);
+            $this->assertTrue(
+                is_object($return),
+                'Ensure that the searchConsent() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $application->searchConsent() === false,
+                'Ensure that a falsey value sets the value as false when silent mode is on.'
+            );
+            $return = $application->searchConsent(1);
+            $this->assertTrue(
+                is_object($return),
+                'Ensure that the searchConsent() method returns an object after an invalid input has been set when in silent mode.'
+            );
+            $this->assertTrue(
+                $application->searchConsent() === true,
+                'Ensure that a truthy value sets the value as true when silent mode is on.'
+            );
+
+            $request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $application = $application->searchConsent(0);
+        }
 
     }
