@@ -457,7 +457,7 @@
          * @throws \PHPerian\Exception
          * @return boolean | $this
          */
-        protected function validateBoolean(&$structureElement, $arguments, $true = self::BOOLEAN_TRUE, $false = self::BOOLEAN_FALSE)
+        protected function validateBoolean(&$structureElement, array $arguments = array(), $true = self::BOOLEAN_TRUE, $false = self::BOOLEAN_FALSE)
         {
             // If no arguments were passed to the method that called this one, it obviously means that they want the
             // value that has already been set returned.
@@ -505,7 +505,7 @@
          * @throws \PHPerian\Exception
          * @return boolean | $this
          */
-        private function validateString(&$structureElement, $arguments, $max_chars, $pcre, $fixed_length = false)
+        private function validateString(&$structureElement, array $arguments = array(), $max_chars, $pcre, $fixed_length = false)
         {
             // If no arguments were passed to the method that called this one, it obviously means that they want the
             // value that has already been set returned.
@@ -533,6 +533,11 @@
                     self::TOO_MANY_ARGUMENTS
                 );
             }
+            // We will also allow integers as input, but change them to strings so that we can parse them.
+            if(is_int($arguments[0])) {
+                $arguments[0] = (string) $arguments[0];
+            }
+            //
             $regex = '/^' . $pcre . '{' . ($fixed_length ? '' : '1,') . $max_chars . '}' . '$/';
             // Make sure that the original parameter input is a string and conforms to the 
             if(!is_string($arguments[0]) || !preg_match($regex, $arguments[0])) {
@@ -562,7 +567,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlpha(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        protected function validateAlpha(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
         {
             return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHA, $fixed_length);
         }
@@ -577,11 +582,8 @@
          * @throws \PHPerian\Exception
          * @return integer | $this
          */
-        protected function validateNumeric(&$structureElement, $arguments, $max_chars)
+        protected function validateNumeric(&$structureElement, array $arguments = array(), $max_chars)
         {
-            if(isset($arguments[0]) && is_int($arguments[0])) {
-                $arguments[0] = (string) $arguments[0];
-            }
             $return = $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
             if(is_string($return) && is_numeric($return)) {
                 $return = (int) $return;
@@ -600,7 +602,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumeric(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        protected function validateAlphaNumeric(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
         {
             return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC, $fixed_length);
         }
@@ -616,7 +618,7 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateAlphaNumericExtra(&$structureElement, $arguments, $max_chars, $fixed_length = false)
+        protected function validateAlphaNumericExtra(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
         {
             return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC_EXTRA, $fixed_length);
         }
@@ -630,6 +632,6 @@
          * @throws \PHPerian\Exception
          * @return string | $this
          */
-        protected function validateDate(&$structureElement, $arguments) {}
+        protected function validateDate(&$structureElement, array $arguments = array()) {}
 
     }
