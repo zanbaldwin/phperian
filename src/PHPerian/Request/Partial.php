@@ -24,7 +24,6 @@
         const PCRE_NUMERIC              = '[0-9]';
         const PCRE_ALPHA                = '[a-zA-Z]';
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
-        const PCRE_ALPHANUMERIC_SPACES  = '[a-zA-Z0-9 ]';
         const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@ ]';
         const BOOLEAN_TRUE              = 'Y';
         const BOOLEAN_FALSE             = 'N';
@@ -32,6 +31,7 @@
         // Exception error codes.
         const INVALID_DATA_FORMAT       = 1;
         const TOO_MANY_ARGUMENTS        = 2;
+        const INVALID_OPTION            = 3;
 
         /**
          * @var array $id_map
@@ -412,6 +412,18 @@
         }
 
         /**
+         * Get Mode
+         *
+         * @static
+         * @access public
+         * @return string
+         */
+        public static function mode()
+        {
+            return self::$verbose ? 'verbose' : 'silent';
+        }
+
+        /**
          * Get Called Method
          *
          * @static
@@ -433,7 +445,7 @@
             // array the correct amount of times. The $iterations variables allows this method to find, for example, the
             // name of the method that called the method, that called the method, that called this method. Long-winded,
             // but useful :)
-            for($i = 0; $i < $iterations; $i++) {
+            for($i = -1; $i <= $iterations; $i++) {
                 $caller = array_shift($trace);
             }
             // Grab the name of the method we want.
@@ -633,5 +645,66 @@
          * @return string | $this
          */
         protected function validateDate(&$structureElement, array $arguments = array()) {}
+
+        /**
+         * Validate: Set
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param array $set
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateSet(&$structureElement, array $arguments = array(), array $set = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement == $true
+                    : null;
+            }
+
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod() . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            // Make sure that the input is a string.
+            if(!is_string($arguments[0])) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass a string data type to ' . self::getCalledMethod() . ' when in verbose mode.',
+                        self::INVALID_DATA_FORMAT
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            // Make sure the value passed is a valid option in the set.
+            if(count($matched = preg_grep('/^' . preg_quote($arguments[0], '/') . '$/i', $set)) < 1)  {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'The value passed to ' . self::getCalledMethod() . ' is not a valid option in the defined set.',
+                        self::INVALID_OPTION
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value. Make sure to use the one from the set, so that the correct case
+            // is used.
+            $structureElement = reset($matched);
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
 
     }
