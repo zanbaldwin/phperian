@@ -34,7 +34,7 @@
          */
         public function __construct(
             \PHPerian\Request\Partial\Applicant $applicant,
-            \PHPerian\Request\Partial\Location $location,
+            \PHPerian\Request\Partial\LocationDetails $location,
             $location_code
         ) {
             // As well as the class constants above, there are two shortcuts: boolean true means current residency, and
@@ -73,33 +73,9 @@
          * @throws \PHPerian\Exception
          * @return string | Residency $this
          */
-        public function dateFrom($year, $month, $day)
+        public function dateFrom()
         {
-            if(func_num_args() === 0) {
-                // Just check that the year is set as the month and day get set at the same time, and won't be set
-                // without it.
-                return isset($this->struct['ResidencyDateFrom']['CCYY'])
-                    ? $this->struct['ResidencyDateFrom']['CCYY'] . '/'
-                    . $this->struct['ResidencyDateFrom']['MM'] . '/'
-                    . $this->struct['ResidencyDateFrom']['DD']
-                    : null;
-            }
-            if(
-                is_int($year) && $year >= 1875 && $year <= (int) date('Y')
-             && is_int($month) && $month >= 1 && $month <= 12
-             && is_int($day) && $day >= 1 && $day <= 31
-            ) {
-                $this->struct['ResidencyDateFrom'] = array(
-                    'CCYY' => (string) $year,
-                    'MM' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
-                    'DD' => str_pad((string) $day, 2, '0', STR_PAD_LEFT),
-                );
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateDate($this->struct['ResidencyDateFrom'], func_get_args());
         }
 
         /**
@@ -114,31 +90,7 @@
          */
         public function dateTo($year, $month, $day)
         {
-            if(func_num_args() === 0) {
-                // Just check that the year is set as the month and day get set at the same time, and won't be set
-                // without it.
-                return isset($this->struct['ResidencyDateTo']['CCYY'])
-                    ? $this->struct['ResidencyDateTo']['CCYY'] . '/'
-                    . $this->struct['ResidencyDateTo']['MM'] . '/'
-                    . $this->struct['ResidencyDateTo']['DD']
-                    : null;
-            }
-            if(
-                is_int($year) && $year >= 1875 && $year <= (int) date('Y')
-             && is_int($month) && $month >= 1 && $month <= 12
-             && is_int($day) && $day >= 1 && $day <= 31
-            ) {
-                $this->struct['ResidencyDateTo'] = array(
-                    'CCYY' => (string) $year,
-                    'MM' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
-                    'DD' => str_pad((string) $day, 2, '0', STR_PAD_LEFT),
-                );
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateDate($this->struct['ResidencyDateTo'], func_get_args());
         }
 
     }
