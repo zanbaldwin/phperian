@@ -124,11 +124,11 @@
          * Get and Set: Amount
          *
          * @access public
-         * @param integer $amount
+         * @param integer
          * @throws \PHPerian\Exception
          * @return integer | Application $this
          */
-        public function amount($amount = null)
+        public function amount()
         {
             return $this->validateNumeric($this->struct['Amount'], func_get_args(), 7);
         }
