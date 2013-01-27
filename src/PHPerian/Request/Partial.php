@@ -20,14 +20,18 @@
     abstract class Partial
     {
 
+        // Validation values.
         const PCRE_NUMERIC              = '[0-9]';
         const PCRE_ALPHA                = '[a-zA-Z]';
         const PCRE_ALPHANUMERIC         = '[a-zA-Z0-9]';
         const PCRE_ALPHANUMERIC_EXTRA   = '[a-zA-Z0-9\\-&\\.\'\\/\\\\\\(\\)@ ]';
-        const PCRE_BOOLEAN              = '[YN]';
         const BOOLEAN_TRUE              = 'Y';
         const BOOLEAN_FALSE             = 'N';
+
+        // Exception error codes.
         const INVALID_DATA_FORMAT       = 1;
+        const TOO_MANY_ARGUMENTS        = 2;
+        const INVALID_OPTION            = 3;
 
         /**
          * @var array $id_map
@@ -405,6 +409,388 @@
         public static function silent()
         {
             self::$verbose = false;
+        }
+
+        /**
+         * Get Mode
+         *
+         * @static
+         * @access public
+         * @return string
+         */
+        public static function mode()
+        {
+            return self::$verbose ? 'verbose' : 'silent';
+        }
+
+        /**
+         * Get Called Method
+         *
+         * @static
+         * @access protected
+         * @param boolean $include_class
+         * @return string
+         */
+        protected static function getCalledMethod($iterations = 1)
+        {
+            // Fetch the backtrace for debugging of execution flow.
+            $trace = debug_backtrace();
+            if(!is_int($iterations) || $iterations < 1) {
+                throw new Exception(
+                    'Incorrect data format passed to ' . __METHOD__ . ', a positive integer is required.',
+                    self::INVALID_DATA_FORMAT
+                );
+            }
+            // We want to know what the method was that called the method that called this function, so shift the trace
+            // array the correct amount of times. The $iterations variables allows this method to find, for example, the
+            // name of the method that called the method, that called the method, that called this method. Long-winded,
+            // but useful :)
+            for($i = -1; $i <= $iterations; $i++) {
+                $caller = array_shift($trace);
+            }
+            // Grab the name of the method we want.
+            $method = $caller['function'];
+            // Providing the calling method was part of a class and not a procedural function, include it in the method
+            // identifier string.
+            if(isset($caller['class'])) {
+                $method = $caller['class'] . '::' . $method;
+            }
+            return $method;
+        }
+
+        /**
+         * Validate: Boolean
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param mixed $true
+         * @param mixed $false
+         * @throws \PHPerian\Exception
+         * @return boolean | $this
+         */
+        protected function validateBoolean(&$structureElement, array $arguments = array(), $true = self::BOOLEAN_TRUE, $false = self::BOOLEAN_FALSE)
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement == $true
+                    : null;
+            }
+
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod() . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            // If versbose mode is on (also acting as "strict" mode here), throw an exception if a non-boolean parameter
+            // was passed.
+            if(self::$verbose && !is_bool($arguments[0])) {
+                throw new Exception(
+                    'You are required to pass a boolean data type to ' . self::getCalledMethod() . ' when in verbose mode.',
+                    self::INVALID_DATA_FORMAT
+                );
+            }
+            // We passed error checking, set the value.
+            $structureElement = $arguments[0]
+                ? $true
+                : $false;
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Generic String
+         *
+         * @access private
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param string $pcre
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return boolean | $this
+         */
+        private function validateString(&$structureElement, array $arguments = array(), $max_chars, $pcre, $fixed_length = false)
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement
+                    : null;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+
+            // These checks are fundamental, as the method cannot work if these don't pass. Don't suppress these
+            // Exceptions when silent mode is on.
+            if(!is_int($max_chars)) {
+                throw new Exception();
+            }
+            if(!is_string($pcre)) {
+                throw new Exception();
+            }
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod(2) . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            // We will also allow integers as input, but change them to strings so that we can parse them.
+            if(is_int($arguments[0])) {
+                $arguments[0] = (string) $arguments[0];
+            }
+            //
+            $regex = '/^' . $pcre . '{' . ($fixed_length ? '' : '1,') . $max_chars . '}' . '$/';
+            // Make sure that the original parameter input is a string and conforms to the 
+            if(!is_string($arguments[0]) || !preg_match($regex, $arguments[0])) {
+                // If verbose mode is on, throw an Exception as the value passed was incorrect.
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                // If silent mode is on, return normally without setting any value.
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = $arguments[0];
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Alpha
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlpha(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHA, $fixed_length);
+        }
+
+        /**
+         * Validate: Numeric
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @throws \PHPerian\Exception
+         * @return integer | $this
+         */
+        protected function validateNumeric(&$structureElement, array $arguments = array(), $max_chars)
+        {
+            $return = $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
+            if(is_string($return) && is_numeric($return)) {
+                $return = (int) $return;
+            }
+            return $return;
+        }
+
+        /**
+         * Validate: Alphanumeric
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlphaNumeric(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC, $fixed_length);
+        }
+
+        /**
+         * Validate: Alphanumeric (Extended)
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param integer $max_chars
+         * @param boolean $fixed_length
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateAlphaNumericExtra(&$structureElement, array $arguments = array(), $max_chars, $fixed_length = false)
+        {
+            return $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_ALPHANUMERIC_EXTRA, $fixed_length);
+        }
+
+        /**
+         * Validate: Date
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateDate(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement['CCYY'] . '/'
+                    . $structureElement['MM']   . '/'
+                    . $structureElement['DD']
+                    : null;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
+            if(count($arguments) !== 3) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass 3 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(
+                // Is the year an integer?
+                !is_int($arguments[0])
+                // If they haven't supplied the year as an integer, is it a string representation of an integer?
+             && !(is_string($arguments[0]) && preg_match('/[0-9]{4}/', $arguments[0]))
+                // Enforce that the year is of an integer data type, and that it is not less than 1875, which is a
+                // guaranteed year in which no living person was born according to records.
+             || ($arguments[0] = (int) $arguments[0]) < 1875
+                // Also make sure that the year in not in the future.
+             || $arguments[0] > (int) date('Y')
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(
+                // Is the month an integer?
+                !is_int($arguments[1])
+                // If they haven't supplied the month as an integer, is it a string representation of an integer?
+             && !(is_string($arguments[1]) && preg_match('/[0-9]{1,2}/', $arguments[1]))
+                // Enforce that the month is of an integer data type, and that it is not less than 1 (January).
+             || ($arguments[1] = (int) $arguments[1]) < 1
+                // Also make sure that the month in not greater than 12 (December).
+             || $arguments[1] > 12
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(
+                // Is the day an integer?
+                !is_int($arguments[2])
+                // If they haven't supplied the day as an integer, is it a string representation of an integer?
+             && !(is_string($arguments[2]) && preg_match('/[0-9]{1,2}/', $arguments[2]))
+                // Enforce that the day is of an integer data type, and that it is not less than 1.
+             || ($arguments[2] = (int) $arguments[2]) < 1
+                // Also make sure that the day in not greater than 31.
+             || $arguments[2] > 31
+            ) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'CCYY'  => (string) $arguments[0],
+                'MM'    => str_pad((string) $arguments[1], 2, '0', STR_PAD_LEFT),
+                'DD'    => str_pad((string) $arguments[2], 2, '0', STR_PAD_LEFT),
+            );
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Set
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @param array $set
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validateSet(&$structureElement, array $arguments = array(), array $set = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement
+                    : null;
+            }
+
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
+            // arguments passed.
+            if(self::$verbose && count($arguments) > 1) {
+                throw new Exception(
+                    'Only one parameter should be passed to ' . self::getCalledMethod() . '.',
+                    self::TOO_MANY_ARGUMENTS
+                );
+            }
+            // Make sure that the input is a string.
+            if(!is_string($arguments[0])) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass a string data type to ' . self::getCalledMethod() . ' when in verbose mode.',
+                        self::INVALID_DATA_FORMAT
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            // Make sure the value passed is a valid option in the set.
+            if(count($matched = preg_grep('/^' . preg_quote($arguments[0], '/') . '$/i', $set)) < 1)  {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'The value passed to ' . self::getCalledMethod() . ' is not a valid option in the defined set.',
+                        self::INVALID_OPTION
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value. Make sure to use the one from the set, so that the correct case
+            // is used.
+            $structureElement = reset($matched);
+            // Return a copy of this instance to allow chaining.
+            return $this;
         }
 
     }

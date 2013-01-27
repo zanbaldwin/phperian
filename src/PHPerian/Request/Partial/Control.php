@@ -20,11 +20,6 @@
     class Control extends Partial
     {
 
-        const MAX_CHARS_EXPERIAN_REFERENCE = 10;
-        const MAX_CHARS_CLIENT_ACCOUNT_NUMBER = 5;
-        const MAX_CHARS_CLIENT_BRANCH_NUMBER = 4;
-        const MAX_CHARS_USER_IDENTITY = 40;
-        const MAX_CHARS_TEST_DATABASE = 6;
         const MAX_CHARS_CLIENT_REFERENCE = 30;
         const MAX_CHARS_JOB_NUMBER = 36;
         const MAX_CHARS_INTERACTIVE_MODE = 11;
@@ -35,558 +30,243 @@
          * Get and Set: Experian Reference
          *
          * @access public
-         * @param string $experian_reference
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function experianReference($experian_reference = null)
+        public function experianReference()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ExperianReference'])
-                    ? $this->struct['ExperianReference']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($experian_reference)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_EXPERIAN_REFERENCE . '}$/', $experian_reference)
-            ) {
-                $this->struct['ExperianReference'] = $experian_reference;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['ExperianReference'], func_get_args(), 10);
         }
 
         /**
          * Get and Set: Client Account Number
          *
          * @access public
-         * @param string $client_account_number
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function clientAccountNumber($client_account_number = null)
+        public function clientAccountNumber()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ClientAccountNumber'])
-                    ? $this->struct['ClientAccountNumber']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($client_account_number)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_CLIENT_ACCOUNT_NUMBER . '}$/', $client_account_number)
-            ) {
-                $this->struct['ClientAccountNumber'] = $client_account_number;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['ClientAccountNumber'], func_get_args(), 5);
         }
 
         /**
          * Get and Set: Client Branch Number
          *
          * @access public
-         * @param string $client_branch_number
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function clientBranchNumber($client_branch_number = null)
+        public function clientBranchNumber()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ClientBranchNumber'])
-                    ? $this->struct['ClientBranchNumber']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($client_branch_number)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_CLIENT_BRANCH_NUMBER . '}$/', $client_branch_number)
-            ) {
-                $this->struct['ClientBranchNumber'] = $client_branch_number;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['ClientBranchNumber'], func_get_args(), 4);
         }
 
         /**
          * Get and Set: User Identity
          *
          * @access public
-         * @param string $user_identity
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function userIdentity($user_identity = null)
+        public function userIdentity()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['UserIdentity'])
-                    ? $this->struct['UserIdentity']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($user_identity)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_USER_IDENTITY . '}$/', $user_identity)
-            ) {
-                $this->struct['UserIdentity'] = $user_identity;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['UserIdentity'], func_get_args(), 40);
         }
 
         /**
          * Get and Set: Test Database
          *
          * @access public
-         * @param string $test_database
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function testDatabase($test_database = null)
+        public function testDatabase()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['TestDatabase'])
-                    ? $this->struct['TestDatabase']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($test_database)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_TEST_DATABASE . '}$/', $test_database)
-            ) {
-                $this->struct['TestDatabase'] = $test_database;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['TestDatabase'], func_get_args(), 6);
         }
 
         /**
          * Get and Set: Reprocess Flag
          *
          * @access public
-         * @param boolean $reprocess_flag
+         * @param boolean
          * @throws \PHPerian\Exception
          * @return boolean | Control $this
          */
-        public function reprocessFlag($reprocess_flag = null)
+        public function reprocessFlag()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ReprocessFlag'])
-                    ? $this->struct['ReprocessFlag'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($reprocess_flag)) {
-                $this->struct['ReprocessFlag'] = $reprocess_flag ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['ReprocessFlag'], func_get_args());
         }
 
         /**
          * Get and Set: Client Reference
          *
          * @access public
-         * @param string $client_reference
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function clientReference($client_reference = null)
+        public function clientReference()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['ClientRef'])
-                    ? $this->struct['ClientRef']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($client_reference)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_CLIENT_REFERENCE . '}$/', $client_reference)
-            ) {
-                $this->struct['ClientRef'] = $client_reference;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['ClientRef'], func_get_args(), 30);
         }
 
         /**
          * Get and Set: Job Number
          *
          * @access public
-         * @param string $job_number
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function jobNumber($job_number = null)
+        public function jobNumber()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['JobNumber'])
-                    ? $this->struct['JobNumber']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($job_number)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_JOB_NUMBER . '}$/', $job_number)
-            ) {
-                $this->struct['JobNumber'] = $job_number;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['JobNumber'], func_get_args(), 36);
         }
 
         /**
          * Get and Set: Interactive Mode (Parameter)
          *
          * @access public
-         * @param string $interactive
+         * @param string
          * @throws \PHPerian\Exception
          * @return string | Control $this
          */
-        public function interactiveMode($interactive = null)
+        public function interactiveMode()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['InteractiveMode'])
-                    ? $this->struct['Parameters']['InteractiveMode']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($interactive)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_INTERACTIVE_MODE . '}$/', $interactive)
-            ) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['InteractiveMode'] = $interactive;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateSet(
+                $this->struct['Parameters']['InteractiveMode'],
+                func_get_args(),
+                array(
+                    'Interactive',
+                    'Confirm',
+                    'Enhance',
+                    'OneShot',
+                )
+            );
         }
 
         /**
          * Get and Set: Full FBL Required (Parameter)
          *
          * @access public
-         * @param string $full_fbl
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function fullFBL($full_fbl = null)
+        public function fullFBL()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['FullFBLRequired'])
-                    ? $this->struct['Parameters']['FullFBLRequired'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($full_fbl)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['FullFBLRequired'] = $full_fbl ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['FullFBLRequired'], func_get_args());
         }
 
         /**
          * Get and Set: Authenticate Plus Required (Parameter)
          *
          * @access public
-         * @param string $authenticate_plus
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function authenticatePlus($authenticate_plus = null)
+        public function authenticatePlus()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['AuthPlusRequired'])
-                    ? $this->struct['Parameters']['AuthPlusRequired'] == 'E'
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($authenticate_plus)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['AuthPlusRequired'] = $authenticate_plus ? 'E' : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['AuthPlusRequired'], func_get_args(), 'E', '');
         }
 
         /**
          * Get and Set: Detect Required (Parameter)
          *
          * @access public
-         * @param string $detect
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function detect($detect = null)
+        public function detect()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['DetectRequired'])
-                    ? $this->struct['Parameters']['DetectRequired'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($detect)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['DetectRequired'] = $detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['DetectRequired'], func_get_args());
         }
 
         /**
          * Get and Set: Test Mode (Parameter)
          *
          * @access public
-         * @param string $test_mode
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function testMode($test_mode = null)
+        public function testMode()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['TestMode'])
-                    ? $this->struct['Parameters']['TestMode'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($test_mode)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['TestMode'] = $test_mode ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['TestMode'], func_get_args());
         }
 
         /**
          * Get and Set: Show Detect (Parameter)
          *
          * @access public
-         * @param string $show_detect
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function showDetect($show_detect = null)
+        public function showDetect()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['ShowDetect'])
-                    ? $this->struct['Parameters']['ShowDetect'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($show_detect)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['ShowDetect'] = $show_detect ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['ShowDetect'], func_get_args());
         }
 
         /**
          * Get and Set: Show Authenticate (Parameter)
          *
          * @access public
-         * @param string $show_authenticate
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function showAuthenticate($show_authenticate = null)
+        public function showAuthenticate()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['ShowAuthenticate'])
-                    ? $this->struct['Parameters']['ShowAuthenticate'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($show_authenticate)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['ShowAuthenticate'] = $show_authenticate ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['ShowAuthenticate'], func_get_args());
         }
 
         /**
          * Get and Set: Show Address (Parameter)
          *
          * @access public
-         * @param string $show_address
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function showAddress($show_address = null)
+        public function showAddress()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['ShowAddress'])
-                    ? $this->struct['Parameters']['ShowAddress'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($show_address)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['ShowAddress'] = $show_address ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['ShowAddress'], func_get_args());
         }
 
         /**
          * Get and Set: Show Case History (Parameter)
          *
          * @access public
-         * @param string $show_case_history
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function showCaseHistory($show_case_history = null)
+        public function showCaseHistory()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['ShowCaseHistory'])
-                    ? $this->struct['Parameters']['ShowCaseHistory'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($show_case_history)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['ShowCaseHistory'] = $show_case_history ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['ShowCaseHistory'], func_get_args());
         }
 
         /**
          * Get and Set: Show HHO (Parameter)
          *
          * @access public
-         * @param string $show_HHO
+         * @param boolean
          * @throws \PHPerian\Exception
-         * @return string | Control $this
+         * @return boolean | Control $this
          */
-        public function showHHO($show_hho = null)
+        public function showHHO()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Parameters']['ShowHHO'])
-                    ? $this->struct['Parameters']['ShowHHO'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($show_hho)) {
-                if(!isset($this->struct['Parameters']) || !is_array($this->struct['Parameters'])) {
-                    $this->struct['Parameters'] = array();
-                }
-                $this->struct['Parameters']['ShowHHO'] = $show_hho ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct['Parameters']['ShowHHO'], func_get_args());
         }
 
     }

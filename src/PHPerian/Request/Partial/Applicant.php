@@ -21,12 +21,8 @@
     {
 
         // Data length validation.
-        const MAX_NUM_ALIAS         = 3;
-        const MAX_CHARS_TITLE       = 10;
         const MAX_CHARS_FORENAME    = 15;
-        const MAX_CHARS_MIDDLENAME  = 15;
         const MAX_CHARS_SURNAME     = 30;
-        const MAX_CHARS_SUFFIX      = 10;
 
         /**
          * @var array $struct
@@ -71,116 +67,48 @@
          * Get and Set: Title
          *
          * @access public
-         * @param string $title
+         * @param string
          * @return string | Applicant $this
          */
-        public function title($title = null)
+        public function title()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Name']['Title'])
-                    ? $this->struct['Name']['Title']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($title)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TITLE . '}$/', $title)
-            ) {
-                $this->struct['Name']['Title'] = $title;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct['Name']['Title'], func_get_args(), 10);
         }
 
         /**
          * Get and Set: Middle Name
          *
          * @access public
-         * @param string $middlename
+         * @param string
          * @return string | Applicant $this
          */
-        public function middleName($middlename = null)
+        public function middleName()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Name']['MiddleName'])
-                    ? $this->struct['Name']['MiddleName']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($middlename)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_MIDDLENAME . '}$/', $middlename)
-            ) {
-                $this->struct['Name']['MiddleName'] = $middlename;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct['Name']['MiddleName'], func_get_args(), 15);
         }
 
         /**
          * Get and Set: Suffix
          *
          * @access public
-         * @param string $suffix
+         * @param string
          * @return string | Applicant $this
          */
-        public function suffix($suffix = null)
+        public function suffix()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Name']['Suffix'])
-                    ? $this->struct['Name']['Suffix']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($suffix)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SUFFIX . '}$/', $suffix)
-            ) {
-                $this->struct['Name']['Suffix'] = $suffix;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct['Name']['Suffix'], func_get_args(), 10);
         }
 
         /**
          * Get and Set: Gender
          *
          * @access public
-         * @param string $gender
+         * @param string
          * @return string | Applicant $this
          */
-        public function gender($gender = null)
+        public function gender()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Gender'])
-                    ? $this->struct['Gender']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($gender)
-             && preg_match('/^[MF]$/', $gender)
-            ) {
-                $this->struct['Gender'] = $gender;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateSet($this->struct['Gender'], func_get_args(), array('M', 'F'));
         }
 
         /**
@@ -209,38 +137,14 @@
          * Get and Set: Date of Birth
          *
          * @access public
-         * @param integer $year
-         * @param integer $month
-         * @param integer $day
+         * @param integer
+         * @param integer
+         * @param integer
          * @return $this
          */
-        public function dateOfBirth($year = null, $month = null, $day = null)
+        public function dateOfBirth()
         {
-            if(func_num_args() === 0) {
-                // Just check that the year is set as the month and day get set at the same time, and won't be set
-                // without it.
-                return isset($this->struct['DateOfBirth']['CCYY'])
-                    ? $this->struct['DateOfBirth']['CCYY'] . '/'
-                    . $this->struct['DateOfBirth']['MM'] . '/'
-                    . $this->struct['DateOfBirth']['DD']
-                    : null;
-            }
-            if(
-                is_int($year) && $year >= 1875 && $year <= (int) date('Y')
-             && is_int($month) && $month >= 1 && $month <= 12
-             && is_int($day) && $day >= 1 && $day <= 31
-            ) {
-                $this->struct['DateOfBirth'] = array(
-                    'CCYY' => (string) $year,
-                    'MM' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
-                    'DD' => str_pad((string) $day, 2, '0', STR_PAD_LEFT),
-                );
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateDate($this->struct['DateOfBirth'], func_get_args());
         }
 
         /**

@@ -20,18 +20,6 @@
     class LocationDetails extends Partial
     {
 
-        const MAX_CHARS_FLAT            = 30;
-        const MAX_CHARS_HOUSE_NAME      = 50;
-        const MAX_CHARS_HOUSE_NUMBER    = 10;
-        const MAX_CHARS_STREET          = 60;
-        const MAX_CHARS_DISTRICT        = 35;
-        const MAX_CHARS_TOWN            = 30;
-        const MAX_CHARS_COUNTY          = 30;
-        const MAX_CHARS_POSTCODE_UK     = 8;
-        const MAX_CHARS_POSTCODE_NONUK  = 40;
-        const MAX_CHARS_POBOX           = 6;
-        const MAX_CHARS_LOCATION        = 40;
-
         /**
          * @var array $struct
          * Define a class member to hold the Applicant XML structure.
@@ -55,14 +43,14 @@
          */
         public function __construct($type)
         {
-            if(
-                !is_string($type)
-             || !preg_match('/^('.implode('|', array(\PHPerian::LOCATION_UK, \PHPerian::LOCATION_BFPO, \PHPerian::LOCATION_OVERSEAS)).')$/', $type)
-            ) {
-                throw new Exception();
+            $options = array(\PHPerian::LOCATION_UK, \PHPerian::LOCATION_BFPO, \PHPerian::LOCATION_OVERSEAS);
+            if(!in_array($type, $options)) {
+                throw new Exception(
+                    'Parameter passed to ' . __CLASS__ . ' constructor method is not a valid option in the defined set.',
+                    Partial::INVALID_OPTION
+                );
             }
             $this->type = $type;
-            $this->struct[$this->type] = array();
             parent::__construct();
         }
 
@@ -84,25 +72,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['Flat'])
-                    ? $this->struct[$this->type]['Flat']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($flat)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_FLAT . '}$/', $flat)
-            ) {
-                $this->struct[$this->type]['Flat'] = $flat;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['Flat'], func_get_args(), 30);
         }
 
         /**
@@ -123,25 +93,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['HouseName'])
-                    ? $this->struct[$this->type]['HouseName']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($house_name)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_HOUSE_NAME . '}$/', $house_name)
-            ) {
-                $this->struct[$this->type]['HouseName'] = $house_name;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['HouseName'], func_get_args(), 50);
         }
 
         /**
@@ -162,25 +114,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['HouseNumber'])
-                    ? $this->struct[$this->type]['HouseNumber']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($house_number)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_HOUSE_NUMBER . '}$/', $house_number)
-            ) {
-                $this->struct[$this->type]['HouseNumber'] = $house_number;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['HouseNumber'], func_get_args(), 10);
         }
 
         /**
@@ -203,33 +137,35 @@
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                $return = array();
-                if(isset($this->struct[$this->type]['Street'])) {
-                    $return[] = $this->struct[$this->type]['Street'];
-                }
-                if(isset($this->struct[$this->type]['Street2'])) {
-                    $return[] = $this->struct[$this->type]['Street2'];
-                }
-                return count($return) > 0
-                    ? implode("\n", $return)
+                $lines = array(
+                    $this->streetLine1(),
+                    $this->streetLine2(),
+                );
+                $return = trim(preg_replace('/\\n+/', "\n", implode("\n", $lines)), "\n");
+                return $return
+                    ? $return
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_string($street) && $street) {
-                $street = explode("\n", $street);
-                if(isset($street[2]) && parent::$verbose) {
-                    throw new Exception();
+            if(is_string($street)) {
+                $street = explode("\n", trim($street, "\n"));
+            }
+            if(!is_array($street)) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'The parameter passed to ' . __METHOD__ . ' must be either a string or array.',
+                        Partial::INVALID_DATA_TYPE
+                    );
                 }
-                if(isset($street[0])) {
-                    $this->streetLine1($street[0]);
-                }
-                if(isset($street[1])) {
-                    $this->streetLine2($street[1]);
+                else {
+                    return $this;
                 }
             }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
+            $i = 0;
+            foreach($street as $line) {
+                $i++;
+                $method = 'streetLine' . $i;
+                $this->$method($line);
             }
             // Return a copy of this instance to allow chaining.
             return $this;
@@ -253,25 +189,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['Street'])
-                    ? $this->struct[$this->type]['Street']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($street)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
-            ) {
-                $this->struct[$this->type]['Street'] = $street;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['Street'], func_get_args(), 60);
         }
 
         /**
@@ -292,25 +210,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['Street2'])
-                    ? $this->struct[$this->type]['Street2']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($street)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $street)
-            ) {
-                $this->struct[$this->type]['Street2'] = $street;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['Street2'], func_get_args(), 60);
         }
 
         /**
@@ -333,33 +233,35 @@
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                $return = array();
-                if(isset($this->struct[$this->type]['District'])) {
-                    $return[] = $this->struct[$this->type]['District'];
-                }
-                if(isset($this->struct[$this->type]['District2'])) {
-                    $return[] = $this->struct[$this->type]['District2'];
-                }
-                return count($return) > 0
-                    ? implode("\n", $return)
+                $lines = array(
+                    $this->districtLine1(),
+                    $this->districtLine2(),
+                );
+                $return = trim(preg_replace('/\\n+/', "\n", implode("\n", $lines)), "\n");
+                return $return
+                    ? $return
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_string($district) && $district) {
-                $district = explode("\n", $district);
-                if(isset($district[2]) && parent::$verbose) {
-                    throw new Exception();
+            if(is_string($street)) {
+                $street = explode("\n", trim($street, "\n"));
+            }
+            if(!is_array($street)) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'The parameter passed to ' . __METHOD__ . ' must be either a string or array.',
+                        Partial::INVALID_DATA_TYPE
+                    );
                 }
-                if(isset($district[0])) {
-                    $this->streetLine1($district[0]);
-                }
-                if(isset($district[1])) {
-                    $this->streetLine2($district[1]);
+                else {
+                    return $this;
                 }
             }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
+            $i = 0;
+            foreach($street as $line) {
+                $i++;
+                $method = 'districtLine' . $i;
+                $this->$method($line);
             }
             // Return a copy of this instance to allow chaining.
             return $this;
@@ -383,25 +285,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['District'])
-                    ? $this->struct[$this->type]['District']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($district)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
-            ) {
-                $this->struct[$this->type]['District'] = $district;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['District'], func_get_args(), 35);
         }
 
         /**
@@ -422,25 +306,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['District2'])
-                    ? $this->struct[$this->type]['District2']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($district)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_STREET . '}$/', $district)
-            ) {
-                $this->struct[$this->type]['District2'] = $district;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['District2'], func_get_args(), 35);
         }
 
         /**
@@ -461,25 +327,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['PostTown'])
-                    ? $this->struct[$this->type]['PostTown']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($town)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TOWN . '}$/', $town)
-            ) {
-                $this->struct[$this->type]['PostTown'] = $town;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['PostTown'], func_get_args(), 30);
         }
 
         /**
@@ -500,25 +348,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['County'])
-                    ? $this->struct[$this->type]['County']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($county)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_COUNTY . '}$/', $county)
-            ) {
-                $this->struct[$this->type]['County'] = $county;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct[$this->type]['Country'], func_get_args(), 30);
         }
 
         /**
@@ -529,30 +359,15 @@
          * @throws \PHPerian\Exception
          * @return string | Location $this
          */
-        public function postcode($postcode = null)
+        public function postcode()
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['Postcode'])
-                    ? $this->struct[$this->type]['Postcode']
-                    : null;
+            $arguments = func_get_args();
+            // Remove any spaces that may appear in the postcode. They get stripped out by Experian anyway.
+            if(isset($arguments[0])) {
+                $arguments[0] = str_replace(' ', '', $arguments[0]);
             }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            $max_chars = $this->type == \PHPerian::LOCATION_UK
-                ? self::MAX_CHARS_POSTCODE_UK
-                : self::MAX_CHARS_POSTCODE_NONUK;
-            if(
-                is_string($postcode)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . $max_chars . '}$/', $postcode)
-            ) {
-                $this->struct[$this->type]['Postcode'] = $postcode;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            $max_chars = $this->type == \PHPerian::LOCATION_UK ? 8 : 40;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['Postcode'], $arguments, $max_chars);
         }
 
         /**
@@ -573,25 +388,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['POBox'])
-                    ? $this->struct[$this->type]['POBox']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($pobox)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_POBOX . '}$/', $pobox)
-            ) {
-                $this->struct[$this->type]['POBox'] = $pobox;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['POBox'], func_get_args(), 6);
         }
 
         /**
@@ -612,25 +409,12 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['Country'])
-                    ? $this->struct[$this->type]['Country']
-                    : null;
+            // If a value was passed, make sure it is uppercase.
+            $arguments = func_get_args();
+            if(isset($arguments[0])) {
+                $arguments[0] = strtoupper($arguments[0]);
             }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($country)
-             && preg_match('/^(UK|IE)$/i', $country)
-            ) {
-                $this->struct[$this->type]['Country'] = strtoupper($country);
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateSet($this->struct[$this->type]['Country'], func_get_args(), array('UK', 'IE'));
         }
 
         /**
@@ -651,22 +435,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['SharedLetterbox'])
-                    ? $this->struct[$this->type]['SharedLetterbox'] == parent::BOOLEAN_TRUE
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_bool($shared_letterbox)) {
-                $this->struct[$this->type]['SharedLetterbox'] = $shared_letterbox ? parent::BOOLEAN_TRUE : parent::BOOLEAN_FALSE;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateBoolean($this->struct[$this->type]['SharedLetterbox'], func_get_args());
         }
 
         /**
@@ -689,58 +458,39 @@
             }
             // If no arguments are passed to the method, return what has already been set.
             if(func_num_args() === 0) {
-                $return = array();
-                if(isset($this->struct[$this->type]['LocationLine1'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine1'];
-                }
-                if(isset($this->struct[$this->type]['LocationLine2'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine2'];
-                }
-                if(isset($this->struct[$this->type]['LocationLine3'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine3'];
-                }
-                if(isset($this->struct[$this->type]['LocationLine4'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine4'];
-                }
-                if(isset($this->struct[$this->type]['LocationLine5'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine5'];
-                }
-                if(isset($this->struct[$this->type]['LocationLine6'])) {
-                    $return[] = $this->struct[$this->type]['LocationLine6'];
-                }
-                return count($return) > 0
-                    ? implode("\n", $return)
+                $lines = array(
+                    $this->locationLine1(),
+                    $this->locationLine2(),
+                    $this->locationLine3(),
+                    $this->locationLine4(),
+                    $this->locationLine5(),
+                    $this->locationLine6(),
+                );
+                $return = trim(preg_replace('/\\n+/', "\n", implode("\n", $lines)), "\n");
+                return $return
+                    ? $return
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_string($location) && $location) {
-                $location = explode("\n", $location);
-                if(isset($location[6]) && parent::$verbose) {
-                    throw new Exception();
-                }
-                if(isset($location[0])) {
-                    $this->locationLine1($location[0]);
-                }
-                if(isset($location[1])) {
-                    $this->locationLine2($location[1]);
-                }
-                if(isset($location[2])) {
-                    $this->locationLine3($location[2]);
-                }
-                if(isset($location[3])) {
-                    $this->locationLine4($location[3]);
-                }
-                if(isset($location[4])) {
-                    $this->locationLine5($location[4]);
-                }
-                if(isset($location[5])) {
-                    $this->locationLine6($location[5]);
-                }
-
+            if(is_string($street)) {
+                $street = explode("\n", trim($street, "\n"));
             }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
+            if(!is_array($street)) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'The parameter passed to ' . __METHOD__ . ' must be either a string or array.',
+                        Partial::INVALID_DATA_TYPE
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            $i = 0;
+            foreach($street as $line) {
+                $i++;
+                $method = 'locationtLine' . $i;
+                $this->$method($line);
             }
             // Return a copy of this instance to allow chaining.
             return $this;
@@ -764,25 +514,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine1'])
-                    ? $this->struct[$this->type]['LocationLine1']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine1'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine1'], func_get_args(), 40);
         }
 
         /**
@@ -803,25 +535,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine2'])
-                    ? $this->struct[$this->type]['LocationLine2']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine2'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine2'], func_get_args(), 40);
         }
 
         /**
@@ -842,25 +556,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine3'])
-                    ? $this->struct[$this->type]['LocationLine3']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine3'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine3'], func_get_args(), 40);
         }
 
         /**
@@ -881,25 +577,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine4'])
-                    ? $this->struct[$this->type]['LocationLine4']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine4'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine4'], func_get_args(), 40);
         }
 
         /**
@@ -920,25 +598,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine5'])
-                    ? $this->struct[$this->type]['LocationLine5']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine5'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine5'], func_get_args(), 40);
         }
 
         /**
@@ -959,25 +619,7 @@
                     return $this;
                 }
             }
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct[$this->type]['LocationLine6'])
-                    ? $this->struct[$this->type]['LocationLine6']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($location)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC . '{1,' . self::MAX_CHARS_LOCATION . '}$/', $location)
-            ) {
-                $this->struct[$this->type]['LocationLine6'] = $location;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            // Return a copy of this instance to allow chaining.
-            return $this;
+            return $this->validateAlphaNumeric($this->struct[$this->type]['LocationLine6'], func_get_args(), 40);
         }
 
     }

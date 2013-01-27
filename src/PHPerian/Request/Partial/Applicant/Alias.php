@@ -71,24 +71,7 @@
          */
         public function title($title = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Title'])
-                    ? $this->struct['Title']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($title)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_TITLE . '}$/', $title)
-            ) {
-                $this->struct['Title'] = $title;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumeric($this->struct['Title'], func_get_args(), 10);
         }
 
         /**
@@ -101,24 +84,7 @@
          */
         public function middleName($middle_name = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['MiddleName'])
-                    ? $this->struct['MiddleName']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($middle_name)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_MIDDLENAME . '}$/', $middle_name)
-            ) {
-                $this->struct['MiddleName'] = $middle_name;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct['MiddleName'], func_get_args(), 15);
         }
 
         /**
@@ -131,24 +97,7 @@
          */
         public function suffix($suffix = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Suffix'])
-                    ? $this->struct['Suffix']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($suffix)
-             && preg_match('/^' . parent::PCRE_ALPHANUMERIC_EXTRA . '{1,' . self::MAX_CHARS_SUFFIX . '}$/', $suffix)
-            ) {
-                $this->struct['Suffix'] = $suffix;
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateAlphaNumericExtra($this->struct['Suffix'], func_get_args(), 10);
         }
 
         /**
@@ -161,24 +110,7 @@
          */
         public function gender($gender = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Gender'])
-                    ? $this->struct['Gender']
-                    : null;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($gender)
-             && preg_match('/^[MmFf]$/', $gender)
-            ) {
-                $this->struct['Gender'] = strtoupper($gender);
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateSet($this->struct['Gender'], func_get_args(), array('M', 'F'));
         }
 
         /**
@@ -213,24 +145,7 @@
          */
         public function source($source = null)
         {
-            // If no arguments are passed to the method, return what has already been set.
-            if(func_num_args() === 0) {
-                return isset($this->struct['Source'])
-                    ? $this->struct['Source']
-                    : false;
-            }
-            // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(
-                is_string($source)
-             && preg_match('/^[PpEeTtOo]$/', $source)
-            ) {
-                $this->struct['Source'] = strtoupper($source);
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateSet($this->struct['Source'], func_get_args(), array('P', 'E', 'T', 'O'));
         }
 
     }
