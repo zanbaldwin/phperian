@@ -43,28 +43,130 @@ Example Usage
 
     // Start a new request.
     $request = new \PHPerian\Request;
-    // Create a new applicant.
-    $applicant = $request   ->createApplicant('Zander', 'Baldwin')
-                            ->setGenderMale()
-                            ->dateOfBirth(1970, 1, 1);
-    // Create a new location.
-    $location = $request    ->createLocationDetails()
-                            ->houseName('Buckingham Palace')
-                            ->postcode('SW1A 1AA');
-    // Tie the applicant with the location.
-    $request                ->createResidency($applicant, $location, \PHPerian::LOCATION_CURRENT)
-                            ->dateFrom(1970, 1, 1)
-                            ->dateTo(2012, 12, 21);
-    $request                ->createThirdPartyData()
-                            ->optOut(false);
+
+    // Create the applicant.
+    $applicant = $request->createApplicant('Test', 'Case')
+        ->title('Mr')
+        ->middleName('Scenario')
+        ->setGenderMale()
+        ->dateOfBirth('1970', 1, 1);
+    // Add current address.
+    $location = $request->createLocationDetails(\PHPerian::LOCATION_UK)
+        ->houseName('Buckingham Palace')
+        ->postcode('SW1A 1AA');
+    // Link applicant with current address.
+    $request->createResidency($applicant, $location, \PHPerian::LOCATION_CURRENT)
+        ->dateFrom(2012, 12, 21)
+        // Currently living there, provide today's date.
+        ->dateTo(date('Y'), date('n'), date('j'));
+    // Create the request control block.
+    $request->createControl()
+        ->userIdentity('TestQueen')
+        ->reprocessFlag(true)
+        ->authenticatePlus(true)
+        ->fullFBL(true)
+        ->detect(true)
+        ->interactiveMode(\PHPerian::INTERACTIVE_MODE_ONESHOT);
+    // Create the request application block.
+    $request->createApplication('EQ')
+        ->amount(1000)
+        ->term(1)
+        ->applicationChannel('FF')
+        ->searchConsent(true);
+    // Create ThirdPartyData XML block.
+    $request->createThirdPartyData()
+        ->optOut(false);
+
     // Generate the XML request.
     $xml = $request->xml();
+
+    // Prettify the XML output.
+    $dom = new DOMDocument;
+    $dom->preserveWhiteSpace = false;
+    $dom->loadXML($xml);
+    $dom->formatOutput = true;
+    $xml = $dom->saveXml();
+
+    headers_sent() || header('Content-Type: text/xml');
+    echo $xml;
 ```
 
 As of Friday, 25th January, 2013, the above code generates the following XML:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><soap:Header><wsse:Security><wsse:BinarySecurityToken ValueType="ExperianWASP" EncodingType="wsse:Base64Binary" wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken></wsse:Security></soap:Header><soap:Body><ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive/v100"><ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any"><ns0:Input xmlns:ns0="http://schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData"><Applicant><ApplicantIdentifier>1</ApplicantIdentifier><Name><Forename>Zander</Forename><Surname>Baldwin</Surname></Name><Gender>M</Gender><DateOfBirth><CCYY>1970</CCYY><MM>01</MM><DD>01</DD></DateOfBirth></Applicant><Location><LocationIdentifier>1</LocationIdentifier><UKLocation><HouseName>Buckingham Palace</HouseName></UKLocation></Location><Residency><ApplicantIdentifier>1</ApplicantIdentifier><LocationIdentifier>1</LocationIdentifier><LocationCode>01</LocationCode><ResidencyDateFrom><CCYY>1970</CCYY><MM>01</MM><DD>01</DD></ResidencyDateFrom><ResidencyDateTo><CCYY>2012</CCYY><MM>12</MM><DD>21</DD></ResidencyDateTo></Residency><ThirdPartyData><OptOut>N</OptOut></ThirdPartyData></ns0:Input></ns1:Root></ns2:Interactive></soap:Body></soap:Envelope>
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <soap:Header>
+    <wsse:Security>
+      <wsse:BinarySecurityToken ValueType="ExperianWASP" EncodingType="wsse:Base64Binary" wsu:Id="SecurityToken">{{BinarySecurityToken}}</wsse:BinarySecurityToken>
+    </wsse:Security>
+  </soap:Header>
+  <soap:Body>
+    <ns2:Interactive xmlns:ns2="http://www.uk.experian.com/experian/wbsv/peinteractive/v100">
+      <ns1:Root xmlns:ns1="http://schemas.microsoft.com/BizTalk/2003/Any">
+        <ns0:Input xmlns:ns0="http://schema.uk.experian.com/experian/cems/msgs/v1.7/ConsumerData">
+          <Applicant>
+            <ApplicantIdentifier>1</ApplicantIdentifier>
+            <Name>
+              <Forename>Test</Forename>
+              <Surname>Case</Surname>
+              <Title>Mr</Title>
+              <MiddleName>Scenario</MiddleName>
+            </Name>
+            <Gender>M</Gender>
+            <DateOfBirth>
+              <CCYY>1970</CCYY>
+              <MM>01</MM>
+              <DD>01</DD>
+            </DateOfBirth>
+          </Applicant>
+          <LocationDetails>
+            <LocationIdentifier>1</LocationIdentifier>
+            <UKLocation>
+              <HouseName>Buckingham Palace</HouseName>
+              <Postcode>SW1A1AA</Postcode>
+            </UKLocation>
+          </LocationDetails>
+          <Residency>
+            <ApplicantIdentifier>1</ApplicantIdentifier>
+            <LocationIdentifier>1</LocationIdentifier>
+            <LocationCode>01</LocationCode>
+            <ResidencyDateFrom>
+              <CCYY>2012</CCYY>
+              <MM>12</MM>
+              <DD>21</DD>
+            </ResidencyDateFrom>
+            <ResidencyDateTo>
+              <CCYY>2013</CCYY>
+              <MM>01</MM>
+              <DD>27</DD>
+            </ResidencyDateTo>
+          </Residency>
+          <Control>
+            <UserIdentity>TestQueen</UserIdentity>
+            <ReprocessFlag>Y</ReprocessFlag>
+            <Parameters>
+              <AuthPlusRequired>E</AuthPlusRequired>
+              <FullFBLRequired>Y</FullFBLRequired>
+              <DetectRequired>Y</DetectRequired>
+              <InteractiveMode>OneShot</InteractiveMode>
+            </Parameters>
+          </Control>
+          <Application>
+            <ApplicationType>EQ</ApplicationType>
+            <Amount>1000</Amount>
+            <Term>1</Term>
+            <ApplicationChannel>FF</ApplicationChannel>
+            <SearchConsent>Y</SearchConsent>
+          </Application>
+          <ThirdPartyData>
+            <OptOut>N</OptOut>
+          </ThirdPartyData>
+        </ns0:Input>
+      </ns1:Root>
+    </ns2:Interactive>
+  </soap:Body>
+</soap:Envelope>
 ```
 
 Authors
