@@ -672,7 +672,7 @@
                 // Is the year an integer?
                 !is_int($arguments[0])
                 // If they haven't supplied the year as an integer, is it a string representation of an integer?
-             || !(is_string($arguments[0]) && preg_match('/[0-9]{4}/', $arguments[0]))
+             && !(is_string($arguments[0]) && preg_match('/[0-9]{4}/', $arguments[0]))
                 // Enforce that the year is of an integer data type, and that it is not less than 1875, which is a
                 // guaranteed year in which no living person was born according to records.
              || ($arguments[0] = (int) $arguments[0]) < 1875
@@ -690,7 +690,7 @@
                 // Is the month an integer?
                 !is_int($arguments[1])
                 // If they haven't supplied the month as an integer, is it a string representation of an integer?
-             || !(is_string($arguments[1]) && preg_match('/[0-9]{1,2}/', $arguments[1]))
+             && !(is_string($arguments[1]) && preg_match('/[0-9]{1,2}/', $arguments[1]))
                 // Enforce that the month is of an integer data type, and that it is not less than 1 (January).
              || ($arguments[1] = (int) $arguments[1]) < 1
                 // Also make sure that the month in not greater than 12 (December).
@@ -707,7 +707,7 @@
                 // Is the day an integer?
                 !is_int($arguments[2])
                 // If they haven't supplied the day as an integer, is it a string representation of an integer?
-             || !(is_string($arguments[2]) && preg_match('/[0-9]{1,2}/', $arguments[2]))
+             && !(is_string($arguments[2]) && preg_match('/[0-9]{1,2}/', $arguments[2]))
                 // Enforce that the day is of an integer data type, and that it is not less than 1.
              || ($arguments[2] = (int) $arguments[2]) < 1
                 // Also make sure that the day in not greater than 31.
@@ -722,9 +722,9 @@
             }
             // We passed error checking, set the value.
             $structureElement = array(
-                'CCYY'  => $arguments[0],
-                'MM'    => $arguments[1],
-                'DD'    => $arguments[2],
+                'CCYY'  => (string) $arguments[0],
+                'MM'    => (string) $arguments[1],
+                'DD'    => (string) $arguments[2],
             );
             // Return a copy of this instance to allow chaining.
             return $this;
