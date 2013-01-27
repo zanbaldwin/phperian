@@ -41,7 +41,7 @@
             // an integer means nth previous residency.
             switch(true) {
                 case $location_code === true:
-                    $location_code = self::LOCATION_CURRENT;
+                    $location_code = \PHPerian::LOCATION_CURRENT;
                     break;
                 case is_int($location_code):
                     if($location_code < 1 || $location_code > 8) {
