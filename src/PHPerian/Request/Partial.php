@@ -657,16 +657,18 @@
             }
             // If, however, arguments were passed to the method that called this one, it means they want to set the
             // value. We'll perform some checks first though.
-            // These checks are fundamental, as the method cannot work if these don't pass. Don't suppress these
-            // Exceptions when silent mode is on.
-            
-            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many
-            // arguments passed.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
             if(count($arguments) !== 3) {
-                throw new Exception(
-                    'You are required to pass 3 parameters to ' . self::getCalledMethod(2) . '.',
-                    self::TOO_MANY_ARGUMENTS
-                );
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass 3 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
             }
             if(
                 // Is the year an integer?
@@ -723,8 +725,8 @@
             // We passed error checking, set the value.
             $structureElement = array(
                 'CCYY'  => (string) $arguments[0],
-                'MM'    => (string) $arguments[1],
-                'DD'    => (string) $arguments[2],
+                'MM'    => str_pad((string) $arguments[1], 2, '0', STR_PAD_LEFT),
+                'DD'    => str_pad((string) $arguments[2], 2, '0', STR_PAD_LEFT),
             );
             // Return a copy of this instance to allow chaining.
             return $this;
