@@ -67,10 +67,10 @@
          * Get and Set: Title
          *
          * @access public
-         * @param string $title
+         * @param string
          * @return string | Applicant $this
          */
-        public function title($title = null)
+        public function title()
         {
             return $this->validateAlphaNumericExtra($this->struct['Name']['Title'], func_get_args(), 10);
         }
@@ -79,10 +79,10 @@
          * Get and Set: Middle Name
          *
          * @access public
-         * @param string $middlename
+         * @param string
          * @return string | Applicant $this
          */
-        public function middleName($middlename = null)
+        public function middleName()
         {
             return $this->validateAlphaNumericExtra($this->struct['Name']['MiddleName'], func_get_args(), 15);
         }
@@ -91,10 +91,10 @@
          * Get and Set: Suffix
          *
          * @access public
-         * @param string $suffix
+         * @param string
          * @return string | Applicant $this
          */
-        public function suffix($suffix = null)
+        public function suffix()
         {
             return $this->validateAlphaNumericExtra($this->struct['Name']['Suffix'], func_get_args(), 10);
         }
@@ -103,10 +103,10 @@
          * Get and Set: Gender
          *
          * @access public
-         * @param string $gender
+         * @param string
          * @return string | Applicant $this
          */
-        public function gender($gender = null)
+        public function gender()
         {
             return $this->validateSet($this->struct['Gender'], func_get_args(), array('M', 'F'));
         }
