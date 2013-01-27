@@ -662,7 +662,7 @@
             // value that has already been set returned.
             if(!is_array($arguments) || count($arguments) === 0) {
                 return !is_null($structureElement)
-                    ? $structureElement == $true
+                    ? $structureElement
                     : null;
             }
 
