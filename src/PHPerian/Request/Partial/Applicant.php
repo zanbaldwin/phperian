@@ -137,38 +137,14 @@
          * Get and Set: Date of Birth
          *
          * @access public
-         * @param integer $year
-         * @param integer $month
-         * @param integer $day
+         * @param integer
+         * @param integer
+         * @param integer
          * @return $this
          */
-        public function dateOfBirth($year = null, $month = null, $day = null)
+        public function dateOfBirth()
         {
-            if(func_num_args() === 0) {
-                // Just check that the year is set as the month and day get set at the same time, and won't be set
-                // without it.
-                return isset($this->struct['DateOfBirth']['CCYY'])
-                    ? $this->struct['DateOfBirth']['CCYY'] . '/'
-                    . $this->struct['DateOfBirth']['MM'] . '/'
-                    . $this->struct['DateOfBirth']['DD']
-                    : null;
-            }
-            if(
-                is_int($year) && $year >= 1875 && $year <= (int) date('Y')
-             && is_int($month) && $month >= 1 && $month <= 12
-             && is_int($day) && $day >= 1 && $day <= 31
-            ) {
-                $this->struct['DateOfBirth'] = array(
-                    'CCYY' => (string) $year,
-                    'MM' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
-                    'DD' => str_pad((string) $day, 2, '0', STR_PAD_LEFT),
-                );
-            }
-            // If the input was invalid, and the user has chosen to be verbose about exceptions, throw one.
-            elseif(parent::$verbose) {
-                throw new Exception();
-            }
-            return $this;
+            return $this->validateDate($this->struct['DateOfBirth'], func_get_args());
         }
 
         /**
