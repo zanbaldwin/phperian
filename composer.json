@@ -1,0 +1,28 @@
+{
+    "name": "mynameiszanders/phperian",
+    "type": "library",
+    "description": "Composer-based Library for constructing service calls to Experian's Web Services, by Zander Baldwin.",
+    "version": "0.1-dev",
+    "keywords": ["webservice", "experian", "SOAP"],
+    "homepage": "https://github.com/mynameiszanders/phperian",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zander Baldwin",
+            "email": "mynameiszanders@gmail.com",
+            "homepage": "http://mynameiszanders.github.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mynameiszanders/phperian/issues",
+        "wiki": "https://github.com/mynameiszanders/phperian/wiki"
+    },
+    "require": {
+        "php": ">=5.3.7"
+    },
+    "autoload": {
+        "psr-0" : {
+            "Nosco" : "src/"
+        }
+    }
+}
