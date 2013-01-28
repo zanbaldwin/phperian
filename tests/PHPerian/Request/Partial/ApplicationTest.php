@@ -31,15 +31,15 @@
                 'Ensure that a new Request object can be created.'
             );
 
-            $applicant = new \PHPerian\Request\Partial\Application('EQ');
+            $application = new \PHPerian\Request\Partial\Application('EQ');
             $this->assertTrue(
-                is_object($applicant),
+                is_object($application),
                 'Ensure that a new instance of the Application class can be created successfully.'
             );
 
-            $applicant = $request->createApplication('EQ');
+            $application = $request->createApplication('EQ');
             $this->assertTrue(
-                is_object($applicant),
+                is_object($application),
                 'Ensure that a new Application object can be created through the Request object\'s magic method.'
             );
 
