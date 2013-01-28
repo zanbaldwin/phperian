@@ -151,7 +151,11 @@
          */
         public function emailAddress()
         {
-            return $this->validateAlphaNumericExtra($this->struct['Personal']['EmailAddress'], func_get_args(), 60);
+            $arguments = func_get_args();
+            if(isset($arguments[0]) && is_string($arguments[0]) && !filter_var($arguments[0], FILTER_VALIDATE_EMAIL)) {
+                $arguments[0] = false;
+            }
+            return $this->validateAlphaNumericExtra($this->struct['Personal']['EmailAddress'], $arguments, 60);
         }
 
         /**
