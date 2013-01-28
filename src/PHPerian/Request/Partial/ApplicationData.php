@@ -115,8 +115,18 @@
         public function dependants()
         {
             $arguments = func_get_args();
-            if(isset($arguments[0]) && is_int($arguments[0]) && $arguments[0] > 7) {
-                $arguments[0] = '7';
+            if(isset($arguments[0])) {
+                switch(true) {
+                    case is_int($arguments[0]) && $arguments[0] > 7:
+                        $arguments[0] = 7;
+                        break;
+                    case $arguments[0] == 'Z':
+                        $arguments[0] = 8;
+                        break;
+                    case $arguments[0] == 'Q':
+                        $arguments[0] = 9;
+                        break;
+                }
             }
             return $this->validateNumeric($this->struct['Personal']['Dependants'], $arguments, 1);
         }
