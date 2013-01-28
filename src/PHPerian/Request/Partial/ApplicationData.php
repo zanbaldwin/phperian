@@ -59,33 +59,17 @@
         const APPLICATIONDATA_TELEPHONE_NOT_GIVEN = 'N';
 
         /**
-         * Get and Set: Home Telephone (Area Code)
+         * Get and Set: Home Telephone
          *
          * @access public
+         * @param string
          * @param string
          * @throws \PHPerian\Exception
          * @return string | ApplicationData $this
          */
-        public function homeTelephoneArea()
+        public function homeTelephone()
         {
-            $arguments = func_get_args();
-            if(isset($arguments[0]) && $arguments[0] === 'Z') {
-                $arguments[0] = 'N';
-            }
-            return $this->validateAlphaNumeric($this->struct['Personal']['HomeTelephone']['STDCode'], func_get_args(), 6);
-        }
-
-        /**
-         * Get and Set: Home Telephone (Number)
-         *
-         * @access public
-         * @param string
-         * @throws \PHPerian\Exception
-         * @return string | ApplicationData $this
-         */
-        public function homeTelephoneNumber()
-        {
-            return $this->validateAlphaNumeric($this->struct['Personal']['HomeTelephone']['LocalNumber'], func_get_args(), 10);
+            return $this->validatePhoneNumber($this->struct['Personal']['HomeTelephone'], func_get_args());
         }
 
         /**
