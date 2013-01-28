@@ -59,33 +59,17 @@
         const APPLICATIONDATA_TELEPHONE_NOT_GIVEN = 'N';
 
         /**
-         * Get and Set: Home Telephone (Area Code)
+         * Get and Set: Home Telephone
          *
          * @access public
+         * @param string
          * @param string
          * @throws \PHPerian\Exception
          * @return string | ApplicationData $this
          */
-        public function homeTelephoneArea()
+        public function homeTelephone()
         {
-            $arguments = func_get_args();
-            if(isset($arguments[0]) && $arguments[0] === 'Z') {
-                $arguments[0] = 'N';
-            }
-            return $this->validateAlphaNumeric($this->struct['Personal']['HomeTelephone']['STDCode'], func_get_args(), 6);
-        }
-
-        /**
-         * Get and Set: Home Telephone (Number)
-         *
-         * @access public
-         * @param string
-         * @throws \PHPerian\Exception
-         * @return string | ApplicationData $this
-         */
-        public function homeTelephoneNumber()
-        {
-            return $this->validateAlphaNumeric($this->struct['Personal']['HomeTelephone']['LocalNumber'], func_get_args(), 10);
+            return $this->validatePhoneNumber($this->struct['Personal']['HomeTelephone'], func_get_args());
         }
 
         /**
@@ -115,8 +99,18 @@
         public function dependants()
         {
             $arguments = func_get_args();
-            if(isset($arguments[0]) && is_int($arguments[0]) && $arguments[0] > 7) {
-                $arguments[0] = '7';
+            if(isset($arguments[0])) {
+                switch(true) {
+                    case is_int($arguments[0]) && $arguments[0] > 7:
+                        $arguments[0] = 7;
+                        break;
+                    case $arguments[0] == 'Z':
+                        $arguments[0] = 8;
+                        break;
+                    case $arguments[0] == 'Q':
+                        $arguments[0] = 9;
+                        break;
+                }
             }
             return $this->validateNumeric($this->struct['Personal']['Dependants'], $arguments, 1);
         }
@@ -157,7 +151,11 @@
          */
         public function emailAddress()
         {
-            return $this->validateAlphaNumericExtra($this->struct['Personal']['EmailAddress'], func_get_args(), 60);
+            $arguments = func_get_args();
+            if(isset($arguments[0]) && is_string($arguments[0]) && !filter_var($arguments[0], FILTER_VALIDATE_EMAIL)) {
+                $arguments[0] = false;
+            }
+            return $this->validateAlphaNumericExtra($this->struct['Personal']['EmailAddress'], $arguments, 60);
         }
 
         /**

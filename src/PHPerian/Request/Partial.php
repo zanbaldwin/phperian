@@ -793,4 +793,137 @@
             return $this;
         }
 
+        /**
+         * Validate: Phone Number
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validatePhoneNumber(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                return !is_null($structureElement)
+                    ? $structureElement['STDCode'] . ' '
+                    . $structureElement['LocalNumber']
+                    : null;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
+            if(count($arguments) !== 2) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass 2 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(!is_string($arguments[0]) || !preg_match('/^' . self::PCRE_NUMERIC . '{1,6}$/', $arguments[0])) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(!is_string($arguments[1]) || !preg_match('/^' . self::PCRE_NUMERIC . '{1,10}$/', $arguments[1])) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'STDCode'  => $arguments[0],
+                'LocalNumber' => $arguments[1],
+            );
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Time Range
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        public function validateTimeRange(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                if(is_null($structureElement)) {
+                    return null;
+                }
+                $return = array();
+                if($structureElement['Years'] != 0) {
+                    $return[] = $structureElement['Years'] . 'y';
+                }
+                if($structureElement['Months'] != 0) {
+                    $return[] = $structureElement['Months'] . 'm';
+                }
+                if(count($return) == 0) {
+                    return '0m';
+                }
+                return implode(' ', $return);
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
+            if(count($arguments) > 2) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass no more than 2 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(!is_int($arguments[0]) || $arguments[0] < 0) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(isset($arguments[1])) {
+                if(!is_int($arguments[1]) || $arguments[1] < 0 || $arguments[1] > 11) {
+                    if(self::$verbose) {
+                        throw new Exception();
+                    }
+                    else {
+                        return $this;
+                    }
+                }
+            }
+            else {
+                $arguments[1] = 0;
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'Years'  => $arguments[0],
+                'Months' => $arguments[1],
+            );
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
     }
