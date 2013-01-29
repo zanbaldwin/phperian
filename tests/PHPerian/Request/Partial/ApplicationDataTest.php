@@ -433,4 +433,18 @@
             $appdata->timeWithEmployer('11');
         }
 
+        public function testEmployerName()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->employerName() === null);
+            $this->assertTrue(is_object($appdata->employerName('PHPerian')));
+            $this->assertTrue($appdata->employerName() === 'PHPerian');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->employerName(123)));
+            $this->assertTrue($appdata->employerName() === 'PHPerian');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->employerName(123);
+        }
+
     }
