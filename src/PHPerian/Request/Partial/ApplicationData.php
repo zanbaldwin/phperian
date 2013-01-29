@@ -331,36 +331,24 @@
         }
 
         /**
-         * Get and Set: Work Telephone (Area Code)
+         * Get and Set: Work Telephone
          *
          * @access public
+         * @param string
          * @param string
          * @throws \PHPerian\Exception
          * @return string | ApplicationData $this
          */
-        public function workTelephoneArea()
+        public function workTelephone()
         {
-            return $this->validateAlphaNumeric($this->struct['Employment']['WorkTelephone']['STDCode'], func_get_args(), 6);
-        }
-
-        /**
-         * Get and Set: Work Telephone (Number)
-         *
-         * @access public
-         * @param string
-         * @throws \PHPerian\Exception
-         * @return string | ApplicationData $this
-         */
-        public function workTelephoneNumber()
-        {
-            return $this->validateAlphaNumeric($this->struct['Employment']['WorkTelephone']['LocalNumber'], func_get_args(), 10);
+            return $this->validatePhoneNumber($this->struct['Employment']['WorkTelephone'], func_get_args());
         }
 
         /**
          * Get and Set: Time With Employer
          *
          * @access public
-         * @param integer|string
+         * @param integer
          * @param integer
          * @throws \PHPerian\Exception
          * @return string | ApplicationData $this
