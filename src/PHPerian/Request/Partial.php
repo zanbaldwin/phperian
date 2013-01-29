@@ -807,16 +807,20 @@
             // If no arguments were passed to the method that called this one, it obviously means that they want the
             // value that has already been set returned.
             if(!is_array($arguments) || count($arguments) === 0) {
-                return !is_null($structureElement)
-                    ? $structureElement['STDCode'] . ' '
-                    . $structureElement['LocalNumber']
-                    : null;
+                if(is_null($structureElement)) {
+                    return null;
+                }
+                $return = $structureElement['STDCode'];
+                if(isset($structureElement['LocalNumber'])) {
+                    $return = $return . ' ' . $structureElement['LocalNumber'];
+                }
+                return $return;
             }
             // If, however, arguments were passed to the method that called this one, it means they want to set the
             // value. We'll perform some checks first though.
             // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
             // few, arguments passed.
-            if(count($arguments) !== 2) {
+            if(count($arguments) > 2) {
                 if(self::$verbose) {
                     throw new Exception(
                         'You are required to pass 2 parameters to ' . self::getCalledMethod(2) . '.',
@@ -827,6 +831,25 @@
                     return $this;
                 }
             }
+            // If the telephone number is not available, and a valid option why it is not available is given, save that.
+            if(count($arguments) === 1 && in_array(strtoupper($arguments[0]), array('X', 'N'))) {
+                $structureElement = array(
+                    'STDCode' => strtoupper($arguments[0]),
+                );
+                return $this;
+            }
+            if(count($arguments) === 1) {
+                if(in_array(strtoupper($arguments[0]), array('X', 'N'))) {
+                    $structureElement = array(
+                        'STDCode' => strtoupper($arguments[0]),
+                    );
+                }
+                elseif(self::$verbose) {
+                    throw new Exception();
+                }
+                return $this;
+            }
+            // Else carry on validating it is of the correct data type.
             if(!is_string($arguments[0]) || !preg_match('/^' . self::PCRE_NUMERIC . '{1,6}$/', $arguments[0])) {
                 if(self::$verbose) {
                     throw new Exception();
