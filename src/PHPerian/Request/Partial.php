@@ -545,11 +545,6 @@
                     self::TOO_MANY_ARGUMENTS
                 );
             }
-            // We will also allow integers as input, but change them to strings so that we can parse them.
-            if(is_int($arguments[0])) {
-                $arguments[0] = (string) $arguments[0];
-            }
-            //
             $regex = '/^' . $pcre . '{' . ($fixed_length ? '' : '1,') . $max_chars . '}' . '$/';
             // Make sure that the original parameter input is a string and conforms to the 
             if(!is_string($arguments[0]) || !preg_match($regex, $arguments[0])) {
@@ -596,6 +591,10 @@
          */
         protected function validateNumeric(&$structureElement, array $arguments = array(), $max_chars)
         {
+            // We will also allow integers as input, but change them to strings so that we can parse them.
+            if(isset($arguments[0]) && is_int($arguments[0])) {
+                $arguments[0] = (string) $arguments[0];
+            }
             $return = $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
             if(is_string($return) && is_numeric($return)) {
                 $return = (int) $return;
