@@ -104,6 +104,14 @@
                 'Ensure that the return value is null when a home telephone number has not yet been set.'
             );
             $this->assertTrue(
+                is_object($appdata->workTelephone('N')),
+                'Ensure that an object is returned when a single string parameter is passed to signify unavailability.'
+            );
+            $this->assertTrue(
+                $appdata->workTelephone() === 'N',
+                'Ensure that the return value is the same as the one we set.'
+            );
+            $this->assertTrue(
                 is_object($appdata->homeTelephone('01452', '123456')),
                 'Ensure that an object is returned when a valid value is set.'
             );
@@ -337,6 +345,92 @@
             $this->request->verbose();
             $this->setExpectedException('\\PHPerian\\Exception');
             $appdata->bankAccountNumber('this is completely wrong');
+        }
+
+        public function testCurrentAccountHeld()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->currentAccountHeld() === null);
+            $this->assertTrue(is_object($appdata->currentAccountHeld(true)));
+            $this->assertTrue($appdata->currentAccountHeld() === true);
+            $this->assertTrue(is_object($appdata->currentAccountHeld(false)));
+            $this->assertTrue($appdata->currentAccountHeld() === false);
+            $this->assertTrue(is_object($appdata->currentAccountHeld('Q')));
+            $this->assertTrue($appdata->currentAccountHeld() === 'Q');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->currentAccountHeld('A')));
+            $this->assertTrue($appdata->currentAccountHeld() === 'Q');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->currentAccountHeld('A');
+        }
+
+        public function testCheckCardHeld()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->checkCardHeld() === null);
+            $this->assertTrue(is_object($appdata->checkCardHeld(true)));
+            $this->assertTrue($appdata->checkCardHeld() === true);
+            $this->assertTrue(is_object($appdata->checkCardHeld(false)));
+            $this->assertTrue($appdata->checkCardHeld() === false);
+            $this->assertTrue(is_object($appdata->checkCardHeld('Q')));
+            $this->assertTrue($appdata->checkCardHeld() === 'Q');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->checkCardHeld('A')));
+            $this->assertTrue($appdata->checkCardHeld() === 'Q');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->checkCardHeld('A');
+        }
+
+        public function testGrossAnnualIncome()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->grossAnnualIncome() == null);
+            $this->assertTrue(is_object($appdata->grossAnnualIncome('123')));
+            $this->assertTrue($appdata->grossAnnualIncome() === 123);
+            $this->assertTrue(is_object($appdata->grossAnnualIncome(12345)));
+            $this->assertTrue($appdata->grossAnnualIncome() === 12345);
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->grossAnnualIncome('S4321')));
+            $this->assertTrue($appdata->grossAnnualIncome() === 12345);
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->grossAnnualIncome('S4321');
+        }
+
+        public function testWorkTelephone()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->workTelephone() === null);
+            $this->assertTrue(is_object($appdata->workTelephone('01452', '123456')));
+            $this->assertTrue($appdata->workTelephone() === '01452 123456');
+            $this->assertTrue(is_object($appdata->workTelephone('X')));
+            $this->assertTrue($appdata->workTelephone() === 'X');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->workTelephone('01242')));
+            $this->assertTrue($appdata->workTelephone() === 'X');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->workTelephone('01242');
+        }
+
+        public function testTimeWithEmployer()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->timeWithEmployer() === null);
+            $this->assertTrue(is_object($appdata->timeWithEmployer(10, 3)));
+            $this->assertTrue($appdata->timeWithEmployer() === '10y 3m');
+            $this->assertTrue(is_object($appdata->timeWithEmployer(10)));
+            $this->assertTrue($appdata->timeWithEmployer() === '10y');
+            $this->assertTrue(is_object($appdata->timeWithEmployer(0)));
+            $this->assertTrue($appdata->timeWithEmployer() === '0m');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->timeWithEmployer('11')));
+            $this->assertTrue($appdata->timeWithEmployer() === '0m');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->timeWithEmployer('11');
         }
 
     }
