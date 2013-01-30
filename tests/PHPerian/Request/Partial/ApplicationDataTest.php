@@ -447,4 +447,102 @@
             $appdata->employerName(123);
         }
 
+        public function testOccupationStatus()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->occupationStatus() === null);
+            $this->assertTrue(is_object($appdata->occupationStatus('T')));
+            $this->assertTrue($appdata->occupationStatus() === 'T');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->occupationStatus('A')));
+            $this->assertTrue($appdata->occupationStatus() === 'T');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->occupationStatus('A');
+        }
+
+        public function testEmploymentStatus()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->employmentStatus() === null);
+            $this->assertTrue(is_object($appdata->employmentStatus('E')));
+            $this->assertTrue($appdata->employmentStatus() === 'E');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->employmentStatus('A')));
+            $this->assertTrue($appdata->employmentStatus() === 'E');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->employmentStatus('A');
+        }
+
+        public function testDrivingLicenseNumber()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->drivingLicenseNumber() === null);
+            $this->assertTrue(is_object($appdata->drivingLicenseNumber('ABC123')));
+            $this->assertTrue($appdata->drivingLicenseNumber() === 'ABC123');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->drivingLicenseNumber('DEF4$6')));
+            $this->assertTrue($appdata->drivingLicenseNumber() === 'ABC123');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->drivingLicenseNumber('DEF4$6');
+        }
+
+        public function testVehicleRegistration()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->vehicleRegistration() === null);
+            $this->assertTrue(is_object($appdata->vehicleRegistration('ABC123')));
+            $this->assertTrue($appdata->vehicleRegistration() === 'ABC123');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->vehicleRegistration('DEF4$6')));
+            $this->assertTrue($appdata->vehicleRegistration() === 'ABC123');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->vehicleRegistration('DEF4$6');
+        }
+
+        public function testPlaceOfBirth()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->placeOfBirth() === null);
+            $this->assertTrue(is_object($appdata->placeOfBirth('Hampton Lucy')));
+            $this->assertTrue($appdata->placeOfBirth() === 'Hampton Lucy');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->placeOfBirth('H4M70N$ LUCY!')));
+            $this->assertTrue($appdata->placeOfBirth() === 'Hampton Lucy');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->placeOfBirth('H4M70N$ LUCY!');
+        }
+
+        public function testMothersMaidenName()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->mothersMaidenName() === null);
+            $this->assertTrue(is_object($appdata->mothersMaidenName('Smith-Holt')));
+            $this->assertTrue($appdata->mothersMaidenName() === 'Smith-Holt');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->mothersMaidenName('$mith-Holt!')));
+            $this->assertTrue($appdata->mothersMaidenName() === 'Smith-Holt');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->mothersMaidenName('$mith-Holt!');
+        }
+
+        public function testBirthSurname()
+        {
+            $appdata = $this->createInstance();
+            $this->assertTrue($appdata->mothersMaidenName() === null);
+            $this->assertTrue(is_object($appdata->mothersMaidenName('Smith-Holt')));
+            $this->assertTrue($appdata->mothersMaidenName() === 'Smith-Holt');
+            $this->request->silent();
+            $this->assertTrue(is_object($appdata->mothersMaidenName('$mith-Holt!')));
+            $this->assertTrue($appdata->mothersMaidenName() === 'Smith-Holt');
+            $this->request->verbose();
+            $this->setExpectedException('\\PHPerian\\Exception');
+            $appdata->mothersMaidenName('$mith-Holt!');
+        }
+
     }
