@@ -462,7 +462,7 @@
          */
         public function placeOfBirth()
         {
-            return $this->validateAlphaNumeric($this->struct['Security']['PlaceOfBirth'], func_get_args(), 80);
+            return $this->validateAlphaNumericExtra($this->struct['Security']['PlaceOfBirth'], func_get_args(), 80);
         }
 
         /**
@@ -475,7 +475,7 @@
          */
         public function mothersMaidenName()
         {
-            return $this->validateAlphaNumeric($this->struct['Security']['MothersMaidenName'], func_get_args(), 80);
+            return $this->validateAlphaNumericExtra($this->struct['Security']['MothersMaidenName'], func_get_args(), 80);
         }
 
         /**
