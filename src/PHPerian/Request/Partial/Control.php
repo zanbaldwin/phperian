@@ -21,7 +21,9 @@
     {
 
         protected $struct = array(
-            'ExperianReference' => '',
+            'Parameters' => array(
+                'ExperianReference' => '',
+            ),
             'ClientAccountNumber' => '',
             'ClientBranchNumber' => '',
         );
@@ -42,7 +44,7 @@
          */
         public function experianReference()
         {
-            return $this->validateAlphaNumeric($this->struct['ExperianReference'], func_get_args(), 10);
+            return $this->validateAlphaNumeric($this->struct['Parameters']['ExperianReference'], func_get_args(), 10);
         }
 
         /**
@@ -107,7 +109,7 @@
          */
         public function reprocessFlag()
         {
-            return $this->validateBoolean($this->struct['ReprocessFlag'], func_get_args());
+            return $this->validateBoolean($this->struct['Parameters']['ReprocessFlag'], func_get_args());
         }
 
         /**
