@@ -328,7 +328,12 @@
 
                     // If both the element and contents are a string, it's a simple tag and its value. Easy peasy.
                     case is_string($element) && is_string($contents):
-                        $xml .= '<' . $element . '>' . $contents . '</' . $element . '>';
+                        if(!$contents) {
+                            $xml .= '<' . $element . ' />';
+                        }
+                        else {
+                            $xml .= '<' . $element . '>' . $contents . '</' . $element . '>';
+                        }
                         break;
 
                     // I can't remember what this does. This is why you should ALWAYS put comments in your code.
