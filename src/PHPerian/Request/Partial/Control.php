@@ -22,6 +22,8 @@
 
         protected $struct = array(
             'ExperianReference' => '',
+            'ClientAccountNumber' => '',
+            ' ClientBranchNumber' => '',
         );
 
         const MAX_CHARS_CLIENT_REFERENCE = 30;
