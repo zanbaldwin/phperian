@@ -36,7 +36,7 @@
             // Force the use of a specific HTTP version.
             CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
             // Include the header in the output.
-            CURLOPT_HEADER          => true,
+            CURLOPT_HEADER          => false,
             // Output verbose information. Writes output to STDERR, or the file specified using CURLOPT_STDERR.
             CURLOPT_VERBOSE         => true,
             // Return the transfer as a string of the return value of curl_exec() instead of outputting it out
@@ -365,6 +365,7 @@
             // Grab information about the request that may be useful to the user of this class. We'll mix our response
             // headers and body into this information and return it all as a single object.
             $info = curl_getinfo($curl_handle);
+            /*
             // Split the headers and content body apart.
             $bottleneck = strpos($response, "\r\n\r\n");
             $body = substr($response, $bottleneck + 4);
@@ -379,10 +380,11 @@
                     $info['headers'][$header_name] = $header_value;
                 }
             }
+            /**/
             return (object) array(
                 'url' => $info['url'],
                 'code' => $info['http_code'],
-                'headers' => $info['headers'],
+                'headers' => isset($info['headers']) ? $info['headers'] : null,
                 'body' => $body,
             );
         }
