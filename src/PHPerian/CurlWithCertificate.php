@@ -365,7 +365,6 @@
             // Grab information about the request that may be useful to the user of this class. We'll mix our response
             // headers and body into this information and return it all as a single object.
             $info = curl_getinfo($curl_handle);
-            /*
             // Split the headers and content body apart.
             $bottleneck = strpos($response, "\r\n\r\n");
             $body = substr($response, $bottleneck + 4);
@@ -380,11 +379,10 @@
                     $info['headers'][$header_name] = $header_value;
                 }
             }
-            /**/
             return (object) array(
                 'url' => $info['url'],
                 'code' => $info['http_code'],
-                'headers' => isset($info['headers']) ? $info['headers'] : null,
+                'headers' => $info['headers'],
                 'body' => $body,
             );
         }
