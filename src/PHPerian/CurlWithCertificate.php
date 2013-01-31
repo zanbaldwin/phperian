@@ -36,7 +36,7 @@
             // Force the use of a specific HTTP version.
             CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
             // Include the header in the output.
-            CURLOPT_HEADER          => false,
+            CURLOPT_HEADER          => true,
             // Output verbose information. Writes output to STDERR, or the file specified using CURLOPT_STDERR.
             CURLOPT_VERBOSE         => true,
             // Return the transfer as a string of the return value of curl_exec() instead of outputting it out
