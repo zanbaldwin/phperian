@@ -20,6 +20,10 @@
     class Control extends Partial
     {
 
+        protected $struct = array(
+            'ExperianReference' => '',
+        );
+
         const MAX_CHARS_CLIENT_REFERENCE = 30;
         const MAX_CHARS_JOB_NUMBER = 36;
         const MAX_CHARS_INTERACTIVE_MODE = 11;
