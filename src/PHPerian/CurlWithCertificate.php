@@ -393,7 +393,7 @@
                 $info['headers'][$header_name] = $header_value;
             }
             // Fetch our body content.
-            $body = ltrim(substr($response, $header_length));
+            $body = substr($response, $header_length);
 
             // Construct the stdClass object that we will be returning.
             $return = (object) array(
