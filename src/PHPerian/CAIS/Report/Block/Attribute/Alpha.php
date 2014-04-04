@@ -6,13 +6,13 @@
     use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
     use \PHPerian\Exceptions;
 
-    class AlphaNumeric extends Attribute implements AttributeInterface
+    class Alpha extends Attribute implements AttributeInterface
     {
 
         public function setValue($value)
         {
-            if(!is_string($value)) {
-                throw new Exceptions\InvalidDataType('Alphanumeric attributes required their value to be a string.');
+            if(!is_string($value) || !preg_match('/^[a-zA-Z]+$/')) {
+                throw new Exceptions\InvalidDataType('Alpha attributes required their value to be a string containing only letters.');
             }
             $this->value = $value;
             if(strlen($value) > $this->getLength()) {
