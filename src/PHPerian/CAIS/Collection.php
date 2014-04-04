@@ -5,7 +5,7 @@
     use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
     use \PHPerian\Exceptions;
 
-    abstract class Collection implements \ArrayAccess
+    abstract class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
     {
 
         protected $attributes = array();
@@ -165,6 +165,28 @@
          */
         public function offsetUnset($offset)
         {
+        }
+
+        /**
+         * Get: Iterator
+         *
+         * @access public
+         * @return \ArrayIterator
+         */
+        public function getIterator()
+        {
+            return new \ArrayIterator($this->attributes);
+        }
+
+        /**
+         * Count Attributes
+         *
+         * @access public
+         * @return integer
+         */
+        public function count()
+        {
+            return count($this->attributes);
         }
 
     }

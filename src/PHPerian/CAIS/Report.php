@@ -5,7 +5,7 @@
     use \PHPerian\CAIS\Report\Block;
     use \PHPerian\Exceptions;
 
-    class Report implements \ArrayAccess
+    class Report implements \ArrayAccess, \IteratorAggregate, \Countable
     {
 
         protected $blocks = array();
@@ -62,6 +62,28 @@
         public function offsetUnset($offset)
         {
             unset($this->blocks[$offset]);
+        }
+
+        /**
+         * Get: Iterator
+         *
+         * @access public
+         * @return ArrayIterator
+         */
+        public function getIterator()
+        {
+            return new \ArrayIterator($this->blocks);
+        }
+
+        /**
+         * Count
+         *
+         * @access public
+         * @return integer
+         */
+        public function count()
+        {
+            return count($this->blocks);
         }
 
         /**
