@@ -4,6 +4,7 @@
 
     use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
     use \PHPerian\Exceptions;
+    use \PHPerian\Exception;
 
     abstract class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
     {
