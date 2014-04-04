@@ -9,8 +9,16 @@
     class ReadOnly extends Attribute implements AttributeInterface
     {
 
+        /**
+         * Set: Value
+         *
+         * @access public
+         * @return void
+         */
         public function setValue($value)
         {
+            // Don't do anything. This attribute is read-only.
+            // Changing the value would kinda be a bit useless.
         }
 
     }
