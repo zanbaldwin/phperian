@@ -1,6 +1,7 @@
 # PHPUnit.
 logs/
 phpunit.xml
+src/PHPerian/report.html
 
 # Test Certificates.
 DevelopmentAssets/
