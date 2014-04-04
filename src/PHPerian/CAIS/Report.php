@@ -74,10 +74,15 @@
          * @param string $version
          * @return PHPerian\CAIS\Report\Block
          */
-        public function createBlock($source, $name, $sharing = null, $cutoff = null, $version = null)
+        public function createBlock($id, $source, $name, $sharing = null, $cutoff = null, $version = null)
         {
+            if(!is_scalar($id) && $id !== null) {
+                throw new InvalidArgument('Block ID must be a scalar value.');
+            }
             $block = new Block($source, $name, $sharing, $cutoff, $version);
-            $this->blocks[] = $block;
+            $id !== null
+                ? $this->blocks[$id] = $block
+                : $this->blocks[] = $block;
             return $block;
         }
 
