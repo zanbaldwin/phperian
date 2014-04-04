@@ -10,16 +10,6 @@
         protected $blocks = array();
 
         /**
-         * Constructor
-         *
-         * @access public
-         * @return void
-         */
-        public function __construct()
-        {
-        }
-
-        /**
          * Offset: Exists
          *
          * @access public
