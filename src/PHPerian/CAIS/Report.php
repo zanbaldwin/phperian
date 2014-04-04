@@ -47,7 +47,7 @@
         public function offsetSet($offset, $value)
         {
             if(!is_object($value) || !$value instanceof Block) {
-                throw new InvalidAssignment('The CAIS report can only contain instances of the Block object.');
+                throw new Exceptions\InvalidAssignment('The CAIS report can only contain instances of the Block object.');
             }
             $this->blocks[$offset] = $value;
         }
@@ -78,7 +78,7 @@
         public function createBlock($id, $source, $name, $sharing = null, $cutoff = null, $version = null)
         {
             if(!is_scalar($id) && $id !== null) {
-                throw new InvalidArgument('Block ID must be a scalar value.');
+                throw new Exceptions\InvalidArgument('Block ID must be a string or integer.');
             }
             $block = new Block($source, $name, $sharing, $cutoff, $version);
             $id !== null
