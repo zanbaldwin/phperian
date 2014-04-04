@@ -68,6 +68,7 @@
          * Create New Block
          *
          * @access public
+         * @param integer|string $id
          * @param integer $source
          * @param string $name
          * @param boolean $sharing
@@ -77,8 +78,11 @@
          */
         public function createBlock($id, $source, $name, $sharing = null, $cutoff = null, $version = null)
         {
-            if(!is_scalar($id) && $id !== null) {
+            if($id !== null && !is_string($id) && !is_int($id)) {
                 throw new Exceptions\InvalidArgument('Block ID must be a string or integer.');
+            }
+            if($this->offsetExists($id)) {
+                throw new Exceptions\Duplicate('Cannot create block; ID already exists.');
             }
             $block = new Block($source, $name, $sharing, $cutoff, $version);
             $id !== null
