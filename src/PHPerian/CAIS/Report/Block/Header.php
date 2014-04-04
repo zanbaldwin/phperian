@@ -11,93 +11,93 @@
 
         protected static $attributeDefinitions = array(
             'identifier' => array(
-                AttributeInterface::READONLY,
-                1,
-                20,
-                'Header Identifier',
-                'HEADER',
-                AttributeInterface::JUSTIFY_RIGHT,
-                ' ',
+                'type'          => AttributeInterface::READONLY,
+                'start'         => 1,
+                'end'           => 20,
+                'name'          => 'Header Identifier',
+                'default'       => 'HEADER',
+                'justification' => AttributeInterface::JUSTIFY_RIGHT,
+                'padding'       => ' ',
             ),
             'source' => array(
-                AttributeInterface::INTEGER,
-                21,
-                23,
-                'Source Code Number',
-                null,
-                AttributeInterface::JUSTIFY_RIGHT,
-                '0'
+                'type'          => AttributeInterface::INTEGER,
+                'start'         => 21,
+                'end'           => 23,
+                'name'          => 'Source Code Number',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_RIGHT,
+                'padding'       => '0'
             ),
             'date' => array(
-                AttributeInterface::DATE,
-                24,
-                31,
-                'Date of Creation',
-                null,
-                AttributeInterface::JUSTIFY_RIGHT,
-                '0'
+                'type'          => AttributeInterface::DATE,
+                'start'         => 24,
+                'end'           => 31,
+                'name'          => 'Date of Creation',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_RIGHT,
+                'padding'       => '0'
             ),
             'name' => array(
-                AttributeInterface::ALPHANUMERIC,
-                32,
-                61,
-                'Company/Portfolio Name',
-                null,
-                AttributeInterface::JUSTIFY_LEFT,
-                ' '
+                'type'          => AttributeInterface::ALPHANUMERIC,
+                'start'         => 32,
+                'end'           => 61,
+                'name'          => 'Company/Portfolio Name',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' '
             ),
             'filler' => array(
-                AttributeInterface::READONLY,
-                62,
-                81,
-                'Filler',
-                null,
-                AttributeInterface::JUSTIFY_LEFT,
-                ' '
+                'type'          => AttributeInterface::READONLY,
+                'start'         => 62,
+                'end'           => 81,
+                'name'          => 'Filler',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' '
             ),
             'version' => array(
-                AttributeInterface::ALPHANUMERIC,
-                82,
-                89,
-                'CAIS Version Indicator',
-                'CAIS2007',
-                AttributeInterface::JUSTIFY_LEFT,
-                ' '
+                'type'          => AttributeInterface::ALPHANUMERIC,
+                'start'         => 82,
+                'end'           => 89,
+                'name'          => 'CAIS Version Indicator',
+                'default'       => 'CAIS2007',
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' '
             ),
             'cutoff' => array(
-                AttributeInterface::INTEGER,
-                90,
-                95,
-                'Overdraft Reporting Cut-Off',
-                0,
-                AttributeInterface::JUSTIFY_RIGHT,
-                '0',
+                'type'          => AttributeInterface::INTEGER,
+                'start'         => 90,
+                'end'           => 95,
+                'name'          => 'Overdraft Reporting Cut-Off',
+                'default'       => 0,
+                'justification' => AttributeInterface::JUSTIFY_RIGHT,
+                'padding'       => '0',
             ),
             'sharing' => array(
-                AttributeInterface::BOOLEAN,
-                96,
-                96,
-                'Cards Behavioural Sharing Flag',
-                false,
-                AttributeInterface::JUSTIFY_LEFT,
-                ' ',
-                'Y ',
+                'type'          => AttributeInterface::BOOLEAN,
+                'start'         => 96,
+                'end'           => 96,
+                'name'          => 'Cards Behavioural Sharing Flag',
+                'default'       => false,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' ',
+                'boolean'       => 'Y ',
             ),
             'endFiller' => array(
-                AttributeInterface::READONLY,
-                97,
-                530,
-                'End Filler',
-                null,
-                AttributeInterface::JUSTIFY_LEFT,
-                ' ',
+                'type'          => AttributeInterface::READONLY,
+                'start'         => 97,
+                'end'           => 530,
+                'name'          => 'End Filler',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' ',
             ),
         );
 
         public function __construct($source, $name, $sharing = null, $cutoff = null, $version = null)
         {
             // Create the attributes.
-            parent::__construct();
+            parent::createAttributes();
             // Set the attributes.
             $this->setSource($source);
             $this->setName($name);
