@@ -2,6 +2,9 @@
 
     namespace PHPerian\CAIS\Report\Block\Body\Record;
 
+    use \PHPerian\Exceptions;
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+
     abstract class Attribute
     {
 

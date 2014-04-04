@@ -3,6 +3,8 @@
     namespace PHPerian\CAIS\Report\Block;
 
     use \PHPerian\CAIS\Collection;
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+    use \PHPerian\Exceptions;
 
     class Header extends Collection
     {

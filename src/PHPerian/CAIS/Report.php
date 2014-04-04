@@ -3,8 +3,9 @@
     namespace PHPerian\CAIS;
 
     use \PHPerian\CAIS\Report\Block;
+    use \PHPerian\Exceptions;
 
-    class Report implements ArrayAccess
+    class Report implements \ArrayAccess
     {
 
         protected $blocks = array();

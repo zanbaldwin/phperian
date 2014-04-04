@@ -5,6 +5,8 @@
     use \PHPerian\CAIS\Report\Block\Header;
     use \PHPerian\CAIS\Report\Block\Body;
     use \PHPerian\CAIS\Report\Block\Footer;
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+    use \PHPerian\Exceptions;
 
     class Block
     {

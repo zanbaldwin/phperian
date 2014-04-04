@@ -3,6 +3,7 @@
     namespace PHPerian\CAIS\Report\Block;
 
     use \PHPerian\CAIS\Report\Block\Body\Record;
+    use \PHPerian\Exceptions;
 
     class Body
     {
