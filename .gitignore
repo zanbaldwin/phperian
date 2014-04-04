@@ -5,3 +5,6 @@ src/PHPerian/report.html
 
 # Test Certificates.
 DevelopmentAssets/
+
+# Composer
+vendor/
