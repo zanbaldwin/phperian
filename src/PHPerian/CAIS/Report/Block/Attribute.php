@@ -44,11 +44,13 @@
                 ? $name
                 : null;
             // Attempt to set the default value.
-            try {
-                $this->setValue($defaultValue);
-            }
-            catch(Exceptions\Exception $e) {
-                throw new InvalidArgument('The attributes default value could not be set.');
+            if($defaultValue !== null) {
+                try {
+                    $this->setValue($defaultValue);
+                }
+                catch(Exceptions\Exception $e) {
+                    throw new InvalidArgument('The attributes default value could not be set.');
+                }
             }
             // Check that the justification is correct. The constants use the boolean data-type.
             if($justification !== null) {
