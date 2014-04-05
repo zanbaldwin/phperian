@@ -37,6 +37,18 @@
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Defined attribute type for \"{$label}\" in `{$class}` collection does not exist.");
                 }
+                // We need to do some extra processing for the Boolean attribute - set what we want to display for our
+                // true and false values.
+                if($attribute['type'] === AttributeInterface::BOOLEAN && isset($attribute['booleanflags'])) {
+                    try {
+                        $this->attributes[$label]->setFlags($attribute['booleanflags']);
+                    }
+                    // Catch any exceptions are thrown, send the same error message but we want the exception to be of
+                    // type InvalidDefinition so that it's easier to track down the fault.
+                    catch(Exception $e) {
+                        throw new Exceptions\InvalidDefinition($e->getMessage());
+                    }
+                }
             }
         }
 

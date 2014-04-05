@@ -81,7 +81,7 @@
                 'default'       => false,
                 'justification' => AttributeInterface::JUSTIFY_LEFT,
                 'padding'       => ' ',
-                'boolean'       => 'Y ',
+                'booleanflags'  => 'Y ',
             ),
             'endFiller' => array(
                 'type'          => AttributeInterface::READONLY,
