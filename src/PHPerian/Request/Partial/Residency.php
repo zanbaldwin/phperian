@@ -88,7 +88,7 @@
          * @throws \PHPerian\Exception
          * @return string | Residency $this
          */
-        public function dateTo()
+        public function dateTo($year, $month, $day)
         {
             return $this->validateDate($this->struct['ResidencyDateTo'], func_get_args());
         }
