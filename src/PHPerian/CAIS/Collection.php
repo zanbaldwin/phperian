@@ -32,10 +32,26 @@
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Missing required definition parameters for \"{$label}\" attribute in `{$class}` collection.");
                 }
-                $nsclass = '\\' . preg_replace('/\\\\+/', '\\', ltrim(AttributeInterface::ATTRIBUTE_NS . '\\' . $attribute['type'], '\\'));
-                if(!class_exists($nsclass)) {
+                // Create the attribute.
+                if(!$this->createAttribute($attribute)) {
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Defined attribute type for \"{$label}\" in `{$class}` collection does not exist.");
+                }
+            }
+        }
+
+        /**
+         * Create Attribute
+         *
+         * @access private
+         * @param string $attribute
+         * @return boolean
+         */
+        private function createAttribute($attribute)
+        {
+                $nsclass = '\\' . preg_replace('/\\\\+/', '\\', ltrim(AttributeInterface::ATTRIBUTE_NS . '\\' . $attribute['type'], '\\'));
+                if(!class_exists($nsclass)) {
+                    return false;
                 }
                 $argumentsList = array(
                     $attribute['start'],
@@ -45,9 +61,11 @@
                     isset($attribute['justification']) ? $attribute['justification'] : null,
                     isset($attribute['padding']) ? $attribute['padding'] : null,
                 );
+                // Use the Reflection classes to create a new instance of the attribute class (passing the constructor
+                // parameters as a dynamic array).
                 $reflection = new \ReflectionClass($nsclass);
                 $this->attributes[$label] = $reflection->newInstanceArgs($argumentsList);
-            }
+                return true;
         }
 
         /**
