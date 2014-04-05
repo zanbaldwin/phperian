@@ -28,12 +28,7 @@
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Attribute label definition is missing a valid label for `{$class}` collection.");
                 }
-                if(!(
-                    isset($attribute['type'])
-                 && isset($attribute['start'])
-                 && isset($attribute['end'])
-                 && isset($attribute['name'])
-                )) {
+                if(!(isset($attribute['type']) && isset($attribute['start']) && isset($attribute['end']) && isset($attribute['name']))) {
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Missing required definition parameters for \"{$label}\" attribute in `{$class}` collection.");
                 }
