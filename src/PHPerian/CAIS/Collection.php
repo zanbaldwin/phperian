@@ -33,10 +33,12 @@
                     throw new Exceptions\InvalidDefinition("Missing required definition parameters for \"{$label}\" attribute in `{$class}` collection.");
                 }
                 // Create the attribute.
-                if(!$this->createAttribute($attribute)) {
+                if(!is_object($attributeInstance = $this->createAttribute($attribute))) {
                     $class = get_class($this);
                     throw new Exceptions\InvalidDefinition("Defined attribute type for \"{$label}\" in `{$class}` collection does not exist.");
                 }
+                $this->attributes[$label] = $attributeInstance;
+                unset($attributeInstance);
                 // We need to do some extra processing for the Boolean attribute - set what we want to display for our
                 // true and false values.
                 if($attribute['type'] === AttributeInterface::BOOLEAN && isset($attribute['booleanflags'])) {
@@ -57,7 +59,7 @@
          *
          * @access private
          * @param string $attribute
-         * @return boolean
+         * @return AttributeInterface
          */
         private function createAttribute($attribute)
         {
@@ -76,8 +78,7 @@
                 // Use the Reflection classes to create a new instance of the attribute class (passing the constructor
                 // parameters as a dynamic array).
                 $reflection = new \ReflectionClass($nsclass);
-                $this->attributes[$label] = $reflection->newInstanceArgs($argumentsList);
-                return true;
+                return $reflection->newInstanceArgs($argumentsList);
         }
 
         /**
