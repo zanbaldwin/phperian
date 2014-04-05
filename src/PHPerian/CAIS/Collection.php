@@ -11,8 +11,6 @@
 
         protected $attributes = array();
 
-        protected static $attributeDefinitions;
-
         /**
          * Create Attributes
          *
