@@ -19,7 +19,7 @@
                 'justification' => AttributeInterface::JUSTIFY_LEFT,
                 'padding'       => ' ',
             ),
-            'AccountType' => array(
+            'accountType' => array(
                 'type'          => AttributeInterface::INTEGER,
                 'start'         => 21,
                 'end'           => 22,
