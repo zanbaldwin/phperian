@@ -2,8 +2,9 @@
 
     namespace PHPerian\CAIS;
 
-    use \PHPerian\CAIS\Report\Block;
     use \PHPerian\Exceptions;
+    use \PHPerian\CAIS\Report\Block;
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
 
     class Report implements \ArrayAccess, \IteratorAggregate, \Countable
     {
