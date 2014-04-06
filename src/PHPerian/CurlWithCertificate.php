@@ -362,29 +362,47 @@
                     $errno
                 );
             }
-            // Grab information about the request that may be useful to the user of this class. We'll mix our response
-            // headers and body into this information and return it all as a single object.
+
+            // Grab information about the cURL request. Parts of this may be useful for the user of this class, so we'll
+            // mix in our response headers and body into this information and return it all as a single object.
             $info = curl_getinfo($curl_handle);
-            // Split the headers and content body apart.
-            $bottleneck = strpos($response, "\r\n\r\n");
-            $body = substr($response, $bottleneck + 4);
-            $headers = substr($response, 0, $bottleneck);
-            $headers = explode("\r\n", $headers);
-            // Iterate through the headers and split them into the format: array('Header-Name' => 'header value').
-            foreach($headers as $header) {
-                $header_split = strpos($header, ':');
-                if($header_split !== false) {
-                    $header_name = substr($header, 0, $header_split);
-                    $header_value = trim(substr($header, $header_split + 1));
-                    $info['headers'][$header_name] = $header_value;
-                }
+            // Instead of splitting tat the first bottleneck (2 consecutive CR+LF's), get the length of the header
+            // section. This prevents incorrect bisecting of header and body when two header blocks are provided (after
+            // a 100 Continue header).
+            $header_length = $info['header_size'];
+            // Fetch our headers, and split into an array.
+            $header_string = rtrim(substr($response, 0, $header_length));
+            $headers = explode("\r\n", $header_string);
+            // Make sure the variable holding the header names and values exists.
+            if(!isset($info['headers']) || !is_array($info['headers'])) {
+                $info['headers'] = array();
             }
-            return (object) array(
+            // Iterate through the headers, split them into name and value components and save them to the headers array
+            // inside the cURL information variable - in the format array('Header-Name' => 'header value').
+            foreach($headers as $header) {
+                // Trim any unnecessary whitespace from the individual header string.
+                $header = trim($header);
+                // Make sure that there is actually a header string on this line, and that it follows "^/.*\:.*/$".
+                if(!$header || ($pos = strpos($header, ':')) === false) {
+                    continue;
+                }
+                // Grab each part of the header string.
+                $header_name = trim(substr($header, 0, $pos));
+                $header_value = trim(substr($header, $pos + 1));
+                // Save them to the information array.
+                $info['headers'][$header_name] = $header_value;
+            }
+            // Fetch our body content.
+            $body = substr($response, $header_length);
+
+            // Construct the stdClass object that we will be returning.
+            $return = (object) array(
                 'url' => $info['url'],
                 'code' => $info['http_code'],
                 'headers' => $info['headers'],
                 'body' => $body,
             );
+            return $return;
         }
 
     }

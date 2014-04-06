@@ -14,7 +14,7 @@ PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eve
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
 regarding the stability or practicality of use. It is in no way fit for use in a production environment.**
 
-The current version is *0.1-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
+The current version is *0.2-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
 
 License
 -------
@@ -45,6 +45,48 @@ as a requirement:
 
 Example Usage
 -------------
+
+### CAIS Reporting
+
+```php
+<?php
+
+    // Please note that this is a quick example and does not show the full capability of CAIS
+    // reporting (such as array access for certain objects, method and object attribute
+    // access, etc).
+
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+
+    $report = new \PHPerian\CAIS\Report;
+    foreach($submembers as $submember) {
+        // Create a new new block for the current submember.
+        $block = $report->createBlock($submember->id, $submember->sourceCode, $submember->name);
+
+        foreach($submember->customers as $customer) {
+            // Create a record for each customer. No arguments are required because the record
+            // has 42 attributes, too many for one method.
+            $record = $block->createRecord();
+            // Start filling in the attributes.
+            $record->attributes = array(
+                'accountNumber'             => '12345B6789B',
+                'accountType'               => 2,
+                'startDate'                 => new \DateTime('1999-07-03'),
+                'closeDate'                 => new \DateTime('2000-07-30'),
+                'monthlyPayment'            => 200,
+                'repaymentPeriod'           => 48,
+                'currentBalance'            => 3600,
+                'creditBalanceIndicator'    => AttributeInterface::IN_CREDIT,
+                'accountStatusCode'         => AttributeInterface::STATUS_DORMANT,
+                // ... And the list goes on. Refer to documentation for a full list of attributes.
+            );
+        }
+    }
+
+    // Create the CAIS report string to be uploaded (we could also using string type-casting).
+    $caisReportToUpload = $report->getString();
+```
+
+### Web Services Request
 
 ```php
 <?php

@@ -472,10 +472,10 @@
                     : null;
             }
             // If an argument has been passed to the method, accept this as the value they wish to set.
-            if(is_string($street)) {
-                $street = explode("\n", trim($street, "\n"));
+            if(is_string($location)) {
+                $location = explode("\n", trim($location, "\n"));
             }
-            if(!is_array($street)) {
+            if(!is_array($location)) {
                 if(self::$verbose) {
                     throw new Exception(
                         'The parameter passed to ' . __METHOD__ . ' must be either a string or array.',
@@ -487,7 +487,7 @@
                 }
             }
             $i = 0;
-            foreach($street as $line) {
+            foreach($location as $line) {
                 $i++;
                 $method = 'locationtLine' . $i;
                 $this->$method($line);

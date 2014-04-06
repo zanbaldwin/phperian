@@ -328,7 +328,12 @@
 
                     // If both the element and contents are a string, it's a simple tag and its value. Easy peasy.
                     case is_string($element) && is_string($contents):
-                        $xml .= '<' . $element . '>' . $contents . '</' . $element . '>';
+                        if(!$contents) {
+                            $xml .= '<' . $element . ' />';
+                        }
+                        else {
+                            $xml .= '<' . $element . '>' . $contents . '</' . $element . '>';
+                        }
                         break;
 
                     // I can't remember what this does. This is why you should ALWAYS put comments in your code.
@@ -545,11 +550,6 @@
                     self::TOO_MANY_ARGUMENTS
                 );
             }
-            // We will also allow integers as input, but change them to strings so that we can parse them.
-            if(is_int($arguments[0])) {
-                $arguments[0] = (string) $arguments[0];
-            }
-            //
             $regex = '/^' . $pcre . '{' . ($fixed_length ? '' : '1,') . $max_chars . '}' . '$/';
             // Make sure that the original parameter input is a string and conforms to the 
             if(!is_string($arguments[0]) || !preg_match($regex, $arguments[0])) {
@@ -596,6 +596,10 @@
          */
         protected function validateNumeric(&$structureElement, array $arguments = array(), $max_chars)
         {
+            // We will also allow integers as input, but change them to strings so that we can parse them.
+            if(isset($arguments[0]) && is_int($arguments[0])) {
+                $arguments[0] = (string) $arguments[0];
+            }
             $return = $this->validateString($structureElement, $arguments, $max_chars, self::PCRE_NUMERIC);
             if(is_string($return) && is_numeric($return)) {
                 $return = (int) $return;
@@ -789,6 +793,162 @@
             // We passed error checking, set the value. Make sure to use the one from the set, so that the correct case
             // is used.
             $structureElement = reset($matched);
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Phone Number
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        protected function validatePhoneNumber(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                if(is_null($structureElement)) {
+                    return null;
+                }
+                $return = $structureElement['STDCode'];
+                if(isset($structureElement['LocalNumber'])) {
+                    $return = $return . ' ' . $structureElement['LocalNumber'];
+                }
+                return $return;
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
+            if(count($arguments) > 2) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass 2 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            // If the telephone number is not available, and a valid option why it is not available is given, save that.
+            if(count($arguments) === 1 && in_array(strtoupper($arguments[0]), array('X', 'N'))) {
+                $structureElement = array(
+                    'STDCode' => strtoupper($arguments[0]),
+                );
+                return $this;
+            }
+            if(count($arguments) === 1) {
+                if(in_array(strtoupper($arguments[0]), array('X', 'N'))) {
+                    $structureElement = array(
+                        'STDCode' => strtoupper($arguments[0]),
+                    );
+                }
+                elseif(self::$verbose) {
+                    throw new Exception();
+                }
+                return $this;
+            }
+            // Else carry on validating it is of the correct data type.
+            if(!is_string($arguments[0]) || !preg_match('/^' . self::PCRE_NUMERIC . '{1,6}$/', $arguments[0])) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(!is_string($arguments[1]) || !preg_match('/^' . self::PCRE_NUMERIC . '{1,10}$/', $arguments[1])) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'STDCode'  => $arguments[0],
+                'LocalNumber' => $arguments[1],
+            );
+            // Return a copy of this instance to allow chaining.
+            return $this;
+        }
+
+        /**
+         * Validate: Time Range
+         *
+         * @access protected
+         * @param reference $structureElement
+         * @param array $arguments
+         * @throws \PHPerian\Exception
+         * @return string | $this
+         */
+        public function validateTimeRange(&$structureElement, array $arguments = array())
+        {
+            // If no arguments were passed to the method that called this one, it obviously means that they want the
+            // value that has already been set returned.
+            if(!is_array($arguments) || count($arguments) === 0) {
+                if(is_null($structureElement)) {
+                    return null;
+                }
+                $return = array();
+                if($structureElement['Years'] != 0) {
+                    $return[] = $structureElement['Years'] . 'y';
+                }
+                if($structureElement['Months'] != 0) {
+                    $return[] = $structureElement['Months'] . 'm';
+                }
+                if(count($return) == 0) {
+                    return '0m';
+                }
+                return implode(' ', $return);
+            }
+            // If, however, arguments were passed to the method that called this one, it means they want to set the
+            // value. We'll perform some checks first though.
+            // If verbose mode is on (also acting as "strict" mode here), throw an exception if we have too many, or too
+            // few, arguments passed.
+            if(count($arguments) > 2) {
+                if(self::$verbose) {
+                    throw new Exception(
+                        'You are required to pass no more than 2 parameters to ' . self::getCalledMethod(2) . '.',
+                        self::TOO_MANY_ARGUMENTS
+                    );
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(!is_int($arguments[0]) || $arguments[0] < 0) {
+                if(self::$verbose) {
+                    throw new Exception();
+                }
+                else {
+                    return $this;
+                }
+            }
+            if(isset($arguments[1])) {
+                if(!is_int($arguments[1]) || $arguments[1] < 0 || $arguments[1] > 11) {
+                    if(self::$verbose) {
+                        throw new Exception();
+                    }
+                    else {
+                        return $this;
+                    }
+                }
+            }
+            else {
+                $arguments[1] = 0;
+            }
+            // We passed error checking, set the value.
+            $structureElement = array(
+                'Years'  => $arguments[0],
+                'Months' => $arguments[1],
+            );
             // Return a copy of this instance to allow chaining.
             return $this;
         }
