@@ -109,8 +109,29 @@
          */
         public function __set($offset, $value)
         {
-            if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
-                return $this->attributes[$offset]->setValue($value);
+            if($offset === 'attributes') {
+                $this->attributes($value);
+            }
+            else {
+                if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
+                    return $this->attributes[$offset]->setValue($value);
+                }
+            }
+        }
+
+        /**
+         * Mass-Assign Attributes
+         *
+         * @access public
+         * @param array $assignments
+         * @return void
+         */
+        public function attributes(array $assignments)
+        {
+            foreach($assignments as $attribute => $assignment) {
+                if(isset($this->attributes[$attribute]) && is_object($this->attributes[$attribute]) && $this->attributes[$attribute] instanceof AttributeInterface) {
+                    return $this->attributes[$attribute]->setValue($value);
+                }
             }
         }
 
