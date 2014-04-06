@@ -12,13 +12,17 @@
         protected $attributes = array();
 
         /**
-         * Create Attributes
+         * Constructor: Create Attributes
          *
          * @access protected
          * @return void
          */
-        protected function createAttributes()
+        public function __construct()
         {
+            if(is_array($this->attributes) && !empty($this->attribute)) {
+                // Do not re-run this constructor as the attibutes will be overwritten back to their defaults.
+                return;
+            }
             if(!isset(static::$attributeDefinitions) || !is_array(static::$attributeDefinitions) || empty(static::$attributeDefinitions)) {
                 throw new Exceptions\InvalidDefinition('Missing attribute definitions for class ' . get_class($this));
             }

@@ -97,7 +97,7 @@
         public function __construct($source, $name, $sharing = null, $cutoff = null, $version = null)
         {
             // Create the attributes.
-            parent::createAttributes();
+            parent::__construct();
             // Set the attributes.
             $this->setSource($source);
             $this->setName($name);
