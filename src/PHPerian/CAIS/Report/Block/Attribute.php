@@ -19,6 +19,12 @@
          * Constructor
          *
          * @access public
+         * @param integer $start
+         * @param integer $end
+         * @param string $name
+         * @param mixed $defaultValue
+         * @param boolean $justification
+         * @param string $padding
          * @return void
          */
         public function __construct($start, $end, $name, $defaultValue, $justification = null, $padding = null)
@@ -36,9 +42,7 @@
             if((!is_int($end) || $end < 0) && (!is_string($end) || !preg_match('/^(0|[1-9]\\d*)$/', $end))) {
                 throw new Exceptions\InvalidArgument('The end position should be a positive integer.');
             }
-            // The Experian CAIS documentation specifies the start byte to be one greater than it should be. They do not
-            // used zero-based counting with this. It can get rather annoying.
-            $this->end = (int) $end - 1;
+            $this->end = (int) $end;
             // The name is not really important, but if it's not a non-empty string then don't bother setting it.
             $this->name = is_string($name) && !empty($name)
                 ? $name
@@ -98,7 +102,7 @@
          */
         public function getLength()
         {
-            return ($this->end - $this->start) + 1;
+            return $this->end - $this->start;
         }
 
         /**
