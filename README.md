@@ -37,6 +37,52 @@ as a requirement:
 Example Usage
 -------------
 
+### CAIS Reporting
+
+```php
+<?php
+
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+
+    $report = new \PHPerian\CAIS\Report;
+    foreach($submembers as $submember) {
+        // Create a new new block for the current submember.
+        $block = $report->createBlock($submember->id, $submember->sourceCode, $submember->name);
+        // Remember that we can now access the report like an array to get the block.
+        $block = $report[$submember->id];
+
+        // Required header settings were passed in through the createBlock() method, but we can change them here.
+        // Using the method approach.
+        $block->fetchHeader()->setSharing(true);
+        // Using the object approach.
+        $block->fetchHeader()->fetchCutoff()->setValue(10);
+        // Using the assignment approach.
+        $block->fetchHeader()->version = 'CAIS2007';
+
+        foreach($submember->customers as $customer) {
+            // Create a record for each customer. No arguments are required because the record has 42 attributes, too
+            // many for one method.
+            $record = $block->createRecord();
+            // Start filling in the attributes.
+            $record->accountNumber = '12345B6789B';
+            $record->accountType = 2;
+            $record->startDate = new \DateTime('1999-07-03');
+            $record->closeDate = new \DateTime('2000-07-30');
+            $record->monthlyPayment = 200;
+            $record->repaymentPeriod = 48;
+            $record->currentBalance = 3600;
+            $record->creditBalanceIndicator = AttributeInterface::CREDIT;
+            $record->accountStatusCode = AttributeInterface::STATUS_DORMANT;
+            // And the list goes on... Refer to documentation.
+        }
+    }
+
+    // Create the CAIS report string to be uploaded (we could also using string type-casting).
+    $cais = $report->getString();
+```
+
+### Web Services Request
+
 ```php
 <?php
 
