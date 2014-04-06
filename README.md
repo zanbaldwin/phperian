@@ -58,17 +58,18 @@ Example Usage
             // has 42 attributes, too many for one method.
             $record = $block->createRecord();
             // Start filling in the attributes.
-            $record->accountNumber = '12345B6789B';
-            $record->accountType = 2;
-            $record->startDate = new \DateTime('1999-07-03');
-            $record->closeDate = new \DateTime('2000-07-30');
-            $record->monthlyPayment = 200;
-            $record->repaymentPeriod = 48;
-            $record->currentBalance = 3600;
-            $record->creditBalanceIndicator = AttributeInterface::CREDIT;
-            $record->accountStatusCode = AttributeInterface::STATUS_DORMANT;
-            // ...
-            // And the list goes on. Refer to documentation for a full list of attributes.
+            $record->attributes = array(
+                'accountNumber'             => '12345B6789B',
+                'accountType'               => 2,
+                'startDate'                 => new \DateTime('1999-07-03'),
+                'closeDate'                 => new \DateTime('2000-07-30'),
+                'monthlyPayment'            => 200,
+                'repaymentPeriod'           => 48,
+                'currentBalance'            => 3600,
+                'creditBalanceIndicator'    => AttributeInterface::CREDIT,
+                'accountStatusCode'         => AttributeInterface::STATUS_DORMANT,
+                // ... And the list goes on. Refer to documentation for a full list of attributes.
+            );
         }
     }
 
