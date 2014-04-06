@@ -116,6 +116,9 @@
                 if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
                     return $this->attributes[$offset]->setValue($value);
                 }
+                else {
+                    throw new Exceptions\InvalidAssignment("The attribute with identifier \"{$offset}\" does not exist in `{$class}` collection.");
+                }
             }
         }
 
