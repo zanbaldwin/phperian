@@ -55,8 +55,7 @@ Example Usage
 
         foreach($submember->customers as $customer) {
             // Create a record for each customer. No arguments are required because the record
-            // has 42 attributes, too
-            // many for one method.
+            // has 42 attributes, too many for one method.
             $record = $block->createRecord();
             // Start filling in the attributes.
             $record->accountNumber = '12345B6789B';
