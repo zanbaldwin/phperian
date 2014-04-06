@@ -37,4 +37,27 @@
             return $this->footer;
         }
 
+        /**
+         * Get: CAIS String
+         *
+         * @access public
+         * @return string
+         */
+        public function getString()
+        {
+            $this->fetchFooter()->totalNumberOfRecords = count($this->fetchBody());
+            return trim(preg_replace('/\\n+/', "\n", implode("\n", array($this->fetchHeader(), $this->fetchBody(), $this->fetchFooter()))), "\n");
+        }
+
+        /**
+         * Magic Method: To String
+         *
+         * @access public
+         * @return string
+         */
+        public function __toString()
+        {
+            return $this->getString();
+        }
+
     }

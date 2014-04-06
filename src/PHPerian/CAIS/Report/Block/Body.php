@@ -44,4 +44,30 @@
             }
         }
 
+        /**
+         * Get: CAIS String
+         *
+         * @access public
+         * @return string
+         */
+        public function getString()
+        {
+            $body = '';
+            foreach($this->records as $record) {
+                $body .= $record . "\n";
+            }
+            return trim(preg_replace('/\\n+/', "\n", $body), "\n");
+        }
+
+        /**
+         * Magic Method: To String
+         *
+         * @access public
+         * @return string
+         */
+        public function __toString()
+        {
+            return $this->getString();
+        }
+
     }

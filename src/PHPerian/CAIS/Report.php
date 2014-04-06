@@ -114,4 +114,26 @@
             return $block;
         }
 
+        /**
+         * Get: CAIS String
+         *
+         * @access public
+         * @return string
+         */
+        public function getString()
+        {
+            return trim(preg_replace('/\\n+/', "\n", implode("\n", $this->blocks)), "\n");
+        }
+
+        /**
+         * Magic Method: To String
+         *
+         * @access public
+         * @return string
+         */
+        public function __toString()
+        {
+            return $this->getString();
+        }
+
     }

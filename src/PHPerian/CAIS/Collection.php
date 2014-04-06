@@ -218,4 +218,33 @@
             return count($this->attributes);
         }
 
+        /**
+         * Get: CAIS Record String
+         *
+         * @access public
+         * @return string|false
+         */
+        public function getString()
+        {
+            $record = '';
+            foreach($this->attributes as $attribute) {
+                $record = str_pad($record, $attribute->getEndByte(), "\0");
+                $record = substr_replace($record, $attribute->getString(), $attribute->getStartByte(), $attribute->getEndByte());
+            }
+            return strpos($record, "\0") === false
+                ? $record
+                : false;
+        }
+
+        /**
+         * Magic Method: To String
+         *
+         * @access public
+         * @return string
+         */
+        public function __toString()
+        {
+            return $this->getString() ?: '';
+        }
+
     }
