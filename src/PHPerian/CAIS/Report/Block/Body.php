@@ -5,7 +5,7 @@
     use \PHPerian\CAIS\Report\Block\Body\Record;
     use \PHPerian\Exceptions;
 
-    class Body
+    class Body implements \Countable
     {
 
         protected $records;
@@ -14,6 +14,13 @@
         public function __construct()
         {
             $this->records = new \SplObjectStorage;
+        }
+
+        public function createRecord()
+        {
+            $record = new Record;
+            $this->addRecord($record);
+            return $record;
         }
 
         /**
@@ -68,6 +75,17 @@
         public function __toString()
         {
             return $this->getString();
+        }
+
+        /**
+         * Count
+         *
+         * @access public
+         * @return integer
+         */
+        public function count()
+        {
+            return substr_count($this->getString(), "\n") + 1;
         }
 
     }
