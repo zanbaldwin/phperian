@@ -54,7 +54,8 @@ Example Usage
         $block = $report->createBlock($submember->id, $submember->sourceCode, $submember->name);
 
         foreach($submember->customers as $customer) {
-            // Create a record for each customer. No arguments are required because the record has 42 attributes, too
+            // Create a record for each customer. No arguments are required because the record
+            // has 42 attributes, too
             // many for one method.
             $record = $block->createRecord();
             // Start filling in the attributes.
