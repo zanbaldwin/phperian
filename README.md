@@ -66,7 +66,7 @@ Example Usage
                 'monthlyPayment'            => 200,
                 'repaymentPeriod'           => 48,
                 'currentBalance'            => 3600,
-                'creditBalanceIndicator'    => AttributeInterface::CREDIT,
+                'creditBalanceIndicator'    => AttributeInterface::IN_CREDIT,
                 'accountStatusCode'         => AttributeInterface::STATUS_DORMANT,
                 // ... And the list goes on. Refer to documentation for a full list of attributes.
             );
