@@ -6,6 +6,6 @@
     use \PHPerian\CAIS\Collection;
     use \PHPerian\Exceptions;
 
-    class Footer
+    class Footer extends Collection
     {
     }

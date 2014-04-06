@@ -6,6 +6,6 @@
     use \PHPerian\CAIS\Collection;
     use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
 
-    class Record
+    class Record extends Collection
     {
     }
