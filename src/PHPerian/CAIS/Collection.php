@@ -94,7 +94,10 @@
          */
         public function __get($offset)
         {
-            if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
+            if($offset === 'attributes') {
+                return $this->setAttributes($value);
+            }
+            elseif(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
                 return $this->attributes[$offset]->getValue();
             }
         }
@@ -110,32 +113,47 @@
         public function __set($offset, $value)
         {
             if($offset === 'attributes') {
-                $this->attributes($value);
+                return $this->setAttributes($value);
+            }
+            if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
+                return $this->attributes[$offset]->setValue($value);
             }
             else {
-                if(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
-                    return $this->attributes[$offset]->setValue($value);
-                }
-                else {
-                    throw new Exceptions\InvalidAssignment("The attribute with identifier \"{$offset}\" does not exist in `{$class}` collection.");
-                }
+                throw new Exceptions\InvalidAssignment("The attribute with identifier \"{$offset}\" does not exist in `{$class}` collection.");
             }
         }
 
         /**
-         * Mass-Assign Attributes
+         * Set: Mass-Assign Attributes
          *
          * @access public
          * @param array $assignments
          * @return void
          */
-        public function attributes(array $assignments)
+        public function setAttributes(array $assignments)
         {
             foreach($assignments as $attribute => $assignment) {
                 if(isset($this->attributes[$attribute]) && is_object($this->attributes[$attribute]) && $this->attributes[$attribute] instanceof AttributeInterface) {
-                    return $this->attributes[$attribute]->setValue($value);
+                    $this->attributes[$attribute]->setValue($value);
                 }
             }
+        }
+
+        /**
+         * Get: Mass-Assign Attributes
+         *
+         * @access public
+         * @return array
+         */
+        public function getAttributes()
+        {
+            $assignments = array();
+            foreach($attributes as $identifier => $attribute) {
+                if(is_object($attribute) && $attribute instanceof AttributeInterface) {
+                    $assignments[$identifier] = $attribute->getValue();
+                }
+            }
+            return $assignments;
         }
 
         /**
