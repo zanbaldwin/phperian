@@ -148,7 +148,7 @@
         public function getAttributes()
         {
             $assignments = array();
-            foreach($attributes as $identifier => $attribute) {
+            foreach($this->attributes as $identifier => $attribute) {
                 if(is_object($attribute) && $attribute instanceof AttributeInterface) {
                     $assignments[$identifier] = $attribute->getValue();
                 }
