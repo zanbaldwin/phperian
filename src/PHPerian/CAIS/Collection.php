@@ -132,7 +132,7 @@
          */
         public function setAttributes(array $assignments)
         {
-            foreach($assignments as $attribute => $assignment) {
+            foreach($assignments as $attribute => $value) {
                 if(isset($this->attributes[$attribute]) && is_object($this->attributes[$attribute]) && $this->attributes[$attribute] instanceof AttributeInterface) {
                     $this->attributes[$attribute]->setValue($value);
                 }
