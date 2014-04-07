@@ -14,7 +14,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/mynameiszanders/phperian/issues",
+        "issues": "https://github.com/mynameiszanders/phperian/issues"
     },
     "require": {
         "php": ">=5.3.7"
