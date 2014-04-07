@@ -42,16 +42,21 @@ Example Usage
 ```php
 <?php
 
+    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
+
     // Please note that this is a quick example and does not show the full capability of CAIS
     // reporting (such as array access for certain objects, method and object attribute
     // access, etc).
-
-    use \PHPerian\CAIS\Interfaces\Attribute as AttributeInterface;
-
     $report = new \PHPerian\CAIS\Report;
+
     foreach($submembers as $submember) {
-        // Create a new new block for the current submember.
-        $block = $report->createBlock($submember->id, $submember->sourceCode, $submember->name);
+        // Create a new new block for the current submember, pass it a custom identifier, the
+        // source code (Experian identifier), and the name.
+        $block = $report->createBlock(
+            $submember->id,
+            $submember->sourceCode,
+            $submember->name
+        );
 
         foreach($submember->customers as $customer) {
             // Create a record for each customer. No arguments are required because the record
@@ -73,8 +78,9 @@ Example Usage
         }
     }
 
-    // Create the CAIS report string to be uploaded (we could also using string type-casting).
-    $caisReportToUpload = $report->getString();
+    // Create the CAIS report by type-casting the report object to a string. We could also use
+    // the getString() method, instead.
+    $caisReportToUpload = (string) $report;
 ```
 
 ### Web Services Request
