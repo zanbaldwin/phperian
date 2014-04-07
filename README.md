@@ -5,7 +5,7 @@ PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eve
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
 regarding the stability or practicality of use. It is in no way fit for use in a production environment.**
 
-The current version is *0.2-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
+The current version is *0.2.1-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
 
 License
 -------
