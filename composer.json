@@ -2,7 +2,7 @@
     "name": "mynameiszanders/phperian",
     "type": "library",
     "description": "Composer-based Library for constructing service calls to Experian's Web Services, by Zander Baldwin.",
-    "version": "0.2.1-alpha",
+    "version": "0.2.2-alpha",
     "keywords": ["webservice", "experian", "SOAP", "CAIS"],
     "homepage": "https://github.com/mynameiszanders/phperian",
     "license": "MIT",
