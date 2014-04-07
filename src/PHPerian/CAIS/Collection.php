@@ -95,7 +95,7 @@
         public function __get($offset)
         {
             if($offset === 'attributes') {
-                return $this->setAttributes($value);
+                return $this->getAttributes();
             }
             elseif(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
                 return $this->attributes[$offset]->getValue();
