@@ -162,8 +162,8 @@
                 $this->end - $this->start,
                 $this->padding,
                 $this->getJustification()
-                    ? STR_PAD_LEFT
-                    : STR_PAD_RIGHT
+                    ? STR_PAD_RIGHT
+                    : STR_PAD_LEFT
             );
         }
 
