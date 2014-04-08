@@ -99,13 +99,13 @@
             // Create the attributes.
             parent::__construct();
             // Set the attributes.
-            $this->setSource($source);
-            $this->setName($name);
+            $this->setSourceCodeNumber($source);
+            $this->setCompanyName($name);
             if($sharing !== null) {
-                $this->setSharing($sharing);
+                $this->setCardsBehaviouralSharingFlag($sharing);
             }
             if($cutoff !== null) {
-                $this->setCutoff($cutoff);
+                $this->setOverdraftReportingCutoff($cutoff);
             }
             if($version !== null) {
                 $this->setVersion($version);
