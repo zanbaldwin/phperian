@@ -10,14 +10,42 @@
     {
 
         protected static $attributeDefinitions = array(
-            'accountNumber' => array(
-                'type'          => AttributeInterface::ALPHANUMERIC,
+            'submember' => array(
+                'type'          => AttributeInterface::INTEGER,
                 'start'         => 1,
-                'end'           => 20,
-                'name'          => 'Account Number',
+                'end'           => 3,
+                'name'          => 'Submember',
                 'default'       => null,
                 'justification' => AttributeInterface::JUSTIFY_LEFT,
                 'padding'       => ' ',
+            ),
+            'customer' => array(
+                'type'          => AttributeInterface::ALPHANUMERIC,
+                'start'         => 4,
+                'end'           => 11,
+                'name'          => 'Customer ID',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' ',
+            ),
+            'loan' => array(
+                'type'          => AttributeInterface::ALPHANUMERIC,
+                'start'         => 12,
+                'end'           => 19,
+                'name'          => 'Loan ID',
+                'default'       => null,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' ',
+            ),
+            'jointAccount' => array(
+                'type'          => AttributeInterface::BOOLEAN,
+                'start'         => 20,
+                'end'           => 20,
+                'name'          => 'Account Number',
+                'default'       => false,
+                'justification' => AttributeInterface::JUSTIFY_LEFT,
+                'padding'       => ' ',
+                'booleanflags'  => '1 ',
             ),
             'accountType' => array(
                 'type'          => AttributeInterface::INTEGER,
