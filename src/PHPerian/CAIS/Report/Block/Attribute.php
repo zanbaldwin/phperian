@@ -50,7 +50,12 @@
             // Attempt to set the default value.
             if($defaultValue !== null) {
                 try {
-                    $this->setValue($defaultValue);
+                    if(get_class($this) === AttributeInterface::ATTRIBUTE_NS . '\\' . AttributeInterface::READONLY) {
+                        $this->value = $defaultValue;
+                    }
+                    else {
+                        $this->setValue($defaultValue);
+                    }
                 }
                 catch(Exceptions\Exception $e) {
                     throw new InvalidArgument('The attributes default value could not be set.');
