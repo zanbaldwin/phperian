@@ -119,6 +119,7 @@
                 return $this->attributes[$offset]->setValue($value);
             }
             else {
+                $class = get_class($this);
                 throw new Exceptions\InvalidAssignment("The attribute with identifier \"{$offset}\" does not exist in `{$class}` collection.");
             }
         }
