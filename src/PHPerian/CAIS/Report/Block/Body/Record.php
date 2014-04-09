@@ -380,7 +380,7 @@
             ),
             'filler3' => array(
                 'type'          => AttributeInterface::READONLY,
-                'start'         => 476,
+                'start'         => 478,
                 'end'           => 502,
                 'name'          => 'Filler Three',
                 'default'       => null,
