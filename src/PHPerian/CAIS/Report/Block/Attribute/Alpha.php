@@ -11,7 +11,7 @@
 
         public function setValue($value)
         {
-            if(!is_string($value) || !preg_match('/^[a-zA-Z \'-]+$/')) {
+            if(!preg_match('/^[a-zA-Z0-9 \'-]+$/', $value)) {
                 throw new Exceptions\InvalidDataType('Alpha attributes required their value to be a string containing only letters.');
             }
             $this->value = $value;

@@ -11,10 +11,10 @@
 
         public function setValue($value)
         {
-            if(!is_string($value)) {
-                throw new Exceptions\InvalidDataType('Alphanumeric attributes required their value to be a string.');
+            if(!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
+                throw new Exceptions\InvalidDataType('Alphanumeric attributes require their value to be a data-type castable into a string.');
             }
-            $this->value = $value;
+            $this->value = (string) $value;
             if(strlen($value) > $this->getLength()) {
                 $limit = $this->getLength();
                 throw new Exceptions\DataTruncated("Attribute value exceeds its {$limit} character limit.");

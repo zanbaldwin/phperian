@@ -10,7 +10,7 @@
     {
 
         protected static $attributeDefinitions = array(
-            'identifier' => array(
+            'headerIdentifier' => array(
                 'type'          => AttributeInterface::READONLY,
                 'start'         => 1,
                 'end'           => 20,
@@ -19,7 +19,7 @@
                 'justification' => AttributeInterface::JUSTIFY_RIGHT,
                 'padding'       => ' ',
             ),
-            'source' => array(
+            'sourceCodeNumber' => array(
                 'type'          => AttributeInterface::INTEGER,
                 'start'         => 21,
                 'end'           => 23,
@@ -28,7 +28,7 @@
                 'justification' => AttributeInterface::JUSTIFY_RIGHT,
                 'padding'       => '0'
             ),
-            'date' => array(
+            'dateOfCreation' => array(
                 'type'          => AttributeInterface::DATE,
                 'start'         => 24,
                 'end'           => 31,
@@ -37,7 +37,7 @@
                 'justification' => AttributeInterface::JUSTIFY_RIGHT,
                 'padding'       => '0'
             ),
-            'name' => array(
+            'companyName' => array(
                 'type'          => AttributeInterface::ALPHANUMERIC,
                 'start'         => 32,
                 'end'           => 61,
@@ -64,7 +64,7 @@
                 'justification' => AttributeInterface::JUSTIFY_LEFT,
                 'padding'       => ' '
             ),
-            'cutoff' => array(
+            'overdraftReportingCutoff' => array(
                 'type'          => AttributeInterface::INTEGER,
                 'start'         => 90,
                 'end'           => 95,
@@ -73,7 +73,7 @@
                 'justification' => AttributeInterface::JUSTIFY_RIGHT,
                 'padding'       => '0',
             ),
-            'sharing' => array(
+            'cardsBehaviouralSharingFlag' => array(
                 'type'          => AttributeInterface::BOOLEAN,
                 'start'         => 96,
                 'end'           => 96,
@@ -99,13 +99,13 @@
             // Create the attributes.
             parent::__construct();
             // Set the attributes.
-            $this->setSource($source);
-            $this->setName($name);
+            $this->setSourceCodeNumber($source);
+            $this->setCompanyName($name);
             if($sharing !== null) {
-                $this->setSharing($sharing);
+                $this->setCardsBehaviouralSharingFlag($sharing);
             }
             if($cutoff !== null) {
-                $this->setCutoff($cutoff);
+                $this->setOverdraftReportingCutoff($cutoff);
             }
             if($version !== null) {
                 $this->setVersion($version);

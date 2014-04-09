@@ -95,7 +95,7 @@
         public function __get($offset)
         {
             if($offset === 'attributes') {
-                return $this->setAttributes($value);
+                return $this->getAttributes();
             }
             elseif(isset($this->attributes[$offset]) && is_object($this->attributes[$offset]) && $this->attributes[$offset] instanceof AttributeInterface) {
                 return $this->attributes[$offset]->getValue();
@@ -119,6 +119,7 @@
                 return $this->attributes[$offset]->setValue($value);
             }
             else {
+                $class = get_class($this);
                 throw new Exceptions\InvalidAssignment("The attribute with identifier \"{$offset}\" does not exist in `{$class}` collection.");
             }
         }
@@ -132,8 +133,8 @@
          */
         public function setAttributes(array $assignments)
         {
-            foreach($assignments as $attribute => $assignment) {
-                if(isset($this->attributes[$attribute]) && is_object($this->attributes[$attribute]) && $this->attributes[$attribute] instanceof AttributeInterface) {
+            foreach($assignments as $attribute => $value) {
+                if($value !== null && isset($this->attributes[$attribute]) && is_object($this->attributes[$attribute]) && $this->attributes[$attribute] instanceof AttributeInterface) {
                     $this->attributes[$attribute]->setValue($value);
                 }
             }
@@ -148,7 +149,7 @@
         public function getAttributes()
         {
             $assignments = array();
-            foreach($attributes as $identifier => $attribute) {
+            foreach($this->attributes as $identifier => $attribute) {
                 if(is_object($attribute) && $attribute instanceof AttributeInterface) {
                     $assignments[$identifier] = $attribute->getValue();
                 }
