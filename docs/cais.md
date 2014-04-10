@@ -129,3 +129,19 @@ still be set however, and the exception caught and ignored if so desired.
 
 Returns the value in CAIS-string format (padded to the exact character length
 and justified).
+
+# Attribute Definitions
+
+## Header Attributes
+
+|Identifier                     |Type           | Length|Default               |
+|:------------------------------|:--------------|------:|:---------------------|
+|`headerIdentifier`             |Read Only      |     20|`              HEADER`|
+|`sourceCodeNumber`             |Integer        |      3| NULL                 |
+|`dateOfCreation`               |Date           |      8| NULL                 |
+|`companyName`                  |Alphanumeric   |     60| NULL                 |
+|`filler`                       |Read Only      |     20|`                    `|
+|`version`                      |Alphanumeric   |      8|`CAIS2007`            |
+|`overdraftReportingCutoff`     |Integer        |      6|`0`                   |
+|`cardsBehaviouralSharingFlag`  |Boolean        |      1|False                 |
+|`endFiller`                    |Read Only      |    434|Blank                 |
