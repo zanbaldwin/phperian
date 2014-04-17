@@ -110,6 +110,7 @@
             if($version !== null) {
                 $this->setVersion($version);
             }
+            $this->setDateOfCreation(new \DateTime);
         }
 
     }
