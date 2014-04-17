@@ -15,7 +15,7 @@
                 'start'         => 1,
                 'end'           => 20,
                 'name'          => 'Trailer Identifier',
-                'default'       => 'HEADER',
+                'default'       => null,
                 'justification' => AttributeInterface::JUSTIFY_RIGHT,
                 'padding'       => '9',
             ),
