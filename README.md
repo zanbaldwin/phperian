@@ -1,3 +1,12 @@
+### Development Update
+The next sprint of development will be during the Easter holidays (23rd March - 6th April).
+We are currently switching from UAT to Live, which has taken the focus of our development away from this package.
+Once we have completed (and passed) unit testing, and finalised the switch, improvements will be ported to this package for the rest of y'alls!
+
+Watch this space!
+
+---
+
 # [PHPerian](https://github.com/mynameiszanders/phperian)
 
 PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eventually [Packagist](https://packagist.org/), designed to assist the generation of XML for a SOAP service request to Experian's Web Service, and to interpret their response.
@@ -5,7 +14,7 @@ PHPerian is a PHP library, managed by [Composer](http://getcomposer.org) and eve
 **Please note that this package is currently in development, has no stable release, and no gaurantee can be made
 regarding the stability or practicality of use. It is in no way fit for use in a production environment.**
 
-The current version is *0.2.4-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
+The current version is *0.2.5-alpha*, which means it is ready for in-house (alpha) testing. This mostly involves completing the unit testing for the library/package.
 
 License
 -------

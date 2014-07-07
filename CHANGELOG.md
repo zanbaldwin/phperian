@@ -14,3 +14,7 @@
 ## 0.2.3-alpha
 
 - Create changelog markdown file.
+
+## 0.2.5-alpha
+
+- Bug fix: CAIS record boolean value was returning PHP's string-representation of a boolean ("0" or "1") instead of the specified character flag.
