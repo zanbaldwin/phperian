@@ -35,6 +35,24 @@
         }
 
         /**
+         * Get: Value (String Form)
+         *
+         * @access public
+         * @return string
+         */
+        public function getString()
+        {
+            return str_pad(
+                (string) substr($this->flags, $this->getValue() ? 0 : 1, 1),
+                $this->end - $this->start,
+                $this->padding,
+                $this->getJustification()
+                    ? STR_PAD_RIGHT
+                    : STR_PAD_LEFT
+            );
+        }
+
+        /**
          * Get: Flags
          *
          * @access public
