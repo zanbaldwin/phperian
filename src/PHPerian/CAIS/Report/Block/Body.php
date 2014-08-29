@@ -85,7 +85,10 @@
          */
         public function count()
         {
-            return substr_count($this->getString(), "\n") + 1;
+            $string = $this->getString();
+            return !empty(trim($string))
+                ? substr_count($string, "\n") + 1
+                : 0;
         }
 
     }
