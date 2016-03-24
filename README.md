@@ -1,9 +1,7 @@
 ### Development Update
-The next sprint of development will be during the Easter holidays (23rd March - 6th April).
-We are currently switching from UAT to Live, which has taken the focus of our development away from this package.
-Once we have completed (and passed) unit testing, and finalised the switch, improvements will be ported to this package for the rest of y'alls!
 
-Watch this space!
+Development on this package has discontinued.
+If you wish to continue working on this repository, clone and push to your own repository instead of forking; if you fork then your forked repository will get deleted should I ever choose to delete this repository.
 
 ---
 
